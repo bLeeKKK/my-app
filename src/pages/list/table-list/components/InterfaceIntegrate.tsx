@@ -49,7 +49,7 @@ const expandedRowRender = ({ statistic }: { statistic: unknown }) => {
             title={() => (
               <div>
                 {res.intfDescription}（成功率：本期-{100 * (successRate || 0) + '%'}、上期-
-                {100 * (successRateLastPeriod || 0) + '%'}）、差值-
+                {100 * (successRateLastPeriod || 0) + '%'}、差值-
                 {100 * (successRateDifference || 0) + '%'}）
               </div>
             )}
