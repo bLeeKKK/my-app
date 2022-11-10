@@ -14,22 +14,21 @@
     ],
   },
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
-  },
-  {
-    path: '/admin',
+    path: '/list',
     name: 'admin',
     icon: 'crown',
-    access: 'canAdmin',
     routes: [
       {
-        path: '/admin/sub-page',
-        name: 'sub-page',
+        path: '/list/table-list',
+        name: 'table-list',
         icon: 'smile',
-        component: './Welcome',
+        component: './list/table-list',
+      },
+      {
+        path: '/list/config-list',
+        name: 'config-list',
+        icon: 'smile',
+        component: './list/config-list',
       },
       {
         component: './404',
@@ -37,14 +36,8 @@
     ],
   },
   {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
-  {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/list/table-list',
   },
   {
     component: './404',
