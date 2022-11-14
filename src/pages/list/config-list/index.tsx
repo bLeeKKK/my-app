@@ -24,9 +24,9 @@ const TableList: React.FC = () => {
       valueType: 'option',
       fixed: true,
       render: (_, record) => [
-        <a key="edit" href="#">
-          编辑
-        </a>,
+        // <a key="edit" href="#">
+        //   编辑
+        // </a>,
         <Popconfirm
           key="delete"
           title="你确定删除？"

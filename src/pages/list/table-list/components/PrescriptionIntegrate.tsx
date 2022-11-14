@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import type { FC } from 'react';
-import { Table, Card, Radio, DatePicker } from 'antd';
+import { Table, Card, Radio, DatePicker, Button, Modal } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useRequest } from 'umi';
-import { getTimeDimensionDate } from '../service';
+import { getTimeDimensionDate, exportTimeDimensionDate } from '../service';
 import type { TDate } from '../types.d';
 import styles from '../style.less';
 import moment from 'moment';
@@ -13,7 +13,6 @@ const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const { Column } = Table;
 const { RangePicker } = DatePicker;
-const defaultColumn = { width: 100 };
 const ranges = {
   // 零点到结束
   过去7天: [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
@@ -176,6 +175,40 @@ const PrescriptionIntegrate: FC = () => {
   if (typeDate === 'M') picker = 'month';
   const extraContent = (
     <div className={styles['extra-content']}>
+      <Button
+        onClick={() => {
+          Modal.confirm({
+            title: '提示',
+            content: '确定要导出数据吗？',
+            onOk: () => {
+              exportTimeDimensionDate({ periodType: typeDate, stDate, endDate })
+                .then((res) => {
+                  const blob = new Blob([res], { type: 'application/vnd.ms-excel' });
+                  const fileName = `接口维度数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                  if ('download' in document.createElement('a')) {
+                    // 非IE下载
+                    const elink = document.createElement('a');
+                    elink.download = fileName;
+                    elink.style.display = 'none';
+                    elink.href = URL.createObjectURL(blob);
+                    document.body.appendChild(elink);
+                    elink.click();
+                    URL.revokeObjectURL(elink.href); // 释放URL 对象
+                    document.body.removeChild(elink);
+                  } else {
+                    // IE10+下载
+                    navigator.msSaveBlob(blob, fileName);
+                  }
+                })
+                .catch((err) => {
+                  message.error(err.message);
+                });
+            },
+          });
+        }}
+      >
+        导出报表
+      </Button>
       <RadioGroup value={typeDate} onChange={(val) => setTypeDate(val.target.value)}>
         <RadioButton value="W">周</RadioButton>
         <RadioButton value="M">月份</RadioButton>
