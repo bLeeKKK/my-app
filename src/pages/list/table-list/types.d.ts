@@ -1,9 +1,8 @@
-import type { RangeValue, EventValue } from 'rc-picker/lib/interface';
+import type { RangeValue } from 'rc-picker/lib/interface';
 import type { Moment } from 'moment';
 
 // 日期配置类型
 export type TDate = 'W' | 'M';
-export type TRanges = Record<string, [EventValue<Moment>, EventValue<Moment>]>;
 export type TMoment = RangeValue<Moment>;
 
 export type TBasicListItemDataType = {
@@ -36,7 +35,7 @@ export type TBasicListItemDataType = {
   successRateLastPeriod: number; // 整体成功率百分比 -上周百分比
 };
 
-export type BasicList = {
+export type TBasicList = {
   period: string;
   statistic: TBasicListItemDataType[];
 };

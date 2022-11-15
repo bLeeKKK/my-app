@@ -1,6 +1,6 @@
 import { request } from 'umi';
 import { BIZLOG_CORE, SERVER_PATH } from '@/services/constants';
-import type { TDate, BasicList } from './types.d';
+import type { TDate, TBasicList } from './types.d';
 
 type ParamsType = {
   endDate?: string;
@@ -23,7 +23,7 @@ export async function statisticOverallData(data: ParamsType): Promise<{ data: un
 // 按接口维度整合-整体数据
 export async function getInterfaceDimensionData(
   data: ParamsType,
-): Promise<{ data: TPageData<BasicList[]> }> {
+): Promise<{ data: TPageData<TBasicList[]> }> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/statistic/getInterfaceDimensionData`, {
     method: 'POST',
     data,
@@ -31,7 +31,7 @@ export async function getInterfaceDimensionData(
 }
 
 // 导出按接口维度整合-整体数据
-export async function exportInterfaceDimensionData(data: ParamsType): Promise<{ data: unknown[] }> {
+export async function exportInterfaceDimensionData(data: ParamsType): Promise<BlobPart> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/statistic/exportInterfaceDimensionData`, {
     method: 'POST',
     data,

@@ -17,7 +17,42 @@
     margin-top: 8px;
   }
 
-  :global {}
+
+  .expanded-table-interface {
+    :global {
+      tr {
+
+        td,
+        th {
+
+          &:nth-of-type(2),
+          &:nth-of-type(3),
+          &:nth-of-type(4) {
+            background-color: #bdcae0;
+          }
+
+          &:nth-of-type(5),
+          &:nth-of-type(6),
+          &:nth-of-type(7) {
+            background-color: #ffbe00;
+          }
+
+          &:nth-of-type(8),
+          &:nth-of-type(9),
+          &:nth-of-type(10) {
+            background-color: #fff2c7;
+          }
+        }
+      }
+    }
+  }
+
+  :global {
+    .ant-table-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
 }
 
 @media screen and (max-width: @screen-xs) {
@@ -44,8 +79,4 @@
 
 @media screen and (max-width: 1400px) {
   .standard-list {}
-}
-
-.standardListForm {
-  :global {}
 }
