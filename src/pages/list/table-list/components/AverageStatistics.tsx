@@ -167,19 +167,13 @@ const AverageStatistics: FC = () => {
     >
       {showArr.map((item) => {
         const { text, tag, arr } = obj[item];
-        // const [zero] = arr;
-        // const { eventAgingAverageBase, intfAgingAverageBase, successRateAverageBase } = zero || {};
+
         return (
           <Table
             key={tag}
             className={styles['expanded-table']}
             bordered
-            title={
-              () => text
-              // `${text}（基数：成功率-${successRateAverageBase * 100}%，事件结束-${
-              //   eventAgingAverageBase || 0
-              // }，纯接口时效-${intfAgingAverageBase || 0}）`
-            }
+            title={() => text}
             dataSource={arr}
             pagination={false}
             rowKey="period"

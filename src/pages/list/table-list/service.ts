@@ -1,6 +1,6 @@
 import { request } from 'umi';
-import { BIZLOG_CORE, SERVER_PATH, MOCKER_API } from '@/services/constants';
-import type { TDate } from './types.d';
+import { BIZLOG_CORE, SERVER_PATH } from '@/services/constants';
+import type { TDate, BasicList } from './types.d';
 
 type ParamsType = {
   endDate?: string;
@@ -8,6 +8,10 @@ type ParamsType = {
   periodType?: TDate;
   stDate?: string;
 } & Partial<unknown>;
+
+export type TPageData<data> = {
+  records: data;
+};
 
 export async function statisticOverallData(data: ParamsType): Promise<{ data: unknown[] }> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/statistic/overallData`, {
@@ -17,7 +21,9 @@ export async function statisticOverallData(data: ParamsType): Promise<{ data: un
 }
 
 // 按接口维度整合-整体数据
-export async function getInterfaceDimensionData(data: ParamsType): Promise<{ data: unknown[] }> {
+export async function getInterfaceDimensionData(
+  data: ParamsType,
+): Promise<{ data: TPageData<BasicList[]> }> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/statistic/getInterfaceDimensionData`, {
     method: 'POST',
     data,

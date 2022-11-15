@@ -1,20 +1,22 @@
 import type { FC } from 'react';
+import type { ColumnsType } from 'antd/es/table';
+import type { TDate, TRanges, TMoment, BasicList } from '../types.d';
+import type { ExpandableConfig } from 'antd/es/table/interface';
 import { useState } from 'react';
 import { Table, Card, Radio, DatePicker, Button, Modal, message } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
 import { useRequest } from 'umi';
 import { getInterfaceDimensionData, exportInterfaceDimensionData } from '../service';
-import type { TDate } from '../types.d';
 import styles from '../style.less';
 import moment from 'moment';
-import type { Moment } from 'moment';
 
+type TColumns = Pick<BasicList, 'period'>;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const { Column } = Table;
 const { RangePicker } = DatePicker;
 const defaultColumn = { width: 100 };
-const ranges = {
+
+const ranges: TRanges = {
   // 零点到结束
   过去7天: [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
   过去15天: [moment().subtract(14, 'days').startOf('day'), moment().endOf('day')],
@@ -27,7 +29,7 @@ const ranges = {
   // 这个月第一天零点到最后一天23:59:59
 };
 
-const expandedRowRender = ({ statistic }: { statistic: unknown }) => {
+const expandedRowRender: ExpandableConfig<TColumns> = ({ statistic }) => {
   return (
     <>
       {statistic.map((res) => {
@@ -164,7 +166,7 @@ const getPeriod = (text: string | number, typeDate: TDate) => {
 const InterfaceIntegrate: FC = () => {
   // 搜索参数
   const [typeDate, setTypeDate] = useState<TDate>('W');
-  const [date, setDate] = useState<Moment[]>([
+  const [date, setDate] = useState<TMoment>([
     moment().subtract(1, 'week').startOf('week'),
     moment().subtract(1, 'week').endOf('week'),
   ]);
@@ -183,7 +185,7 @@ const InterfaceIntegrate: FC = () => {
     { refreshDeps: [typeDate, date] },
   );
 
-  const columns: ColumnsType<unknown> = [
+  const columns: ColumnsType<TColumns> = [
     {
       title: '周期',
       dataIndex: 'period',
@@ -191,7 +193,7 @@ const InterfaceIntegrate: FC = () => {
     },
   ];
 
-  let picker: string | undefined = undefined;
+  let picker: 'week' | 'month' | undefined = undefined;
   if (typeDate === 'W') picker = 'week';
   if (typeDate === 'M') picker = 'month';
   const extraContent = (
@@ -239,7 +241,7 @@ const InterfaceIntegrate: FC = () => {
         ranges={ranges}
         picker={picker}
         value={date}
-        onChange={(val) => setDate(val)}
+        onChange={(val: TMoment) => setDate(val)}
       />
     </div>
   );
