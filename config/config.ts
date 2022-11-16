@@ -1,25 +1,31 @@
 // https://umijs.org/config/
 import { defineConfig } from 'umi';
-import { join } from 'path';
+import path, { join } from 'path';
 
-import defaultSettings from './defaultSettings';
+// import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
 const { REACT_APP_ENV } = process.env;
+const appConfigPath = path.join(__dirname, '../public/app.config.json');
+// const pkg = path.join(__dirname, '../package.json');
+const { base } = require(appConfigPath);
+// const { name, title } = require(pkg);
 
 export default defineConfig({
+  base: `${base}/`,
+  publicPath: `${base}/`,
   hash: true,
   antd: {},
   dva: {
     hmr: true,
   },
-  layout: {
-    // https://umijs.org/zh-CN/plugins/plugin-layout
-    locale: true,
-    siderWidth: 208,
-    ...defaultSettings,
-  },
+  // layout: {
+  //   // https://umijs.org/zh-CN/plugins/plugin-layout
+  //   locale: true,
+  //   siderWidth: 208,
+  //   ...defaultSettings,
+  // },
   // https://umijs.org/zh-CN/plugins/plugin-locale
   locale: {
     // default zh-CN

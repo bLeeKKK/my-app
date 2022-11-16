@@ -42,6 +42,7 @@ const TableList: React.FC = () => {
       ],
     },
     { title: '接口标识', dataIndex: 'intfTag' },
+    { title: '顺序', dataIndex: 'sort' },
     {
       title: '基数确认类型',
       dataIndex: 'baseType',

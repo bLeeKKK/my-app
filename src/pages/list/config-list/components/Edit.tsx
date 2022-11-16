@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { message, Button, Form } from 'antd';
 import {
   ModalForm,
@@ -8,7 +7,6 @@ import {
   ProForm,
   ProFormRadio,
 } from '@ant-design/pro-form';
-import type { ProFormInstance } from '@ant-design/pro-components';
 import { insert } from '../service';
 import type { ParamsType } from '../service';
 import { PlusOutlined } from '@ant-design/icons';
@@ -128,6 +126,13 @@ export default function AddModalForm() {
           rules={[{ required: true, message: '请输入接口标识' }]}
           width="md"
           name="intfTag"
+        />
+        <ProFormDigit
+          label="排序"
+          rules={[{ required: true, message: '请输入接口标识' }]}
+          width="md"
+          min={0}
+          name="sort"
         />
         <ProFormTextArea
           label="接口描述"

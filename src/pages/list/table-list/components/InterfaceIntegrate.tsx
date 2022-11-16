@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import type { ColumnsType } from 'antd/es/table';
 import type { TMoment, TBasicList, TBasicListItemDataType } from '../types.d';
 import { Table, Card, Radio, DatePicker, Button, Modal, message } from 'antd';
@@ -7,6 +8,7 @@ import { getInterfaceDimensionData, exportInterfaceDimensionData } from '../serv
 import { download, ranges, getPeriod, useDatePick } from '../utils';
 import moment from 'moment';
 import styles from '../style.less';
+import { useUpdateEffect } from 'ahooks';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -128,14 +130,12 @@ const expandedRowRender = (item: TBasicList) => {
 // 接口维度整合
 const InterfaceIntegrate: FC = () => {
   // 搜索参数
-  // const [typeDate, setTypeDate] = useState<TDate>('W');
   const [date, setDate, typeDate, setTypeDate, stDate, endDate] = useDatePick();
-
+  const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
   const { data, loading } = useRequest(
     () => getInterfaceDimensionData({ periodType: typeDate, stDate, endDate }),
     { refreshDeps: [typeDate, date] },
   );
-
   const columns: ColumnsType<TBasicList> = [
     {
       title: '周期',
@@ -185,6 +185,11 @@ const InterfaceIntegrate: FC = () => {
     </div>
   );
 
+  useUpdateEffect(() => {
+    const first = data?.records?.[0];
+    if (first) setExpandedRowKeys([first.period]);
+  }, [data]);
+
   return (
     <Card
       className={styles['standard-list']}
@@ -203,6 +208,13 @@ const InterfaceIntegrate: FC = () => {
         expandable={{
           expandRowByClick: true,
           expandedRowRender,
+          expandedRowKeys,
+          onExpand: (expanded, record) => {
+            console.log(expanded, record);
+          },
+          onExpandedRowsChange: (expandedRows) => {
+            console.log(expandedRows);
+          },
         }}
         loading={loading}
         columns={columns}
