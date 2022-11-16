@@ -65,14 +65,14 @@ const expandedRowRender = ({
         scroll={{ x: 1300 }}
       >
         <Column title="接口名称" dataIndex="intfDescription" width={200} fixed />
-        <Column title="平均" dataIndex="intfAgingAverage" width={120} />
-        <Column title="最长（ms）" dataIndex="intfAgingLongest" width={120} />
-        <Column title="最短（ms）" dataIndex="intfAgingShortest" width={120} />
+        <Column title="平均（s）" dataIndex="intfAgingAverage" width={120} />
         <Column title="平均差值（ms）" dataIndex="intfAgingAverageDifference" width={120} />
-        <Column title="最长差值（ms）" dataIndex="intfAgingLongestDifference" width={120} />
-        <Column title="最短差值（ms）" dataIndex="intfAgingShortestDifference" width={120} />
         <Column title="上周平均（ms）" dataIndex="intfAgingAverageLastPeriod" width={120} />
+        <Column title="最长差值（ms）" dataIndex="intfAgingLongestDifference" width={120} />
+        <Column title="最长（ms）" dataIndex="intfAgingLongest" width={120} />
         <Column title="上周最长（ms）" dataIndex="intfAgingLongestLastPeriod" width={120} />
+        <Column title="最短（ms）" dataIndex="intfAgingShortest" width={120} />
+        <Column title="最短差值（ms）" dataIndex="intfAgingShortestDifference" width={120} />
         <Column title="上周最短（ms）" dataIndex="intfAgingShortestLastPeriod" width={120} />
       </Table>
 
@@ -90,13 +90,13 @@ const expandedRowRender = ({
       >
         <Column title="接口名称" dataIndex="intfDescription" width={200} fixed />
         <Column title="平均（s）" dataIndex="eventAgingAverage" width={100} />
-        <Column title="最长（s）" dataIndex="eventAgingLongest" width={100} />
-        <Column title="最短（s）" dataIndex="eventAgingShortest" width={100} />
         <Column title="平均差值（s）" dataIndex="eventAgingAverageDifference" width={100} />
-        <Column title="最长差值（s）" dataIndex="eventAgingLongestDifference" width={100} />
-        <Column title="最短差值（s）" dataIndex="eventAgingShortestDifference" width={100} />
         <Column title="上周平均（s）" dataIndex="eventAgingAverageLastPeriod" width={100} />
+        <Column title="最长（s）" dataIndex="eventAgingLongest" width={100} />
         <Column title="上周最长（s）" dataIndex="eventAgingLongestLastPeriod" width={100} />
+        <Column title="最长差值（s）" dataIndex="eventAgingLongestDifference" width={100} />
+        <Column title="最短（s）" dataIndex="eventAgingShortest" width={100} />
+        <Column title="最短差值（s）" dataIndex="eventAgingShortestDifference" width={100} />
         <Column title="上周最短（s）" dataIndex="eventAgingShortestLastPeriod" width={100} />
       </Table>
     </>
