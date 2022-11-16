@@ -2,7 +2,7 @@
 import { defineConfig } from 'umi';
 import path, { join } from 'path';
 
-// import defaultSettings from './defaultSettings';
+import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
@@ -20,12 +20,12 @@ export default defineConfig({
   dva: {
     hmr: true,
   },
-  // layout: {
-  //   // https://umijs.org/zh-CN/plugins/plugin-layout
-  //   locale: true,
-  //   siderWidth: 208,
-  //   ...defaultSettings,
-  // },
+  layout: {
+    // https://umijs.org/zh-CN/plugins/plugin-layout
+    locale: true,
+    siderWidth: 208,
+    ...defaultSettings,
+  },
   // https://umijs.org/zh-CN/plugins/plugin-locale
   locale: {
     // default zh-CN

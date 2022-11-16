@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { FC } from 'react';
-import { Table, Card, Radio, DatePicker, Button, Modal, message } from 'antd';
+import { Table, Card, Radio, DatePicker, Button, Modal, message, Empty } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useRequest } from 'umi';
 import { getOverallDataAverage, exportOverallDataAverage } from '../service';
@@ -155,7 +155,7 @@ const AverageStatistics: FC = () => {
   });
 
   const showArr = Object.keys(obj);
-  console.log(obj);
+
   return (
     <Card
       className={styles['standard-list']}
@@ -165,58 +165,66 @@ const AverageStatistics: FC = () => {
       bodyStyle={{ padding: '0 32px 40px 32px' }}
       extra={extraContent}
     >
-      {showArr.map((item) => {
-        const { text, tag, arr } = obj[item];
+      {showArr ? (
+        showArr.map((item) => {
+          const { text, tag, arr } = obj[item];
 
-        return (
-          <Table
-            key={tag}
-            className={styles['expanded-table']}
-            bordered
-            title={() => text}
-            dataSource={arr}
-            pagination={false}
-            rowKey="period"
-            size="small"
-            sticky
-          >
-            <Column title="周期" dataIndex="period" render={(t) => getPeriod(t, typeDate, true)} />
-            <ColumnGroup title="成功率">
+          return (
+            <Table
+              key={tag}
+              className={styles['expanded-table']}
+              bordered
+              title={() => text}
+              dataSource={arr}
+              pagination={false}
+              rowKey="period"
+              size="small"
+              sticky
+            >
               <Column
-                title="基数"
-                dataIndex="successRateAverageBase"
-                render={(t) => `${100 * (t || 0) + '%'}`}
+                title="周期"
+                dataIndex="period"
+                render={(t) => getPeriod(t, typeDate, true)}
               />
-              <Column
-                title="数值"
-                dataIndex="successRate"
-                render={(t, { successRateAverageBase }) => {
-                  const txt = `${100 * (t || 0) + '%'}`;
-                  if (t > successRateAverageBase) return greenDiv(txt);
-                  else if (t < successRateAverageBase) return redDiv(txt);
-                  return txt;
-                }}
-              />
-            </ColumnGroup>
-            <ColumnGroup title="事件结束（s）">
-              <Column title="基数" dataIndex="eventAgingAverageBase" render={(t) => t || 0} />
-              <Column
-                title="数值"
-                dataIndex="eventAgingAverage"
-                render={(t, { eventAgingAverageBase }) => {
-                  if (t < eventAgingAverageBase) return greenDiv(t);
-                  else if (t > eventAgingAverageBase) return redDiv(t);
-                  return t;
-                }}
-              />
-            </ColumnGroup>
-            <ColumnGroup title="纯接口时效（ms）">
-              <Column title="基数" dataIndex="intfAgingAverageBase" render={(t) => t || 0} />
-              <Column title="数值" dataIndex="intfAgingAverage" />
-            </ColumnGroup>
-          </Table>
-        );
-      })}
+              <ColumnGroup title="成功率">
+                <Column
+                  title="基数"
+                  dataIndex="successRateAverageBase"
+                  render={(t) => `${100 * (t || 0) + '%'}`}
+                />
+                <Column
+                  title="数值"
+                  dataIndex="successRate"
+                  render={(t, { successRateAverageBase }) => {
+                    const txt = `${100 * (t || 0) + '%'}`;
+                    if (t > successRateAverageBase) return greenDiv(txt);
+                    else if (t < successRateAverageBase) return redDiv(txt);
+                    return txt;
+                  }}
+                />
+              </ColumnGroup>
+              <ColumnGroup title="事件结束（s）">
+                <Column title="基数" dataIndex="eventAgingAverageBase" render={(t) => t || 0} />
+                <Column
+                  title="数值"
+                  dataIndex="eventAgingAverage"
+                  render={(t, { eventAgingAverageBase }) => {
+                    if (t < eventAgingAverageBase) return greenDiv(t);
+                    else if (t > eventAgingAverageBase) return redDiv(t);
+                    return t;
+                  }}
+                />
+              </ColumnGroup>
+              <ColumnGroup title="纯接口时效（ms）">
+                <Column title="基数" dataIndex="intfAgingAverageBase" render={(t) => t || 0} />
+                <Column title="数值" dataIndex="intfAgingAverage" />
+              </ColumnGroup>
+            </Table>
+          );
+        })
+      ) : (
+        <Empty />
+      )}
     </Card>
   );
 };
