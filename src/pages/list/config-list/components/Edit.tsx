@@ -121,19 +121,21 @@ export default function AddModalForm() {
             />
           </ProForm.Group>
         )}
-        <ProFormText
-          label="接口标识"
-          rules={[{ required: true, message: '请输入接口标识' }]}
-          width="md"
-          name="intfTag"
-        />
-        <ProFormDigit
-          label="排序"
-          rules={[{ required: true, message: '请输入接口标识' }]}
-          width="md"
-          min={0}
-          name="sort"
-        />
+        <ProForm.Group>
+          <ProFormText
+            label="接口标识"
+            rules={[{ required: true, message: '请输入接口标识' }]}
+            width="md"
+            name="intfTag"
+          />
+          <ProFormDigit
+            label="排序"
+            rules={[{ required: true, message: '请输入接口标识' }]}
+            width="md"
+            min={0}
+            name="sort"
+          />
+        </ProForm.Group>
         <ProFormTextArea
           label="接口描述"
           rules={[{ required: true, message: '请输入接口描述' }]}
