@@ -99,7 +99,7 @@ const AverageStatistics: FC = () => {
               exportOverallDataAverage({ periodType: typeDate, stDate, endDate })
                 .then((res) => {
                   const blob = new Blob([res], { type: 'application/vnd.ms-excel' });
-                  const fileName = `接口维度数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                  const fileName = `接口维度数据${moment().format('YYYYMMDDHHmmss')}.xls`;
                   if ('download' in document.createElement('a')) {
                     // 非IE下载
                     const elink = document.createElement('a');

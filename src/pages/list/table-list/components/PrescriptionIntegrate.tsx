@@ -139,7 +139,7 @@ const PrescriptionIntegrate: FC = () => {
               exportTimeDimensionDate({ periodType: typeDate, stDate, endDate })
                 .then((res) => {
                   const blob = new Blob([res], { type: 'application/vnd.ms-excel' });
-                  const fileName = `接口维度数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                  const fileName = `接口维度数据${moment().format('YYYYMMDDHHmmss')}.xls`;
                   download(blob, fileName);
                 })
                 .catch((err) => {

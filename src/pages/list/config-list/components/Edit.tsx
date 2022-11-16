@@ -51,7 +51,7 @@ export default function AddModalForm() {
 
   return (
     <>
-      <Button
+      {/* <Button
         type="primary"
         key="primary"
         onClick={() => {
@@ -66,7 +66,7 @@ export default function AddModalForm() {
         }}
       >
         <PlusOutlined /> 新建
-      </Button>
+      </Button> */}
       <ModalForm
         title="新建配置"
         width="800px"
