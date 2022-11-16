@@ -13,8 +13,8 @@ const { base } = require(appConfigPath);
 // const { name, title } = require(pkg);
 
 export default defineConfig({
-  base: `${base}/`,
-  publicPath: `${base}/`,
+  base: process.env.NODE_ENV === 'production' ? `${base}/` : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? `${base}/` : '/',
   hash: true,
   antd: {},
   dva: {

@@ -1,14 +1,14 @@
 import type { FC } from 'react';
-import { useState } from 'react';
 import type { ColumnsType } from 'antd/es/table';
 import type { TMoment, TBasicList, TBasicListItemDataType } from '../types.d';
+import { useState } from 'react';
 import { Table, Card, Radio, DatePicker, Button, Modal, message } from 'antd';
 import { useRequest } from 'umi';
 import { getInterfaceDimensionData, exportInterfaceDimensionData } from '../service';
 import { download, ranges, getPeriod, useDatePick } from '../utils';
+import { useUpdateEffect } from 'ahooks';
 import moment from 'moment';
 import styles from '../style.less';
-import { useUpdateEffect } from 'ahooks';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -131,7 +131,7 @@ const expandedRowRender = (item: TBasicList) => {
 const InterfaceIntegrate: FC = () => {
   // 搜索参数
   const [date, setDate, typeDate, setTypeDate, stDate, endDate] = useDatePick();
-  const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
+  const [expandedRowKeys, setExpandedRowKeys] = useState<(string | number)[]>([]);
   const { data, loading } = useRequest(
     () => getInterfaceDimensionData({ periodType: typeDate, stDate, endDate }),
     { refreshDeps: [typeDate, date] },
@@ -143,6 +143,11 @@ const InterfaceIntegrate: FC = () => {
       render: (text) => getPeriod(text, typeDate),
     },
   ];
+
+  useUpdateEffect(() => {
+    const first = data?.records?.[0];
+    if (first) setExpandedRowKeys([first.period]);
+  }, [data]);
 
   let picker: 'week' | 'month' | undefined = undefined;
   if (typeDate === 'W') picker = 'week';
@@ -185,11 +190,6 @@ const InterfaceIntegrate: FC = () => {
     </div>
   );
 
-  useUpdateEffect(() => {
-    const first = data?.records?.[0];
-    if (first) setExpandedRowKeys([first.period]);
-  }, [data]);
-
   return (
     <Card
       className={styles['standard-list']}
@@ -210,10 +210,8 @@ const InterfaceIntegrate: FC = () => {
           expandedRowRender,
           expandedRowKeys,
           onExpand: (expanded, record) => {
-            console.log(expanded, record);
-          },
-          onExpandedRowsChange: (expandedRows) => {
-            console.log(expandedRows);
+            if (expanded) setExpandedRowKeys((keys) => [...keys, record.period]);
+            else setExpandedRowKeys((keys) => keys.filter((key) => key !== record.period));
           },
         }}
         loading={loading}
