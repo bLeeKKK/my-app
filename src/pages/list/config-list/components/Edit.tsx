@@ -7,10 +7,11 @@ import {
   ProForm,
   ProFormRadio,
 } from '@ant-design/pro-form';
-import { insert } from '../service';
+import { insert, update } from '../service';
 import type { ParamsType } from '../service';
 import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
+import { useUpdateEffect } from 'ahooks';
 
 const { useWatch } = Form;
 export const BASETYPE_OPTIONS = [
@@ -32,10 +33,25 @@ const handleAdd = async (data: ParamsType) => {
   }
 };
 
+const handleUpdate = async (data: ParamsType) => {
+  const hide = message.loading('正在添加');
+  try {
+    await update(data);
+    hide();
+    message.success('添加成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.warn('添加失败请重试！');
+    return false;
+  }
+};
+
 export default function AddModalForm() {
-  const { actionRef, visible } = useSelector((state) => state.configList);
+  const { actionRef, visible, editType, edit } = useSelector((state) => state.configList);
   const [form] = Form.useForm();
   const baseType = useWatch('baseType', form);
+  const eidtFlag = editType === 2 && edit;
 
   const dispatch = useDispatch();
   const closeModal = () => {
@@ -48,6 +64,12 @@ export default function AddModalForm() {
       },
     });
   };
+
+  useUpdateEffect(() => {
+    if (visible && editType === 2 && edit) {
+      form.setFieldsValue(edit);
+    }
+  }, [visible, editType, edit]);
 
   return (
     <>
@@ -79,8 +101,11 @@ export default function AddModalForm() {
           if (!flag) closeModal();
         }}
         onFinish={async (value) => {
-          const data = await handleAdd(value as ParamsType);
-          if (data) {
+          let flag = false;
+          if (edit?.id) {
+            flag = await handleUpdate({ ...value, id: edit.id });
+          } else flag = await handleAdd(value as ParamsType);
+          if (flag) {
             closeModal();
             if (actionRef?.current) {
               actionRef.current.reload();
@@ -127,6 +152,7 @@ export default function AddModalForm() {
             rules={[{ required: true, message: '请输入接口标识' }]}
             width="md"
             name="intfTag"
+            disabled={eidtFlag}
           />
           <ProFormDigit
             label="排序"
@@ -141,6 +167,7 @@ export default function AddModalForm() {
           rules={[{ required: true, message: '请输入接口描述' }]}
           width="xl"
           name="intfDescription"
+          disabled={eidtFlag}
         />
       </ModalForm>
     </>

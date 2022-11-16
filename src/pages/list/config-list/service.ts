@@ -19,6 +19,13 @@ export async function insert(data: ParamsType): Promise<{ data: unknown[] }> {
   });
 }
 
+export async function update(data: ParamsType): Promise<{ data: unknown[] }> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/interfaceAverageAgingConfig/update`, {
+    method: 'POST',
+    data,
+  });
+}
+
 type TConfigTableData = {
   success: boolean;
   message: string;
