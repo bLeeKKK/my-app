@@ -1,5 +1,5 @@
 /** 服务接口基地址，默认是当前站点的域名地址 */
-const BASE_DOMAIN = '/';
+const BASE_DOMAIN = '';
 
 /** 网关地址 */
 const GATEWAY = '';
@@ -14,7 +14,7 @@ const getServerPath = () => {
     // }
     return '/local.api';
   }
-  return `${BASE_DOMAIN}/${GATEWAY}`;
+  return `${BASE_DOMAIN}${GATEWAY}`;
 };
 
 export const SERVER_PATH = getServerPath();
