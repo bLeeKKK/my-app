@@ -93,55 +93,55 @@ const expandedRowRender = ({
           title="平均（s）"
           dataIndex="eventAgingAverage"
           width={100}
-          render={(t) => t / 1000}
+          render={(t) => (t / 1000).toFixed(2)}
         />
         <Column
           title="平均差值（s）"
           dataIndex="eventAgingAverageDifference"
           width={100}
-          render={(t) => t / 1000}
+          render={(t) => (t / 1000).toFixed(2)}
         />
         <Column
           title="上周平均（s）"
           dataIndex="eventAgingAverageLastPeriod"
           width={100}
-          render={(t) => t / 1000}
+          render={(t) => (t / 1000).toFixed(2)}
         />
         <Column
           title="最长（s）"
           dataIndex="eventAgingLongest"
           width={100}
-          render={(t) => t / 1000}
+          render={(t) => (t / 1000).toFixed(2)}
         />
         <Column
           title="上周最长（s）"
           dataIndex="eventAgingLongestLastPeriod"
           width={100}
-          render={(t) => t / 1000}
+          render={(t) => (t / 1000).toFixed(2)}
         />
         <Column
           title="最长差值（s）"
           dataIndex="eventAgingLongestDifference"
           width={100}
-          render={(t) => t / 1000}
+          render={(t) => (t / 1000).toFixed(2)}
         />
         <Column
           title="最短（s）"
           dataIndex="eventAgingShortest"
           width={100}
-          render={(t) => t / 1000}
+          render={(t) => (t / 1000).toFixed(2)}
         />
         <Column
           title="最短差值（s）"
           dataIndex="eventAgingShortestDifference"
           width={100}
-          render={(t) => t / 1000}
+          render={(t) => (t / 1000).toFixed(2)}
         />
         <Column
           title="上周最短（s）"
           dataIndex="eventAgingShortestLastPeriod"
           width={100}
-          render={(t) => t / 1000}
+          render={(t) => (t / 1000).toFixed(2)}
         />
       </Table>
     </>

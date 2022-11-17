@@ -209,7 +209,7 @@ const AverageStatistics: FC = () => {
                   title="数值"
                   dataIndex="eventAgingAverage"
                   render={(t, { eventAgingAverageBase }) => {
-                    const num = 1 / 1000;
+                    const num = (t / 1000).toFixed(2);
                     if (num < eventAgingAverageBase) return greenDiv(num);
                     else if (num > eventAgingAverageBase) return redDiv(num);
                     return num;
