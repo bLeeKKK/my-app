@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
+// import type { BasicListItem } from './types.d';
 import type { Request, Response } from 'express';
-import type { BasicListItem } from './types.d';
 import { MOCKER_API } from '../../../services/constants';
 
-function fakeList(): BasicListItem[] {
+function fakeList(): any[] {
   return [
     {
       period: '2022年一月 XXX',

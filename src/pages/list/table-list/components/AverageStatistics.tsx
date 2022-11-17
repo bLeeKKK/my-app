@@ -209,9 +209,10 @@ const AverageStatistics: FC = () => {
                   title="数值"
                   dataIndex="eventAgingAverage"
                   render={(t, { eventAgingAverageBase }) => {
-                    if (t < eventAgingAverageBase) return greenDiv(t);
-                    else if (t > eventAgingAverageBase) return redDiv(t);
-                    return t;
+                    const num = 1 / 1000;
+                    if (num < eventAgingAverageBase) return greenDiv(num);
+                    else if (num > eventAgingAverageBase) return redDiv(num);
+                    return num;
                   }}
                 />
               </ColumnGroup>

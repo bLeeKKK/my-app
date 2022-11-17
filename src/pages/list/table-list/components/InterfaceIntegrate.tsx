@@ -51,7 +51,7 @@ const expandedRowRender = (item: TBasicList) => {
               title="平均"
               dataIndex="eventAgingAverage"
               render={(t, r, index) => {
-                return index === 0 ? t : r.intfAgingAverage;
+                return index === 0 ? t / 1000 : r.intfAgingAverage;
               }}
               {...defaultColumn}
             />
@@ -59,7 +59,7 @@ const expandedRowRender = (item: TBasicList) => {
               title="最长"
               dataIndex="eventAgingLongest"
               render={(t, r, index) => {
-                return index === 0 ? t : r.intfAgingLongest;
+                return index === 0 ? t / 1000 : r.intfAgingLongest;
               }}
               {...defaultColumn}
             />
@@ -67,7 +67,7 @@ const expandedRowRender = (item: TBasicList) => {
               title="最短"
               dataIndex="eventAgingShortest"
               render={(t, r, index) => {
-                return index === 0 ? t : r.intfAgingShortest;
+                return index === 0 ? t / 1000 : r.intfAgingShortest;
               }}
               {...defaultColumn}
             />
@@ -76,7 +76,7 @@ const expandedRowRender = (item: TBasicList) => {
               title="平均差值"
               dataIndex="eventAgingAverageDifference"
               render={(t, r, index) => {
-                return index === 0 ? t : r.intfAgingAverageDifference;
+                return index === 0 ? t / 1000 : r.intfAgingAverageDifference;
               }}
               {...defaultColumn}
             />
@@ -84,7 +84,7 @@ const expandedRowRender = (item: TBasicList) => {
               title="最长差值"
               dataIndex="eventAgingLongestDifference"
               render={(t, r, index) => {
-                return index === 0 ? t : r.intfAgingLongestDifference;
+                return index === 0 ? t / 1000 : r.intfAgingLongestDifference;
               }}
               {...defaultColumn}
             />
@@ -92,7 +92,7 @@ const expandedRowRender = (item: TBasicList) => {
               title="最短差值"
               dataIndex="eventAgingShortestDifference"
               render={(t, r, index) => {
-                return index === 0 ? t : r.intfAgingShortestDifference;
+                return index === 0 ? t / 1000 : r.intfAgingShortestDifference;
               }}
               {...defaultColumn}
             />
@@ -100,7 +100,7 @@ const expandedRowRender = (item: TBasicList) => {
               title="上期平均"
               dataIndex="eventAgingAverageLastPeriod"
               render={(t, r, index) => {
-                return index === 0 ? t : r.intfAgingAverageLastPeriod;
+                return index === 0 ? t / 1000 : r.intfAgingAverageLastPeriod;
               }}
               {...defaultColumn}
             />
@@ -108,7 +108,7 @@ const expandedRowRender = (item: TBasicList) => {
               title="上期最长"
               dataIndex="eventAgingLongestLastPeriod"
               render={(t, r, index) => {
-                return index === 0 ? t : r.intfAgingLongestLastPeriod;
+                return index === 0 ? t / 1000 : r.intfAgingLongestLastPeriod;
               }}
               {...defaultColumn}
             />
@@ -116,7 +116,7 @@ const expandedRowRender = (item: TBasicList) => {
               title="上期最短"
               dataIndex="eventAgingShortestLastPeriod"
               render={(t, r, index) => {
-                return index === 0 ? t : r.intfAgingShortestLastPeriod;
+                return index === 0 ? t / 1000 : r.intfAgingShortestLastPeriod;
               }}
               {...defaultColumn}
             />

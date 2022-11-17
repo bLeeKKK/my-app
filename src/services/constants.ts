@@ -9,9 +9,6 @@ const GATEWAY = '';
  */
 const getServerPath = () => {
   if (process.env.NODE_ENV !== 'production') {
-    // if (process.env.MOCK === 'yes') {
-    //   return '/mocker.api';
-    // }
     return '/local.api';
   }
   return `${BASE_DOMAIN}${GATEWAY}`;

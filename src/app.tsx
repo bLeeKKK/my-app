@@ -1,10 +1,10 @@
+import type { Settings as LayoutSettings } from '@ant-design/pro-components';
+import type { RunTimeLayoutConfig } from 'umi';
 import React from 'react';
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
-import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
-import type { RunTimeLayoutConfig } from 'umi';
 import { history, Link } from 'umi';
 import defaultSettings from '../config/defaultSettings';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
@@ -27,6 +27,7 @@ export async function getInitialState(): Promise<{
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
   const fetchUserInfo = async () => {
+    console.log('fetchUserInfo');
     try {
       const msg = await queryCurrentUser();
       return msg.data;

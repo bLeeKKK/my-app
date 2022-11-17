@@ -22,7 +22,7 @@ export default defineConfig({
   },
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout
-    locale: true,
+    locale: true, // 菜单国际化
     siderWidth: 208,
     ...defaultSettings,
   },
