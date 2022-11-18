@@ -39,7 +39,7 @@ const Login: React.FC = () => {
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
-      await setInitialState((s) => ({
+      await setInitialState((s: any) => ({
         ...s,
         currentUser: userInfo,
       }));
@@ -50,12 +50,9 @@ const Login: React.FC = () => {
     try {
       // 登录
       const msg = await login({ ...values, type });
-      if (msg.status === 'ok') {
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！',
-        });
-        message.success(defaultLoginSuccessMessage);
+      if (msg.success) {
+        localStorage.setItem('token', msg?.data?.token || '');
+        message.success('登录成功！');
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return;
@@ -64,7 +61,6 @@ const Login: React.FC = () => {
         history.push(redirect || '/');
         return;
       }
-      console.log(msg);
       // 如果失败去设置用户错误信息
       setUserLoginState(msg);
     } catch (error) {
@@ -90,16 +86,16 @@ const Login: React.FC = () => {
           initialValues={{
             autoLogin: true,
           }}
-          actions={[
-            <FormattedMessage
-              key="loginWith"
-              id="pages.login.loginWith"
-              defaultMessage="其他登录方式"
-            />,
-            <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
-            <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
-            <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
-          ]}
+          // actions={[
+          //   <FormattedMessage
+          //     key="loginWith"
+          //     id="pages.login.loginWith"
+          //     defaultMessage="其他登录方式"
+          //   />,
+          //   <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
+          //   <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
+          //   <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
+          // ]}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
           }}
@@ -112,13 +108,13 @@ const Login: React.FC = () => {
                 defaultMessage: '账户密码登录',
               })}
             />
-            <Tabs.TabPane
+            {/* <Tabs.TabPane
               key="mobile"
               tab={intl.formatMessage({
                 id: 'pages.login.phoneLogin.tab',
                 defaultMessage: '手机号登录',
               })}
-            />
+            /> */}
           </Tabs>
 
           {status === 'error' && loginType === 'account' && (
@@ -275,7 +271,7 @@ const Login: React.FC = () => {
                 float: 'right',
               }}
             >
-              <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
+              {/* <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" /> */}
             </a>
           </div>
         </LoginForm>

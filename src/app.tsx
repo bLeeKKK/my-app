@@ -1,6 +1,6 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from 'umi';
-import React from 'react';
+import type { RequestConfig } from 'umi';
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
@@ -27,15 +27,17 @@ export async function getInitialState(): Promise<{
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
   const fetchUserInfo = async () => {
-    console.log('fetchUserInfo');
     try {
-      const msg = await queryCurrentUser();
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('请先登录');
+      const msg = await queryCurrentUser({ params: { token } });
       return msg.data;
     } catch (error) {
       history.push(loginPath);
     }
     return undefined;
   };
+
   // 如果不是登录页面，执行
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
@@ -45,6 +47,7 @@ export async function getInitialState(): Promise<{
       settings: defaultSettings,
     };
   }
+
   return {
     fetchUserInfo,
     settings: defaultSettings,
@@ -107,4 +110,22 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     ...initialState?.settings,
   };
+};
+
+export const request: RequestConfig = {
+  timeout: 10 * 1000, // 接口响应时间限制 10秒
+  middlewares: [],
+  requestInterceptors: [],
+  responseInterceptors: [],
+  errorConfig: {
+    adaptor: (resData) => {
+      return {
+        ...resData,
+
+        // showType?: number; // error display type： 0 silent; 1 message.warn; 2 message.error; 4 notification; 9 page
+        showType: 2,
+        errorMessage: resData.message,
+      };
+    },
+  },
 };
