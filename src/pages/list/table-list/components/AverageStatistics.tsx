@@ -88,7 +88,8 @@ const AverageStatistics: FC = () => {
   let picker: string | undefined = undefined;
   if (typeDate === 'W') picker = 'week';
   if (typeDate === 'M') picker = 'month';
-  const extraContent = (
+  // @ts-ignore
+    const extraContent = (
     <div className={styles['extra-content']}>
       <Button
         onClick={() => {
@@ -126,7 +127,6 @@ const AverageStatistics: FC = () => {
       </Button>
       <RadioGroup value={typeDate} onChange={(val) => setTypeDate(val.target.value)}>
         <RadioButton value="W">周</RadioButton>
-        <RadioButton value="M">月份</RadioButton>
       </RadioGroup>
       <RangePicker
         className={styles.search}

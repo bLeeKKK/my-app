@@ -39,14 +39,14 @@ const expandedRowRender = ({
           render={(text) => 100 * (text || 0) + '%'}
         />
         <Column
-          title="上期差率"
-          dataIndex="successRateDifference"
+          title="上期成功率"
+          dataIndex="successRateLastPeriod"
           width={100}
           render={(text) => 100 * (text || 0) + '%'}
         />
         <Column
-          title="上期成功率"
-          dataIndex="successRateLastPeriod"
+          title="上期差率"
+          dataIndex="successRateDifference"
           width={100}
           render={(text) => 100 * (text || 0) + '%'}
         />
@@ -66,14 +66,14 @@ const expandedRowRender = ({
       >
         <Column title="接口名称" dataIndex="intfDescription" width={200} fixed />
         <Column title="平均（ms）" dataIndex="intfAgingAverage" width={120} />
-        <Column title="平均差值（ms）" dataIndex="intfAgingAverageDifference" width={120} />
-        <Column title="上周平均（ms）" dataIndex="intfAgingAverageLastPeriod" width={120} />
-        <Column title="最长差值（ms）" dataIndex="intfAgingLongestDifference" width={120} />
         <Column title="最长（ms）" dataIndex="intfAgingLongest" width={120} />
-        <Column title="上周最长（ms）" dataIndex="intfAgingLongestLastPeriod" width={120} />
         <Column title="最短（ms）" dataIndex="intfAgingShortest" width={120} />
-        <Column title="最短差值（ms）" dataIndex="intfAgingShortestDifference" width={120} />
+        <Column title="上周平均（ms）" dataIndex="intfAgingAverageLastPeriod" width={120} />
+        <Column title="上周最长（ms）" dataIndex="intfAgingLongestLastPeriod" width={120} />
         <Column title="上周最短（ms）" dataIndex="intfAgingShortestLastPeriod" width={120} />
+        <Column title="平均差值（ms）" dataIndex="intfAgingAverageDifference" width={120} />
+        <Column title="最长差值（ms）" dataIndex="intfAgingLongestDifference" width={120} />
+        <Column title="最短差值（ms）" dataIndex="intfAgingShortestDifference" width={120} />
       </Table>
 
       {/* 事件结束（秒） */}
@@ -96,32 +96,8 @@ const expandedRowRender = ({
           render={(t) => (t / 1000).toFixed(2)}
         />
         <Column
-          title="平均差值（s）"
-          dataIndex="eventAgingAverageDifference"
-          width={100}
-          render={(t) => (t / 1000).toFixed(2)}
-        />
-        <Column
-          title="上周平均（s）"
-          dataIndex="eventAgingAverageLastPeriod"
-          width={100}
-          render={(t) => (t / 1000).toFixed(2)}
-        />
-        <Column
           title="最长（s）"
           dataIndex="eventAgingLongest"
-          width={100}
-          render={(t) => (t / 1000).toFixed(2)}
-        />
-        <Column
-          title="上周最长（s）"
-          dataIndex="eventAgingLongestLastPeriod"
-          width={100}
-          render={(t) => (t / 1000).toFixed(2)}
-        />
-        <Column
-          title="最长差值（s）"
-          dataIndex="eventAgingLongestDifference"
           width={100}
           render={(t) => (t / 1000).toFixed(2)}
         />
@@ -132,14 +108,38 @@ const expandedRowRender = ({
           render={(t) => (t / 1000).toFixed(2)}
         />
         <Column
-          title="最短差值（s）"
-          dataIndex="eventAgingShortestDifference"
+          title="上周平均（s）"
+          dataIndex="eventAgingAverageLastPeriod"
+          width={100}
+          render={(t) => (t / 1000).toFixed(2)}
+        />
+        <Column
+          title="上周最长（s）"
+          dataIndex="eventAgingLongestLastPeriod"
           width={100}
           render={(t) => (t / 1000).toFixed(2)}
         />
         <Column
           title="上周最短（s）"
           dataIndex="eventAgingShortestLastPeriod"
+          width={100}
+          render={(t) => (t / 1000).toFixed(2)}
+        />
+        <Column
+          title="平均差值（s）"
+          dataIndex="eventAgingAverageDifference"
+          width={100}
+          render={(t) => (t / 1000).toFixed(2)}
+        />
+        <Column
+          title="最长差值（s）"
+          dataIndex="eventAgingLongestDifference"
+          width={100}
+          render={(t) => (t / 1000).toFixed(2)}
+        />
+        <Column
+          title="最短差值（s）"
+          dataIndex="eventAgingShortestDifference"
           width={100}
           render={(t) => (t / 1000).toFixed(2)}
         />
