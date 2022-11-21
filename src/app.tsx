@@ -61,7 +61,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     disableContentMargin: false,
     // 水印
     waterMarkProps: {
-      content: initialState?.currentUser?.name,
+      content: '虹信', // initialState?.currentUser?.name,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {

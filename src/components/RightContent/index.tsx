@@ -1,8 +1,11 @@
-import { QuestionCircleOutlined } from '@ant-design/icons';
+// import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
 import React from 'react';
-import { SelectLang, useModel } from 'umi';
-import HeaderSearch from '../HeaderSearch';
+import {
+  // SelectLang,
+  useModel,
+} from 'umi';
+// import HeaderSearch from '../HeaderSearch';
 import Avatar from './AvatarDropdown';
 import styles from './index.less';
 
@@ -23,7 +26,7 @@ const GlobalHeaderRight: React.FC = () => {
   }
   return (
     <Space className={className}>
-      <HeaderSearch
+      {/* <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
         defaultValue="umi ui"
@@ -53,9 +56,9 @@ const GlobalHeaderRight: React.FC = () => {
         }}
       >
         <QuestionCircleOutlined />
-      </span>
+      </span> */}
       <Avatar />
-      <SelectLang className={styles.action} />
+      {/* <SelectLang className={styles.action} /> */}
     </Space>
   );
 };

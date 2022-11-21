@@ -165,7 +165,7 @@ const AverageStatistics: FC = () => {
       bodyStyle={{ padding: '0 32px 40px 32px' }}
       extra={extraContent}
     >
-      {showArr ? (
+      {showArr.length ? (
         showArr.map((item) => {
           const { text, tag, arr } = obj[item];
 
