@@ -17,8 +17,13 @@
     margin-top: 8px;
   }
 
-
-  .expanded-table-interface {
+  /**
+    InterfaceIntegrate页面：.expanded-table-interface
+    PrescriptionIntegrate页面：.expanded-table-pre-intf
+  */
+  .expanded-table-interface,
+  .expanded-table-pre-intf,
+  .expanded-table-pre-event {
     :global {
       tr {
 
@@ -40,6 +45,26 @@
           &:nth-of-type(8),
           &:nth-of-type(9),
           &:nth-of-type(10) {
+            background-color: #fff2c7;
+          }
+        }
+      }
+    }
+  }
+
+  // PrescriptionIntegrate页面
+  .expanded-table-pre-success {
+    :global {
+      tr {
+
+        td,
+        th {
+
+          &:nth-of-type(3) {
+            background-color: #ffbe00;
+          }
+
+          &:nth-of-type(4) {
             background-color: #fff2c7;
           }
         }

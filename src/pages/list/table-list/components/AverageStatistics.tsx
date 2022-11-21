@@ -89,7 +89,7 @@ const AverageStatistics: FC = () => {
   if (typeDate === 'W') picker = 'week';
   if (typeDate === 'M') picker = 'month';
   // @ts-ignore
-    const extraContent = (
+  const extraContent = (
     <div className={styles['extra-content']}>
       <Button
         onClick={() => {
@@ -218,7 +218,16 @@ const AverageStatistics: FC = () => {
               </ColumnGroup>
               <ColumnGroup title="纯接口时效（ms）">
                 <Column title="基数" dataIndex="intfAgingAverageBase" render={(t) => t || 0} />
-                <Column title="数值" dataIndex="intfAgingAverage" />
+                <Column
+                  title="数值"
+                  dataIndex="intfAgingAverage"
+                  render={(t, { intfAgingAverageBase }) => {
+                    const num = (t / 1000).toFixed(2);
+                    if (num < intfAgingAverageBase) return greenDiv(num);
+                    else if (num > intfAgingAverageBase) return redDiv(num);
+                    return num;
+                  }}
+                />
               </ColumnGroup>
             </Table>
           );

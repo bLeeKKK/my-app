@@ -23,7 +23,7 @@ const expandedRowRender = ({
     <>
       {/* 成功率 */}
       <Table
-        className={styles['expanded-table']}
+        className={`${styles['expanded-table']} ${styles['expanded-table-pre-success']}`}
         bordered
         title={() => '成功率'}
         dataSource={successRateVos}
@@ -54,7 +54,7 @@ const expandedRowRender = ({
 
       {/* 纯接口时效（毫秒） */}
       <Table
-        className={styles['expanded-table']}
+        className={`${styles['expanded-table']} ${styles['expanded-table-pre-intf']}`}
         bordered
         title={() => '纯接口时效（毫秒）'}
         dataSource={interfaceAgingVos}
@@ -65,20 +65,20 @@ const expandedRowRender = ({
         scroll={{ x: 1300 }}
       >
         <Column title="接口名称" dataIndex="intfDescription" width={200} fixed />
-        <Column title="平均（ms）" dataIndex="intfAgingAverage" width={120} />
-        <Column title="最长（ms）" dataIndex="intfAgingLongest" width={120} />
-        <Column title="最短（ms）" dataIndex="intfAgingShortest" width={120} />
-        <Column title="上周平均（ms）" dataIndex="intfAgingAverageLastPeriod" width={120} />
-        <Column title="上周最长（ms）" dataIndex="intfAgingLongestLastPeriod" width={120} />
-        <Column title="上周最短（ms）" dataIndex="intfAgingShortestLastPeriod" width={120} />
-        <Column title="平均差值（ms）" dataIndex="intfAgingAverageDifference" width={120} />
-        <Column title="最长差值（ms）" dataIndex="intfAgingLongestDifference" width={120} />
-        <Column title="最短差值（ms）" dataIndex="intfAgingShortestDifference" width={120} />
+        <Column title="平均（ms）" dataIndex="intfAgingAverage" width={100} />
+        <Column title="最长（ms）" dataIndex="intfAgingLongest" width={100} />
+        <Column title="最短（ms）" dataIndex="intfAgingShortest" width={100} />
+        <Column title="上周平均（ms）" dataIndex="intfAgingAverageLastPeriod" width={100} />
+        <Column title="上周最长（ms）" dataIndex="intfAgingLongestLastPeriod" width={100} />
+        <Column title="上周最短（ms）" dataIndex="intfAgingShortestLastPeriod" width={100} />
+        <Column title="平均差值（ms）" dataIndex="intfAgingAverageDifference" width={100} />
+        <Column title="最长差值（ms）" dataIndex="intfAgingLongestDifference" width={100} />
+        <Column title="最短差值（ms）" dataIndex="intfAgingShortestDifference" width={100} />
       </Table>
 
       {/* 事件结束（秒） */}
       <Table
-        className={styles['expanded-table']}
+        className={`${styles['expanded-table']} ${styles['expanded-table-pre-event']}`}
         bordered
         title={() => '事件结束（秒）'}
         dataSource={eventAgingVos}
