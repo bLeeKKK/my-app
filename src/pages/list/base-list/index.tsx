@@ -25,7 +25,7 @@ const columnsEnum = {
 };
 
 const columns: ProColumns<TableListItem>[] = [
-  { title: '是否成功', dataIndex: 'status', valueEnum: columnsEnum },
+  { title: '是否成功', dataIndex: 'status', valueEnum: columnsEnum, fixed: true, width: 100 },
   { title: '接口标识', dataIndex: 'intfTag', ellipsis: true },
   { title: '接口描述', dataIndex: 'intfDescription', ellipsis: true },
 

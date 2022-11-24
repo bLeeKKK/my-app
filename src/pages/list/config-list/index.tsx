@@ -56,7 +56,7 @@ const TableList: React.FC = () => {
         // </Popconfirm>,
       ],
     },
-    { title: '接口标识', dataIndex: 'intfTag', width: 200 },
+    { title: '接口标识', dataIndex: 'intfTag', ellipsis: true, width: 200 },
     { title: '顺序', dataIndex: 'sort', search: false },
     {
       title: '基数确认类型',
@@ -96,11 +96,14 @@ const TableList: React.FC = () => {
         toolBarRender={() => [<Edit key="eidt" />]}
         sticky
         scroll={{ x: 1500 }}
+        // pagination={{
+        //   pageSize: 30,
+        // }}
         request={async (params) => {
+          const { current, pageSize } = params;
           const { success, data } = await findByPage({
-            current: params.current,
-            size: 2,
-            // size: params.pageSize,
+            current,
+            size: pageSize,
           });
           return {
             success: success,
