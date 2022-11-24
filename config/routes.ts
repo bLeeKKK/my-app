@@ -21,7 +21,7 @@
       {
         path: '/list/table-list',
         // name: 'table-list',
-        name: '基础列表',
+        name: '数据列表',
         icon: 'smile',
         component: './list/table-list',
       },
@@ -31,6 +31,12 @@
         name: '配置列表',
         icon: 'smile',
         component: './list/config-list',
+      },
+      {
+        path: '/list/base-list',
+        name: '基础列表',
+        icon: 'smile',
+        component: './list/base-list',
       },
       {
         component: './404',

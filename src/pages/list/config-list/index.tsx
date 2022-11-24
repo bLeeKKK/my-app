@@ -97,7 +97,11 @@ const TableList: React.FC = () => {
         sticky
         scroll={{ x: 1500 }}
         request={async (params) => {
-          const { success, data } = await findByPage(params);
+          const { success, data } = await findByPage({
+            current: params.current,
+            size: 2,
+            // size: params.pageSize,
+          });
           return {
             success: success,
             data: data.records,
