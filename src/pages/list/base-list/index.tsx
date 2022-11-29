@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -18,6 +18,7 @@ function getHaveTDate(arr: any[]) {
 const startMonth = moment().startOf('month').format('YYYY-MM-DD HH:mm:ss');
 // 当月结束日期时间
 const endMonth = moment().endOf('month').format('YYYY-MM-DD HH:mm:ss');
+
 const columnsEnum = {
   0: { text: '是', status: 'success' },
   1: { text: '否', status: 'warning' },
@@ -26,16 +27,18 @@ const columnsEnum = {
 
 const columns: ProColumns<TableListItem>[] = [
   { title: '是否成功', dataIndex: 'status', valueEnum: columnsEnum, fixed: true, width: 100 },
-  { title: '接口标识', dataIndex: 'intfTag', ellipsis: true },
-  { title: '接口描述', dataIndex: 'intfDescription', ellipsis: true },
+  { title: '接口标识', dataIndex: 'intfTag', ellipsis: true, width: 200 },
+  { title: '接口描述', dataIndex: 'intfDescription', ellipsis: true, width: 200 },
 
   {
     title: '事件开始时间',
     dataIndex: 'eventStDatetime',
     width: 200,
     search: false,
-    valueType: 'dateTime',
+    sorter: true,
+    // valueType: 'dateTime',
     tip: `默认搜索使用：${startMonth} 到 ${endMonth}`,
+    render: (t) => moment(t as string).format('YYYY-MM-DD HH:mm:ss.SSS'),
   },
   {
     title: '事件开始时间',
@@ -55,7 +58,9 @@ const columns: ProColumns<TableListItem>[] = [
     dataIndex: 'eventEndDatetime',
     width: 200,
     search: false,
-    valueType: 'dateTime',
+    sorter: true,
+    // valueType: 'dateTime',
+    render: (t) => moment(t as string).format('YYYY-MM-DD HH:mm:ss.SSS'),
   },
   {
     title: '事件结束时间',
@@ -74,6 +79,7 @@ const columns: ProColumns<TableListItem>[] = [
     dataIndex: 'eventFinishInterval',
     search: false,
     valueType: 'digit',
+    width: 160,
   },
 
   {
@@ -81,6 +87,7 @@ const columns: ProColumns<TableListItem>[] = [
     dataIndex: 'intfStDatetime',
     width: 200,
     search: false,
+    sorter: true,
     valueType: 'dateTime',
   },
   {
@@ -100,6 +107,7 @@ const columns: ProColumns<TableListItem>[] = [
     dataIndex: 'intfEndDatetime',
     width: 200,
     search: false,
+    sorter: true,
     valueType: 'dateTime',
   },
   {
@@ -133,30 +141,46 @@ const columns: ProColumns<TableListItem>[] = [
 
 const TableList: React.FC = () => {
   const { actionRef } = useSelector((state) => state.configList);
+  const ref = useRef();
+
+  useEffect(() => {
+    if (ref) {
+      console.log(ref.current);
+      // ref.current?.initialValues = {
+      //   eventStDatetimes: [1, 2],
+      // };
+    }
+  }, [ref]);
 
   return (
     <PageContainer>
       <ProTable<TableListItem, TableListPagination>
         headerTitle="查询表格"
         actionRef={actionRef}
+        form={{
+          initialValues: {
+            eventStDatetimes: [startMonth, endMonth],
+          },
+        }}
         rowKey="key"
         search={{ labelWidth: 120 }}
         // toolBarRender={() => [<Edit key="eidt" />]}
         sticky
-        scroll={{ x: 1500 }}
-        request={async (params) => {
-          const { current, pageSize, ...rest } = params;
-          const { success, data } = await findByPage({
-            current,
-            size: pageSize,
-            ...rest,
-          });
+        scroll={{ x: 2000 }}
+        formRef={ref}
+        request={async (params, sort) => {
+          console.log(sort);
+          // const { current, pageSize, ...rest } = params;
+          const { success, data } = await findByPage(params, sort);
           return {
             success: success,
             data: data.records,
             total: data.total,
-            intfStDatetimes: ['2022-11-11T10:33:41.436', '2022-11-30T10:33:41.436'],
+            // intfStDatetimes: ['2022-11-11T10:33:41.436', '2022-11-30T10:33:41.436'],
           };
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
         columns={columns}
       />

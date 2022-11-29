@@ -13,9 +13,25 @@ type ParamsType = {
 export type { ParamsType };
 
 // 分页查询
-export async function findByPage(data): Promise<TConfigTableData> {
-  return request(`${SERVER_PATH}/${BIZLOG_CORE}/interfaceCallRecord/findByPage`, {
-    method: 'post',
-    data,
-  });
+export async function findByPage(data, sort): Promise<TConfigTableData> {
+  const asc = [];
+  const desc = [];
+  if (sort.eventStDatetime === 'descend') desc.push('event_st_datetime');
+  if (sort.eventEndDatetime === 'descend') desc.push('event_end_datetime');
+  if (sort.intfStDatetime === 'descend') desc.push('intf_st_datetime');
+  if (sort.intfEndDatetime === 'descend') desc.push('intf_end_datetime');
+  if (sort.eventStDatetime === 'ascend') asc.push('event_st_datetime');
+  if (sort.eventEndDatetime === 'ascend') asc.push('event_end_datetime');
+  if (sort.intfStDatetime === 'ascend') asc.push('intf_st_datetime');
+  if (sort.intfEndDatetime === 'ascend') asc.push('intf_end_datetime');
+
+  return request(
+    `${SERVER_PATH}/${BIZLOG_CORE}/interfaceCallRecord/findByPage?size=${data.pageSize}&current=${
+      data.current
+    }&desc=${desc.join(',')}&asc=${asc.join(',')}`,
+    {
+      method: 'post',
+      data,
+    },
+  );
 }
