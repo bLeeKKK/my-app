@@ -222,7 +222,7 @@ const AverageStatistics: FC = () => {
                   title="数值"
                   dataIndex="intfAgingAverage"
                   render={(t, { intfAgingAverageBase }) => {
-                    const num = (t / 1000).toFixed(2);
+                    const num = t;
                     if (num < intfAgingAverageBase) return greenDiv(num);
                     else if (num > intfAgingAverageBase) return redDiv(num);
                     return num;
