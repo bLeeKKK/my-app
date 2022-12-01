@@ -138,10 +138,10 @@ export default function AddModalForm() {
               name="intfAgingAverageBaseValue"
             />
             <ProFormDigit
-              label="纯接口时效平均基数值(毫秒)"
+              label="整体成功率平均基数值"
               width="md"
               min={0}
-              rules={[{ required: true, message: '请输入纯接口时效平均基数值（毫秒)' }]}
+              rules={[{ required: true, message: '整体成功率平均基数值' }]}
               name="overallSuccessAverageBaseValue"
             />
           </ProForm.Group>

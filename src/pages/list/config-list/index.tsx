@@ -79,7 +79,7 @@ const TableList: React.FC = () => {
       search: false,
     },
     {
-      title: '纯接口时效平均基数值（毫秒）',
+      title: '整体成功率平均基数值',
       dataIndex: 'overallSuccessAverageBaseValue',
       width: 220,
       search: false,
