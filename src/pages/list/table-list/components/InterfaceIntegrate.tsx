@@ -73,30 +73,6 @@ const expandedRowRender = (item: TBasicList) => {
             />
 
             <Column<TBasicListItemDataType>
-              title="平均差值"
-              dataIndex="eventAgingAverageDifference"
-              render={(t, r, index) => {
-                return index === 0 ? (t / 1000).toFixed(2) : r.intfAgingAverageDifference;
-              }}
-              {...defaultColumn}
-            />
-            <Column<TBasicListItemDataType>
-              title="最长差值"
-              dataIndex="eventAgingLongestDifference"
-              render={(t, r, index) => {
-                return index === 0 ? (t / 1000).toFixed(2) : r.intfAgingLongestDifference;
-              }}
-              {...defaultColumn}
-            />
-            <Column<TBasicListItemDataType>
-              title="最短差值"
-              dataIndex="eventAgingShortestDifference"
-              render={(t, r, index) => {
-                return index === 0 ? (t / 1000).toFixed(2) : r.intfAgingShortestDifference;
-              }}
-              {...defaultColumn}
-            />
-            <Column<TBasicListItemDataType>
               title="上期平均"
               dataIndex="eventAgingAverageLastPeriod"
               render={(t, r, index) => {
@@ -117,6 +93,31 @@ const expandedRowRender = (item: TBasicList) => {
               dataIndex="eventAgingShortestLastPeriod"
               render={(t, r, index) => {
                 return index === 0 ? (t / 1000).toFixed(2) : r.intfAgingShortestLastPeriod;
+              }}
+              {...defaultColumn}
+            />
+
+            <Column<TBasicListItemDataType>
+              title="平均差值"
+              dataIndex="eventAgingAverageDifference"
+              render={(t, r, index) => {
+                return index === 0 ? (t / 1000).toFixed(2) : r.intfAgingAverageDifference;
+              }}
+              {...defaultColumn}
+            />
+            <Column<TBasicListItemDataType>
+              title="最长差值"
+              dataIndex="eventAgingLongestDifference"
+              render={(t, r, index) => {
+                return index === 0 ? (t / 1000).toFixed(2) : r.intfAgingLongestDifference;
+              }}
+              {...defaultColumn}
+            />
+            <Column<TBasicListItemDataType>
+              title="最短差值"
+              dataIndex="eventAgingShortestDifference"
+              render={(t, r, index) => {
+                return index === 0 ? (t / 1000).toFixed(2) : r.intfAgingShortestDifference;
               }}
               {...defaultColumn}
             />
