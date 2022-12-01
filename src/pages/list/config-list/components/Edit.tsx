@@ -121,7 +121,34 @@ export default function AddModalForm() {
           name="baseType"
           options={BASETYPE_OPTIONS}
         />
-        {baseType ? null : (
+        {baseType ? (
+          <ProForm.Group>
+            <ProFormDigit
+              label="上月事件结束平均基数值（秒）"
+              width="md"
+              min={0}
+              rules={[{ required: true, message: '' }]}
+              disabled={eidtFlag}
+              name="lastMonthEventFinishAverageBaseValue"
+            />
+            <ProFormDigit
+              label="上月纯接口时效平均基数值(毫秒)"
+              width="md"
+              min={0}
+              rules={[{ required: true, message: '' }]}
+              disabled={eidtFlag}
+              name="lastMonthIntfAgingAverageBaseValue"
+            />
+            <ProFormDigit
+              label="上月整体成功率平均基数值"
+              width="md"
+              min={0}
+              rules={[{ required: true, message: '' }]}
+              disabled={eidtFlag}
+              name="lastMonthOverallSuccessAverageBaseValue"
+            />
+          </ProForm.Group>
+        ) : (
           <ProForm.Group>
             <ProFormDigit
               label="事件结束平均基数值（秒）"

@@ -8,6 +8,9 @@ type ParamsType = {
   intfDescription: number; // 接口描述
   intfTag: number; // 接口标识
   overallSuccessAverageBaseValue: number; // 整体成功率平均基数值
+  lastMonthOverallSuccessAverageBaseValue: number; //上月整体成功率平均基数值
+  lastMonthIntfAgingAverageBaseValue: number; //上月纯接口时效平均基数值(毫秒)
+  lastMonthEventFinishAverageBaseValue: number; //上月事件结束平均基数值(秒)
 };
 
 export type { ParamsType };
