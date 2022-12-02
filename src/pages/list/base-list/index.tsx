@@ -27,6 +27,7 @@ const columnsEnum = {
 
 const columns: ProColumns<TableListItem>[] = [
   { title: '是否成功', dataIndex: 'status', valueEnum: columnsEnum, fixed: true, width: 100 },
+  { title: '备注', dataIndex: 'remark', valueEnum: columnsEnum, fixed: true, width: 100 },
   { title: '接口标识', dataIndex: 'intfTag', ellipsis: true, width: 200 },
   { title: '接口描述', dataIndex: 'intfDescription', ellipsis: true, width: 200 },
 
@@ -80,6 +81,7 @@ const columns: ProColumns<TableListItem>[] = [
     search: false,
     valueType: 'digit',
     width: 160,
+    sorter: true,
   },
 
   {
@@ -127,6 +129,7 @@ const columns: ProColumns<TableListItem>[] = [
     dataIndex: 'receiveDataInterval',
     search: false,
     valueType: 'digit',
+    sorter: true,
   },
   {
     title: '错误描述',
