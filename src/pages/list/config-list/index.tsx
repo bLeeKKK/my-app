@@ -1,21 +1,21 @@
 import React from 'react';
-import {message} from 'antd';
-import {PageContainer} from '@ant-design/pro-layout';
-import type {ProColumns} from '@ant-design/pro-table';
+import { message } from 'antd';
+import { PageContainer } from '@ant-design/pro-layout';
+import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import {deleteConfig, findByPage} from './service';
-import type {TableListItem, TableListPagination} from './data';
-import Edit, {BASETYPE_OPTIONS} from './components/Edit';
-import {useDispatch, useSelector} from 'umi';
+import { deleteConfig, findByPage } from './service';
+import type { TableListItem, TableListPagination } from './data';
+import Edit, { BASETYPE_OPTIONS } from './components/Edit';
+import { useDispatch, useSelector } from 'umi';
 
 const handleDelete = async (id: string) => {
-  const {success, message: msg} = await deleteConfig({id});
+  const { success, message: msg } = await deleteConfig({ id });
   if (success) message.success(msg);
   return success;
 };
 
 const TableList: React.FC = () => {
-  const {actionRef} = useSelector((state) => state.configList);
+  const { actionRef } = useSelector((state) => state.configList);
   const dispatch = useDispatch();
 
   const columns: ProColumns<TableListItem>[] = [
@@ -56,16 +56,16 @@ const TableList: React.FC = () => {
         // </Popconfirm>,
       ],
     },
-    {title: '顺序', dataIndex: 'sort', search: false, width: 80},
-    {title: '接口标识', dataIndex: 'intfTag', ellipsis: true, width: 260, search: false,},
-    {title: '接口描述', dataIndex: 'intfDescription', width: 260},
+    { title: '顺序', dataIndex: 'sort', search: false, width: 80 },
+    { title: '接口标识', dataIndex: 'intfTag', ellipsis: true, width: 260, search: false },
+    { title: '接口描述', dataIndex: 'intfDescription', width: 260 },
     {
       title: '基数确认类型',
       dataIndex: 'baseType',
       search: false,
       valueType: 'radio',
-      fieldProps: {options: BASETYPE_OPTIONS},
-      width: 120
+      fieldProps: { options: BASETYPE_OPTIONS },
+      width: 120,
     },
     {
       title: '事件结束平均基数值（秒）',
@@ -119,10 +119,12 @@ const TableList: React.FC = () => {
         //   pageSize: 30,
         // }}
         request={async (params) => {
-          const { current, pageSize } = params;
+          const { current, pageSize, ...reset } = params;
+          console.log('params', params);
           const { success, data } = await findByPage({
             current,
             size: pageSize,
+            ...reset,
           });
           return {
             success: success,

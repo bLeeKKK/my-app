@@ -9,7 +9,7 @@ import {
 } from '@ant-design/pro-form';
 import { insert, update } from '../service';
 import type { ParamsType } from '../service';
-import { PlusOutlined } from '@ant-design/icons';
+// import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
 import { useUpdateEffect } from 'ahooks';
 
@@ -52,7 +52,6 @@ export default function AddModalForm() {
   const [form] = Form.useForm();
   const baseType = useWatch('baseType', form);
   const eidtFlag = editType === 2 && edit;
-
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch({
