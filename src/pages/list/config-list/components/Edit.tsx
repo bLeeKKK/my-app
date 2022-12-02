@@ -102,7 +102,7 @@ export default function AddModalForm() {
         onFinish={async (value) => {
           let flag = false;
           if (edit?.id) {
-            flag = await handleUpdate({ ...value, id: edit.id });
+            flag = await handleUpdate({ ...edit, ...value });
           } else flag = await handleAdd(value as ParamsType);
           if (flag) {
             closeModal();
