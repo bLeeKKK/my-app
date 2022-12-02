@@ -1,21 +1,21 @@
 import React from 'react';
-import { message, Popconfirm } from 'antd';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns } from '@ant-design/pro-table';
+import {message} from 'antd';
+import {PageContainer} from '@ant-design/pro-layout';
+import type {ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { deleteConfig, findByPage } from './service';
-import type { TableListItem, TableListPagination } from './data';
-import Edit, { BASETYPE_OPTIONS } from './components/Edit';
-import { useSelector, useDispatch } from 'umi';
+import {deleteConfig, findByPage} from './service';
+import type {TableListItem, TableListPagination} from './data';
+import Edit, {BASETYPE_OPTIONS} from './components/Edit';
+import {useDispatch, useSelector} from 'umi';
 
 const handleDelete = async (id: string) => {
-  const { success, message: msg } = await deleteConfig({ id });
+  const {success, message: msg} = await deleteConfig({id});
   if (success) message.success(msg);
   return success;
 };
 
 const TableList: React.FC = () => {
-  const { actionRef } = useSelector((state) => state.configList);
+  const {actionRef} = useSelector((state) => state.configList);
   const dispatch = useDispatch();
 
   const columns: ProColumns<TableListItem>[] = [
@@ -56,16 +56,17 @@ const TableList: React.FC = () => {
         // </Popconfirm>,
       ],
     },
-    { title: '接口标识', dataIndex: 'intfTag', ellipsis: true, width: 200 },
-    { title: '顺序', dataIndex: 'sort', search: false },
+    {title: '顺序', dataIndex: 'sort', search: false, width: 80},
+    {title: '接口标识', dataIndex: 'intfTag', ellipsis: true, width: 260, search: false,},
+    {title: '接口描述', dataIndex: 'intfDescription', width: 260},
     {
       title: '基数确认类型',
       dataIndex: 'baseType',
       search: false,
       valueType: 'radio',
-      fieldProps: { options: BASETYPE_OPTIONS },
+      fieldProps: {options: BASETYPE_OPTIONS},
+      width: 120
     },
-    { title: '接口描述', dataIndex: 'intfDescription', width: 280, search: false },
     {
       title: '事件结束平均基数值（秒）',
       dataIndex: 'eventFinishAverageBaseValue',
@@ -81,6 +82,24 @@ const TableList: React.FC = () => {
     {
       title: '整体成功率平均基数值',
       dataIndex: 'overallSuccessAverageBaseValue',
+      width: 200,
+      search: false,
+    },
+    {
+      title: '上月事件结束平均基数值(秒)',
+      dataIndex: 'lastMonthEventFinishAverageBaseValue',
+      width: 220,
+      search: false,
+    },
+    {
+      title: '上月纯接口时效平均基数值(毫秒)',
+      dataIndex: 'lastMonthIntfAgingAverageBaseValue',
+      width: 230,
+      search: false,
+    },
+    {
+      title: '上月整体成功率平均基数值',
+      dataIndex: 'lastMonthOverallSuccessAverageBaseValue',
       width: 220,
       search: false,
     },
