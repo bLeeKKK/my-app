@@ -4,7 +4,7 @@
     layout: false,
     routes: [
       {
-        name: '登录',
+        name: 'login',
         path: '/user/login',
         component: './user/Login',
       },
@@ -14,28 +14,40 @@
     ],
   },
   {
+    path: 'config-list',
+    name: 'config-list',
+    icon: 'form',
+    routes: [
+      {
+        path: '/config-list/interface-list',
+        name: 'interface-list',
+        component: './config-list/interface-list',
+      },
+      {
+        path: '/config-list/procedure-list',
+        name: 'procedure-list',
+        component: './config-list/procedure-list',
+      },
+      {
+        path: '/config-list/er-map',
+        name: 'er-map',
+        component: './config-list/er-map',
+      },
+    ],
+  },
+  {
     path: '/list',
-    name: '管理页',
-    icon: 'crown',
+    name: 'list',
+    icon: 'table',
     routes: [
       {
         path: '/list/table-list',
-        // name: 'table-list',
-        name: '数据列表',
-        icon: 'smile',
+        name: 'table-list',
         component: './list/table-list',
       },
       {
-        path: '/list/config-list',
-        // name: 'config-list',
-        name: '配置列表',
-        icon: 'smile',
-        component: './list/config-list',
-      },
-      {
         path: '/list/base-list',
-        name: '基础列表',
-        icon: 'smile',
+        name: 'base-list',
         component: './list/base-list',
       },
       {
@@ -44,8 +56,20 @@
     ],
   },
   {
+    path: '/account',
+    name: 'account',
+    icon: 'crown',
+    routes: [
+      {
+        path: '/account/management-account',
+        name: 'management-account',
+        component: './account/management-account',
+      },
+    ],
+  },
+  {
     path: '/',
-    redirect: '/list/table-list',
+    redirect: '/config-list/er-map',
   },
   {
     component: './404',
