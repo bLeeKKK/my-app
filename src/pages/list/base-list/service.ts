@@ -23,10 +23,15 @@ export async function findByPage(data, sort): Promise<TConfigTableData> {
   if (sort.eventEndDatetime === 'descend') desc.push('event_end_datetime');
   if (sort.intfStDatetime === 'descend') desc.push('intf_st_datetime');
   if (sort.intfEndDatetime === 'descend') desc.push('intf_end_datetime');
+  if (sort.eventFinishInterval === 'descend') desc.push('event_finish_interval');
+  if (sort.receiveDataInterval === 'descend') desc.push('receive_data_interval');
+
   if (sort.eventStDatetime === 'ascend') asc.push('event_st_datetime');
   if (sort.eventEndDatetime === 'ascend') asc.push('event_end_datetime');
   if (sort.intfStDatetime === 'ascend') asc.push('intf_st_datetime');
   if (sort.intfEndDatetime === 'ascend') asc.push('intf_end_datetime');
+  if (sort.eventFinishInterval === 'ascend') asc.push('event_finish_interval');
+  if (sort.receiveDataInterval === 'ascend') asc.push('receive_data_interval');
 
   return request(
     `${SERVER_PATH}/${BIZLOG_CORE}/interfaceCallRecord/findByPage?size=${data.pageSize}&current=${

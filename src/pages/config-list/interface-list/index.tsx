@@ -24,7 +24,7 @@ const TableList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       fixed: true,
-      width: 120,
+      width: 80,
       render: (_, record) => [
         <a
           key="edit"
@@ -56,52 +56,38 @@ const TableList: React.FC = () => {
         // </Popconfirm>,
       ],
     },
-    { title: '顺序', dataIndex: 'sort', search: false, width: 80 },
-    { title: '接口标识', dataIndex: 'intfTag', ellipsis: true, width: 260, search: false },
-    { title: '接口描述', dataIndex: 'intfDescription', width: 260 },
+    { title: '顺序', dataIndex: 'sort', search: false, width: 60 },
+    { title: '接口标识', dataIndex: 'intfTag', width: 180, search: false },
+    { title: '接口描述', dataIndex: 'intfDescription', width: 180 },
     {
       title: '基数确认类型',
       dataIndex: 'baseType',
       search: false,
       valueType: 'radio',
       fieldProps: { options: BASETYPE_OPTIONS },
-      width: 120,
+      width: 80,
     },
+    //根据技术类型确认展示字段
     {
       title: '事件结束平均基数值（秒）',
       dataIndex: 'eventFinishAverageBaseValue',
-      width: 200,
+      width: 130,
       search: false,
+      render: (t, item) => item.baseType ? item.lastMonthEventFinishAverageBaseValue : t
     },
     {
       title: '纯接口时效平均基数值（毫秒）',
       dataIndex: 'intfAgingAverageBaseValue',
-      width: 220,
+      width: 150,
       search: false,
+      render: (t, item) => item.baseType ? item.lastMonthIntfAgingAverageBaseValue : t
     },
     {
       title: '整体成功率平均基数值',
       dataIndex: 'overallSuccessAverageBaseValue',
-      width: 200,
+      width: 130,
       search: false,
-    },
-    {
-      title: '上月事件结束平均基数值(秒)',
-      dataIndex: 'lastMonthEventFinishAverageBaseValue',
-      width: 220,
-      search: false,
-    },
-    {
-      title: '上月纯接口时效平均基数值(毫秒)',
-      dataIndex: 'lastMonthIntfAgingAverageBaseValue',
-      width: 230,
-      search: false,
-    },
-    {
-      title: '上月整体成功率平均基数值',
-      dataIndex: 'lastMonthOverallSuccessAverageBaseValue',
-      width: 220,
-      search: false,
+      render: (t, item) => item.baseType ? item.lastMonthOverallSuccessAverageBaseValue : t
     },
   ];
 
