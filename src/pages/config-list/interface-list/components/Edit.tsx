@@ -1,4 +1,4 @@
-import { message, Form } from 'antd';
+import { message, Form, Button } from 'antd';
 import {
   ModalForm,
   ProFormTextArea,
@@ -9,9 +9,10 @@ import {
 } from '@ant-design/pro-form';
 import { insert, update } from '../service';
 import type { ParamsType } from '../service';
-// import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
 import { useUpdateEffect } from 'ahooks';
+import { getModel } from '@/utils';
 
 const { useWatch } = Form;
 export const BASETYPE_OPTIONS = [
@@ -34,7 +35,7 @@ const handleAdd = async (data: ParamsType) => {
 };
 
 const handleUpdate = async (data: ParamsType) => {
-  const hide = message.loading('正在添加');
+  const hide = message.loading('正在修改');
   try {
     await update(data);
     hide();
@@ -72,7 +73,7 @@ export default function AddModalForm() {
 
   return (
     <>
-      {/* <Button
+      <Button
         type="primary"
         key="primary"
         onClick={() => {
@@ -87,9 +88,9 @@ export default function AddModalForm() {
         }}
       >
         <PlusOutlined /> 新建
-      </Button> */}
+      </Button>
       <ModalForm
-        title="新建配置"
+        title={`${getModel(editType)}接口配置`}
         width="800px"
         visible={visible}
         // formRef={formRef}

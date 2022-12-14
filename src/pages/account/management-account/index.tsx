@@ -6,7 +6,9 @@ import ProTable from '@ant-design/pro-table';
 import { deleteConfig, findByPage } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import Edit, { BASETYPE_OPTIONS } from './components/Edit';
-import { useDispatch, useSelector } from 'umi';
+import { useDispatch, useSelector, useHistory } from 'umi';
+import { EditOutlined } from '@ant-design/icons';
+import IconBox from '@/components/IconBox';
 
 const handleDelete = async (id: string) => {
   const { success, message: msg } = await deleteConfig({ id });
@@ -14,9 +16,18 @@ const handleDelete = async (id: string) => {
   return success;
 };
 
+// const history = useHistory();
+// const item = {id:1,name:"zora"}
+// // 路由跳转
+// history.push(`/user/role/detail`, { id: item });
+// // 参数获取
+// const {state} = useLocation()
+// console.log(state)  // {id:1,name:"zora"}
+
 const ManagementAccount: React.FC = () => {
   const { actionRef } = useSelector((state) => state.managementAccount);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const columns: ProColumns<TableListItem>[] = [
     {
@@ -26,9 +37,24 @@ const ManagementAccount: React.FC = () => {
       fixed: true,
       width: 120,
       render: (_, record) => [
-        <a
+        // <a
+        //   key="edit"
+        //   href="#"
+        //   onClick={() => {
+        //     dispatch({
+        //       type: 'managementAccount/setEdit',
+        //       payload: {
+        //         edit: record,
+        //         visible: true,
+        //         editType: 2,
+        //       },
+        //     });
+        //   }}
+        // >
+        //   编辑
+        // </a>,
+        <IconBox
           key="edit"
-          href="#"
           onClick={() => {
             dispatch({
               type: 'managementAccount/setEdit',
@@ -39,9 +65,9 @@ const ManagementAccount: React.FC = () => {
               },
             });
           }}
-        >
-          编辑
-        </a>,
+          icon={EditOutlined}
+          text="编辑"
+        />,
         // <Popconfirm
         //   key="delete"
         //   title="你确定删除？"

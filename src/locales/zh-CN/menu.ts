@@ -7,10 +7,15 @@ export default {
   'menu.register': '注册',
   'menu.register-result': '注册结果',
 
+  'menu.base-config-list': '基础配置管理',
+  'menu.base-config-list.dictionary-list': '字典配置',
+
   'menu.config-list': '配置管理',
-  'menu.config-list.interface-list': '接口配置列表',
-  'menu.config-list.procedure-list': '流程列表',
-  'menu.config-list.er-map': '接口配置列表',
+  'menu.config-list.interface-list': '接口配置',
+  // 'menu.config-list.procedure-list': '流程列表',
+  'menu.config-list.operation-flow': '业务流程配置',
+  // 'menu.config-list.er-map': '流程配置图',
+  'menu.config-list.operation-flow.flow-map': '流程配置图',
 
   'menu.list': '数据管理',
   'menu.list.table-list': '数据列表',

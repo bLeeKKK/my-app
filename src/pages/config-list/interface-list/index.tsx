@@ -7,6 +7,8 @@ import { deleteConfig, findByPage } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import Edit, { BASETYPE_OPTIONS } from './components/Edit';
 import { useDispatch, useSelector } from 'umi';
+import { EditOutlined } from '@ant-design/icons';
+import IconBox from '@/components/IconBox';
 
 const handleDelete = async (id: string) => {
   const { success, message: msg } = await deleteConfig({ id });
@@ -26,9 +28,24 @@ const TableList: React.FC = () => {
       fixed: true,
       width: 80,
       render: (_, record) => [
-        <a
+        // <a
+        //   key="edit"
+        //   href="#"
+        //   onClick={() => {
+        //     dispatch({
+        //       type: 'configList/setEdit',
+        //       payload: {
+        //         edit: record,
+        //         visible: true,
+        //         editType: 2,
+        //       },
+        //     });
+        //   }}
+        // >
+        //   编辑
+        // </a>,
+        <IconBox
           key="edit"
-          href="#"
           onClick={() => {
             dispatch({
               type: 'configList/setEdit',
@@ -39,9 +56,9 @@ const TableList: React.FC = () => {
               },
             });
           }}
-        >
-          编辑
-        </a>,
+          icon={EditOutlined}
+          text="编辑"
+        />,
         // <Popconfirm
         //   key="delete"
         //   title="你确定删除？"
@@ -73,21 +90,21 @@ const TableList: React.FC = () => {
       dataIndex: 'eventFinishAverageBaseValue',
       width: 130,
       search: false,
-      render: (t, item) => item.baseType ? item.lastMonthEventFinishAverageBaseValue : t
+      render: (t, item) => (item.baseType ? item.lastMonthEventFinishAverageBaseValue : t),
     },
     {
       title: '纯接口时效平均基数值（毫秒）',
       dataIndex: 'intfAgingAverageBaseValue',
       width: 150,
       search: false,
-      render: (t, item) => item.baseType ? item.lastMonthIntfAgingAverageBaseValue : t
+      render: (t, item) => (item.baseType ? item.lastMonthIntfAgingAverageBaseValue : t),
     },
     {
       title: '整体成功率平均基数值',
       dataIndex: 'overallSuccessAverageBaseValue',
       width: 130,
       search: false,
-      render: (t, item) => item.baseType ? item.lastMonthOverallSuccessAverageBaseValue : t
+      render: (t, item) => (item.baseType ? item.lastMonthOverallSuccessAverageBaseValue : t),
     },
   ];
 

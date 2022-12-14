@@ -14,6 +14,18 @@
     ],
   },
   {
+    path: 'base-config-list',
+    name: 'base-config-list',
+    icon: 'book',
+    routes: [
+      {
+        path: '/base-config-list/dictionary-list',
+        name: 'dictionary-list',
+        component: './base-config-list/dictionary-list',
+      },
+    ],
+  },
+  {
     path: 'config-list',
     name: 'config-list',
     icon: 'form',
@@ -23,15 +35,28 @@
         name: 'interface-list',
         component: './config-list/interface-list',
       },
+      // {
+      //   path: '/config-list/procedure-list',
+      //   name: 'procedure-list',
+      //   component: './config-list/procedure-list',
+      // },
       {
-        path: '/config-list/procedure-list',
-        name: 'procedure-list',
-        component: './config-list/procedure-list',
-      },
-      {
-        path: '/config-list/er-map',
-        name: 'er-map',
-        component: './config-list/er-map',
+        path: '/config-list/operation-flow',
+        name: 'operation-flow',
+        hideChildrenInMenu: true,
+        routes: [
+          {
+            path: '/config-list/operation-flow',
+            name: 'operation-flow',
+            component: './config-list/operation-flow',
+            exact: true,
+          },
+          {
+            path: '/config-list/operation-flow/flow-map',
+            name: 'flow-map',
+            component: './config-list/flow-map',
+          },
+        ],
       },
     ],
   },
