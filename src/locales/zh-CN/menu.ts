@@ -21,6 +21,8 @@ export default {
   'menu.list.table-list': '数据列表',
   'menu.list.base-list': '基础列表',
 
-  'menu.account': '用户权限',
-  'menu.account.management-account': '用户管理',
+  'menu.account': '用户权限管理',
+  'menu.account.account-management': '用户管理',
+  'menu.account.role-management': '角色管理',
+  'menu.account.right-management': '权限管理',
 };

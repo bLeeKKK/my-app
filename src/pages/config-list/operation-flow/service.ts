@@ -12,6 +12,13 @@ export async function save(data: ParamsType): Promise<{ data: unknown[] }> {
   });
 }
 
+export async function update(data: ParamsType): Promise<{ data: unknown[] }> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/businessFlowConfig/update`, {
+    method: 'POST',
+    data,
+  });
+}
+
 // 流程配置-分页查询
 export async function findByPage(data: ParamsType): Promise<{ success: boolean; data: unknown }> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/businessFlowConfig/findByPage`, {

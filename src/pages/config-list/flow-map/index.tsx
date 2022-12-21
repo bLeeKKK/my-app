@@ -17,11 +17,38 @@ const handleUpdate = async (data) => {
   const newData = { ...flowData };
   const hide = message.loading('正在修改');
   try {
-    newData.majorNodeList = nodes;
-    newData.nodeJson = JSON.stringify({ edges, nodes });
+    const obj = {};
+    edges.forEach((res) => {
+      const [id, target] = res.id.split('-');
+      obj[id] = target;
+    });
+
+    const newNodes = nodes.map((res) => {
+      const node = res.data;
+      node.nodeName = node._nodeName;
+      node.nextNodeId = obj[node.id];
+      return node;
+    });
+    const newEdges = edges.map((res) => {
+      const { id, source, target, renderKey, edgeContentWidth, edgeContentHeight, attrs } =
+        res.data;
+
+      return {
+        id,
+        source,
+        target,
+        renderKey,
+        edgeContentWidth,
+        edgeContentHeight,
+        attrs,
+      };
+    });
+
+    newData.majorNodeList = newNodes;
+    newData.nodeJson = JSON.stringify({ edges: newEdges, nodes: newNodes });
     await update(newData);
     hide();
-    message.success('添加成功');
+    message.success('保存成功');
     return true;
   } catch (error) {
     console.log(error);
@@ -43,14 +70,6 @@ const FlowMap = () => {
     const nodes = await app.getAllNodes();
     const edges = await app.getAllEdges();
     const data = handleUpdate({ edges, nodes, flowData });
-    console.log(
-      flowData,
-      nodes.map((res) => {
-        res.data['nodeName'] = res.data['_nodeName'];
-        return res.data;
-      }),
-      edges,
-    );
   };
 
   return (
@@ -73,7 +92,7 @@ const FlowMap = () => {
         </ProCard> */}
         <div className="btn-box">
           <Button onClick={() => history.goBack()} className="btn">
-            取消
+            返回
           </Button>
           <Button type="primary" onClick={save} className="btn">
             保存

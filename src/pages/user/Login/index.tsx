@@ -51,7 +51,7 @@ const Login: React.FC = () => {
       // 登录
       const msg = await login({ ...values, type });
       if (msg.success) {
-        localStorage.setItem('token', msg?.data?.token || '');
+        localStorage.setItem('token', msg?.data || '');
         message.success('登录成功！');
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
@@ -128,7 +128,7 @@ const Login: React.FC = () => {
           {type === 'account' && (
             <>
               <ProFormText
-                name="username"
+                name="userName"
                 initialValue="admin"
                 fieldProps={{
                   size: 'large',
@@ -152,15 +152,12 @@ const Login: React.FC = () => {
               />
               <ProFormText.Password
                 name="password"
-                initialValue="ant.design"
+                initialValue="123456"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.password.placeholder',
-                  defaultMessage: '密码: ant.design',
-                })}
+                placeholder="请输入密码"
                 rules={[
                   {
                     required: true,

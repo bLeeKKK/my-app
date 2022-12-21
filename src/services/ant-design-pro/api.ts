@@ -1,13 +1,14 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
+import { BIZLOG_CORE, SERVER_PATH, MOCKER_API } from '@/services/constants';
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     success: boolean;
     data: API.CurrentUser;
-  }>('/api/currentUser', {
+  }>(`${SERVER_PATH}/${BIZLOG_CORE}/sysUser/userInfo`, {
     method: 'GET',
     ...(options || {}),
   });
@@ -21,9 +22,9 @@ export async function outLogin(options?: { [key: string]: any }) {
   });
 }
 
-/** 登录接口 POST /api/login/account */
+/** 登录接口 POST /sysUser/login */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+  return request<API.LoginResult>(`${SERVER_PATH}/${BIZLOG_CORE}/sysUser/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     data: body,

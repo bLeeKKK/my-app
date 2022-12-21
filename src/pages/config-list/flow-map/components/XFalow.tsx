@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState, useImperativeHandle } from 'react';
+import React, { forwardRef, useState, useImperativeHandle } from 'react';
 import type {
   IAppLoad,
   NsGraph,
@@ -33,7 +33,7 @@ import Relation from './react-edge/Relation';
 import './index.less';
 
 /** Mock所有与服务端交互的接口 */
-import { MockApi } from './service';
+// import { MockApi } from './service';
 
 interface IProps {
   id: string | undefined;
@@ -96,104 +96,17 @@ const Main: React.FC<IProps> = forwardRef((props: IProps, ref) => {
 
     /** 从服务端获取数据 */
     if (props.id) {
-      const graphData: { nodes: NsGraph.INodeConfig[]; edges: any[] } = {
-        nodes: [
-          {
-            id: '21',
-            x: 328.125,
-            y: -48.125,
-            width: 214,
-            height: 252,
-            renderKey: 'NODE1',
-            entityType: 'FACT',
-            busFlowCode: 'BFC20221209000002',
-            nodeCode: '21',
-            _nodeName: 'e12',
-            nodeRemark: 'wqe',
-            freeze: 0,
-            ifWarning: false,
-            childNodeList: [
-              { majorNodeCode: '21', smallNodeCode: 'e', smallNodeName: 'e', freeze: 0 },
-            ],
-
-            ports: {
-              groups: {
-                top: {
-                  position: 'top',
-                  attrs: portAttrs,
-                },
-                right: {
-                  position: 'right',
-                  attrs: portAttrs,
-                },
-                bottom: {
-                  position: 'bottom',
-                  attrs: portAttrs,
-                },
-                left: {
-                  position: 'left',
-                  attrs: portAttrs,
-                },
-              },
-              items: [
-                { id: 'top_port', group: 'top' },
-                { id: 'right_port', group: 'right' },
-                { id: 'bottom_port', group: 'bottom' },
-                { id: 'left_port', group: 'left' },
-              ],
-            },
-          },
-          {
-            id: '22',
-            x: 400,
-            y: 50,
-            width: 214,
-            height: 252,
-            renderKey: 'NODE1',
-            entityType: 'FACT',
-            busFlowCode: 'BFC20221209000002',
-            nodeCode: '22',
-            _nodeName: 'e12',
-            nodeRemark: 'wqe',
-            freeze: 0,
-            ifWarning: false,
-            childNodeList: [
-              { majorNodeCode: '22', smallNodeCode: 'e', smallNodeName: 'e', freeze: 0 },
-            ],
-
-            ports: {
-              groups: {
-                top: {
-                  position: 'top',
-                  attrs: portAttrs,
-                },
-                right: {
-                  position: 'right',
-                  attrs: portAttrs,
-                },
-                bottom: {
-                  position: 'bottom',
-                  attrs: portAttrs,
-                },
-                left: {
-                  position: 'left',
-                  attrs: portAttrs,
-                },
-              },
-              items: [
-                { id: 'top_port', group: 'top' },
-                { id: 'right_port', group: 'right' },
-                { id: 'bottom_port', group: 'bottom' },
-                { id: 'left_port', group: 'left' },
-              ],
-            },
-          },
-        ],
+      let graphData: { nodes: NsGraph.INodeConfig[]; edges: any[] } = {
+        nodes: [],
         edges: [],
       };
       const { success, data } = await findOne({ id: props.id });
       setFlowData(data);
-      // if (success) graphData = data;
+      try {
+        if (success && data.nodeJson) graphData = JSON.parse(data.nodeJson);
+      } catch (error) {
+        console.log(error);
+      }
 
       /** 渲染画布数据 */
       await app.executeCommand(XFlowGraphCommands.GRAPH_RENDER.id, {

@@ -30,7 +30,7 @@ export async function getInitialState(): Promise<{
     try {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('请先登录');
-      const msg = await queryCurrentUser({ params: { token } });
+      const msg = await queryCurrentUser();
       return msg.data;
     } catch (error) {
       history.push(loginPath);
@@ -61,7 +61,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     disableContentMargin: false,
     // 水印
     waterMarkProps: {
-      content: initialState?.currentUser?.name,
+      content: initialState?.currentUser?.userName,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
@@ -115,7 +115,20 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
 export const request: RequestConfig = {
   timeout: 10 * 1000, // 接口响应时间限制 10秒
   middlewares: [],
-  requestInterceptors: [],
+  requestInterceptors: [
+    (url, options) => {
+      const { noAuth = false, ...restConfig } = options;
+      if (noAuth) {
+        return restConfig;
+      }
+      const token = localStorage.getItem('token');
+      if (token && restConfig.headers) restConfig.headers.Authorization = token;
+      return {
+        url,
+        options,
+      };
+    },
+  ],
   responseInterceptors: [],
   errorConfig: {
     adaptor: (resData) => {

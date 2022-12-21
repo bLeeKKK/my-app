@@ -35,11 +35,6 @@
         name: 'interface-list',
         component: './config-list/interface-list',
       },
-      // {
-      //   path: '/config-list/procedure-list',
-      //   name: 'procedure-list',
-      //   component: './config-list/procedure-list',
-      // },
       {
         path: '/config-list/operation-flow',
         name: 'operation-flow',
@@ -86,15 +81,25 @@
     icon: 'crown',
     routes: [
       {
-        path: '/account/management-account',
-        name: 'management-account',
-        component: './account/management-account',
+        path: '/account/account-management',
+        name: 'account-management',
+        component: './account/account-management',
+      },
+      {
+        path: '/account/role-management',
+        name: 'role-management',
+        component: './account/role-management',
+      },
+      {
+        path: '/account/right-management',
+        name: 'right-management',
+        component: './account/right-management',
       },
     ],
   },
   {
     path: '/',
-    redirect: '/config-list/er-map',
+    redirect: '/base-config-list/dictionary-list',
   },
   {
     component: './404',

@@ -3,23 +3,23 @@ import { message, Popconfirm } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { businessFlowConfigDelete, findByPage } from './service';
+import { deleteById, findByPage } from './service';
 import type { TableListItem, TableListPagination } from './data';
-import Edit from './components/Edit';
-import { useDispatch, useSelector, useHistory } from 'umi';
-import { EditOutlined, DeleteOutlined, GroupOutlined } from '@ant-design/icons';
+import Edit, { STATUS_OPTIONS } from './components/Edit';
+import { useDispatch, useSelector, useRequest } from 'umi';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import IconBox from '@/components/IconBox';
 
 const handleDelete = async (id: string) => {
-  const { success, message: msg } = await businessFlowConfigDelete({ id });
+  const { success, message: msg } = await deleteById(id);
   if (success) message.success(msg);
   return success;
 };
 
-const TableList: React.FC = () => {
-  const { actionRef } = useSelector((state) => state.operationFlow);
+const RightManagement: React.FC = () => {
+  const { actionRef } = useSelector((state) => state.rightManagement);
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const { data, loading } = useRequest(() => treeselect());
 
   const columns: ProColumns<TableListItem>[] = [
     {
@@ -29,12 +29,11 @@ const TableList: React.FC = () => {
       fixed: true,
       width: 120,
       render: (_, record) => [
-        // <IconBox key="edit" icon={EditOutlined} text="编辑" />,
         <IconBox
           key="edit"
           onClick={() => {
             dispatch({
-              type: 'operationFlow/setEdit',
+              type: 'rightManagement/setEdit',
               payload: {
                 edit: record,
                 visible: true,
@@ -49,28 +48,26 @@ const TableList: React.FC = () => {
           key="delete"
           title="你确定删除？"
           onConfirm={async () => {
-            const flag = await handleDelete(record.id);
+            const flag = await handleDelete(record.menuId);
             if (flag && actionRef?.current) actionRef.current.reload();
           }}
           okText="确定"
           cancelText="取消"
         >
-          {/* <a href="#">删除</a> */}
           <IconBox icon={DeleteOutlined} text="删除" />
         </Popconfirm>,
-        <IconBox
-          onClick={() => {
-            history.push('/config-list/operation-flow/flow-map' + '?id=' + (record?.id || ''));
-          }}
-          icon={GroupOutlined}
-          text="配置流程"
-          key="falow"
-        />,
       ],
     },
-    { title: '流程编号', dataIndex: 'busFlowCode', width: 200 },
-    { title: '流程描述', dataIndex: 'busFlowName', width: 150 },
-    { title: '流程系统', dataIndex: 'sourceSys', search: false },
+    { title: '功能项', dataIndex: 'menuName', search: false, width: 140 },
+    { title: '权限标识', dataIndex: 'perms', search: false, width: 140 },
+    { title: '路径', dataIndex: 'path', search: false, width: 150 },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      valueType: 'select',
+      search: false,
+      fieldProps: { options: STATUS_OPTIONS },
+    },
   ];
 
   return (
@@ -78,25 +75,18 @@ const TableList: React.FC = () => {
       <ProTable<TableListItem, TableListPagination>
         headerTitle="查询表格"
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         search={{ labelWidth: 120 }}
         toolBarRender={() => [<Edit key="eidt" />]}
         sticky
-        scroll={{ x: 1500 }}
-        // pagination={{
-        //   pageSize: 30,
-        // }}
-        request={async (params) => {
-          const { current, pageSize, ...reset } = params;
-          const { success, data } = await findByPage({
-            current,
-            size: pageSize,
-            ...reset,
-          });
+        pagination={false}
+        // dataSource={data || []}
+        request={async () => {
+          const { success, data } = await findByPage();
+
           return {
-            success: success,
-            data: data.records,
-            total: data.total,
+            success,
+            data,
           };
         }}
         columns={columns}
@@ -105,4 +95,4 @@ const TableList: React.FC = () => {
   );
 };
 
-export default TableList;
+export default RightManagement;
