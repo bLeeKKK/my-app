@@ -5,7 +5,8 @@ import { useState } from 'react';
 import { Table, Card, Radio, DatePicker, Button, Modal, message } from 'antd';
 import { useRequest } from 'umi';
 import { getInterfaceDimensionData, exportInterfaceDimensionData } from '../service';
-import { download, ranges, getPeriod, useDatePick } from '../utils';
+import { ranges, getPeriod, useDatePick } from '../utils';
+import { download } from '@/utils';
 import { useUpdateEffect } from 'ahooks';
 import moment from 'moment';
 import styles from '../style.less';
@@ -15,6 +16,16 @@ const RadioGroup = Radio.Group;
 const { Column } = Table;
 const { RangePicker } = DatePicker;
 const defaultColumn = { width: 100 };
+const tabListNoTitle = [
+  {
+    key: 'line',
+    tab: '图表',
+  },
+  {
+    key: 'list',
+    tab: '基本列表',
+  },
+];
 
 const expandedRowRender = (item: TBasicList) => {
   const { statistic } = item;
@@ -132,6 +143,7 @@ const expandedRowRender = (item: TBasicList) => {
 const InterfaceIntegrate: FC = () => {
   // 搜索参数
   const [date, setDate, typeDate, setTypeDate, stDate, endDate] = useDatePick();
+  const [activeTabKey, setActiveTabKey] = useState('line');
   const [expandedRowKeys, setExpandedRowKeys] = useState<(string | number)[]>([]);
   const { data, loading } = useRequest(
     () => getInterfaceDimensionData({ periodType: typeDate, stDate, endDate }),
@@ -154,6 +166,7 @@ const InterfaceIntegrate: FC = () => {
   if (typeDate === 'W') picker = 'week';
   if (typeDate === 'M') picker = 'month';
 
+  // 功能按钮
   const extraContent = (
     <div className={styles['extra-content']}>
       <Button
@@ -191,15 +204,10 @@ const InterfaceIntegrate: FC = () => {
     </div>
   );
 
-  return (
-    <Card
-      className={styles['standard-list']}
-      bordered={false}
-      title="基本列表"
-      style={{ marginTop: 24 }}
-      bodyStyle={{ padding: '0 32px 40px 32px' }}
-      extra={extraContent}
-    >
+  // 展示数据
+  const contentListNoTitle = {
+    line: <>图表</>,
+    list: (
       <Table
         sticky
         style={{ marginTop: '16px' }}
@@ -220,6 +228,23 @@ const InterfaceIntegrate: FC = () => {
         dataSource={data?.records || []}
         bordered
       />
+    ),
+  };
+
+  return (
+    <Card
+      className={styles['standard-list']}
+      bordered={false}
+      style={{ marginTop: 24 }}
+      bodyStyle={{ padding: '0 32px 40px 32px' }}
+      tabList={tabListNoTitle}
+      activeTabKey={activeTabKey}
+      tabBarExtraContent={extraContent}
+      onTabChange={(key: string) => {
+        setActiveTabKey(key);
+      }}
+    >
+      {contentListNoTitle[activeTabKey]}
     </Card>
   );
 };

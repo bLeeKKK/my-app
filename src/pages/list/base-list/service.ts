@@ -15,8 +15,7 @@ type ParamsType = {
 
 export type { ParamsType };
 
-// 分页查询
-export async function findByPage(data, sort): Promise<TConfigTableData> {
+export const getSearchData = (data, sort) => {
   const asc = [];
   const desc = [];
   if (sort.eventStDatetime === 'descend') desc.push('event_st_datetime');
@@ -33,13 +32,31 @@ export async function findByPage(data, sort): Promise<TConfigTableData> {
   if (sort.eventFinishInterval === 'ascend') asc.push('event_finish_interval');
   if (sort.receiveDataInterval === 'ascend') asc.push('receive_data_interval');
 
-  return request(
-    `${SERVER_PATH}/${BIZLOG_CORE}/interfaceCallRecord/findByPage?size=${data.pageSize}&current=${
-      data.current
-    }&desc=${desc.join(',')}&asc=${asc.join(',')}`,
-    {
-      method: 'post',
-      data,
+  return {
+    data,
+    params: {
+      size: data.pageSize,
+      current: data.current,
+      desc: desc.join(','),
+      asc: asc.join(','),
     },
-  );
+  };
+};
+// 分页查询
+export async function findByPage(data, sort) {
+  const search = getSearchData(data, sort);
+
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/interfaceCallRecord/findByPage`, {
+    method: 'post',
+    ...search,
+  });
+}
+
+// 导出接口记录池数据
+export async function interfaceCallRecordExport(data: ParamsType): Promise<{ data: unknown[] }> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/interfaceCallRecord/export`, {
+    method: 'POST',
+    responseType: 'blob',
+    data,
+  });
 }

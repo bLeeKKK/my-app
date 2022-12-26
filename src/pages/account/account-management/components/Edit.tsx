@@ -1,10 +1,11 @@
 import { message, Form, Button } from 'antd';
-import { ModalForm, ProFormText, ProForm, ProFormRadio } from '@ant-design/pro-form';
-import { save, update } from '../service';
+import { ModalForm, ProFormText, ProForm, ProFormSelect, ProFormRadio } from '@ant-design/pro-form';
+import { save, systemUser } from '../service';
 import type { ParamsType } from '../service';
 import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
-import { useUpdateEffect } from 'ahooks';
+import { useAsyncEffect, useUpdateEffect } from 'ahooks';
+import { findByPage as findByPageRoles } from '../../role-management/service';
 import { getModel } from '@/utils';
 
 export const STATUS_OPTIONS = [
@@ -16,20 +17,6 @@ const handleAdd = async (data: ParamsType) => {
   const hide = message.loading('正在添加');
   try {
     await save(data);
-    hide();
-    message.success('添加成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.warn('添加失败请重试！');
-    return false;
-  }
-};
-
-const handleUpdate = async (data: ParamsType) => {
-  const hide = message.loading('正在添加');
-  try {
-    await update(data);
     hide();
     message.success('添加成功');
     return true;
@@ -55,9 +42,23 @@ export default function AddModalForm() {
     });
   };
 
-  useUpdateEffect(() => {
+  // useUpdateEffect(() => {
+  //   if (visible && editType === 2 && edit) {
+  //     form.setFieldsValue({ ...edit, roleIds: edit.roles.map((res) => res.roleId) });
+  //   } else {
+  //     form.resetFields();
+  //   }
+  // }, [visible, editType, edit]);
+
+  useAsyncEffect(async () => {
     if (visible && editType === 2 && edit) {
-      form.setFieldsValue(edit);
+      const { data } = await systemUser(edit.userId);
+      form.setFieldsValue({
+        ...edit,
+        roleIds: data.roles.map((res) => res.roleId),
+      });
+    } else {
+      form.resetFields();
     }
   }, [visible, editType, edit]);
 
@@ -92,7 +93,7 @@ export default function AddModalForm() {
         }}
         onFinish={async (value) => {
           let flag = false;
-          if (edit?.id) {
+          if (edit?.userId) {
             flag = await handleAdd({ ...edit, ...value });
           } else flag = await handleAdd(value as ParamsType);
           if (flag) {
@@ -103,6 +104,28 @@ export default function AddModalForm() {
           }
         }}
       >
+        <ProForm.Group>
+          <ProFormSelect
+            name="roleIds"
+            label="角色"
+            width="sm"
+            request={async () => {
+              const { data: { records = [] } = { records: [] } } = await findByPageRoles({
+                current: 1,
+                size: 10000,
+              });
+
+              return records;
+            }}
+            fieldProps={{
+              mode: 'multiple',
+              fieldNames: {
+                label: 'roleName',
+                value: 'roleId',
+              },
+            }}
+          />
+        </ProForm.Group>
         <ProForm.Group>
           <ProFormText
             name="nickName"

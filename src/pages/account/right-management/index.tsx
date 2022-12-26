@@ -3,10 +3,10 @@ import { message, Popconfirm } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { deleteById, findByPage } from './service';
+import { deleteById, findByPage, treeselect } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import Edit, { STATUS_OPTIONS } from './components/Edit';
-import { useDispatch, useSelector, useRequest } from 'umi';
+import { useDispatch, useSelector } from 'umi';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import IconBox from '@/components/IconBox';
 
@@ -75,13 +75,14 @@ const RightManagement: React.FC = () => {
       <ProTable<TableListItem, TableListPagination>
         headerTitle="查询表格"
         actionRef={actionRef}
-        rowKey="id"
+        rowKey="menuId"
         search={{ labelWidth: 120 }}
         toolBarRender={() => [<Edit key="eidt" />]}
         sticky
         pagination={false}
         // dataSource={data || []}
         request={async () => {
+          // const { success, data } = await treeselect();
           const { success, data } = await findByPage();
 
           return {

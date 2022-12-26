@@ -8,6 +8,7 @@ import type { TDate } from '../types.d';
 import styles from '../style.less';
 import moment from 'moment';
 import type { Moment } from 'moment';
+import { download } from '@/utils';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -99,22 +100,10 @@ const AverageStatistics: FC = () => {
             onOk: () => {
               exportOverallDataAverage({ periodType: typeDate, stDate, endDate })
                 .then((res) => {
+                  console.log(res);
                   const blob = new Blob([res], { type: 'application/vnd.ms-excel' });
                   const fileName = `接口维度数据${moment().format('YYYYMMDDHHmmss')}.xls`;
-                  if ('download' in document.createElement('a')) {
-                    // 非IE下载
-                    const elink = document.createElement('a');
-                    elink.download = fileName;
-                    elink.style.display = 'none';
-                    elink.href = URL.createObjectURL(blob);
-                    document.body.appendChild(elink);
-                    elink.click();
-                    URL.revokeObjectURL(elink.href); // 释放URL 对象
-                    document.body.removeChild(elink);
-                  } else {
-                    // IE10+下载
-                    navigator.msSaveBlob(blob, fileName);
-                  }
+                  download(blob, fileName);
                 })
                 .catch((err) => {
                   message.error(err.message);

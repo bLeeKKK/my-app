@@ -21,9 +21,15 @@ export async function update(data: ParamsType): Promise<{ data: unknown[] }> {
 
 // 流程配置-分页查询
 export async function findByPage(data: ParamsType): Promise<{ success: boolean; data: unknown }> {
+  const { current, pageSize, ...rest } = data;
+
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/businessFlowConfig/findByPage`, {
     method: 'POST',
-    data,
+    data: rest,
+    params: {
+      current,
+      size: pageSize,
+    },
   });
 }
 

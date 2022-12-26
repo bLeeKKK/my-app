@@ -87,12 +87,7 @@ const TableList: React.FC = () => {
         //   pageSize: 30,
         // }}
         request={async (params) => {
-          const { current, pageSize, ...reset } = params;
-          const { success, data } = await findByPage({
-            current,
-            size: pageSize,
-            ...reset,
-          });
+          const { success, data } = await findByPage(params);
           return {
             success: success,
             data: data.records,

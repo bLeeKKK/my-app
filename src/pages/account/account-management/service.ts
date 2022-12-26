@@ -1,23 +1,9 @@
 import { request } from 'umi';
 import { BIZLOG_CORE, SERVER_PATH, MOCKER_API } from '@/services/constants';
 
-type ParamsType = {
-  baseType: number; // 平均时效基数确认类型(自动基数:1,人工确认:0)
-  eventFinishAverageBaseValue: number; // 事件结束平均基数值(秒)
-  intfAgingAverageBaseValue: number; // 纯接口时效平均基数值(毫秒)
-  intfDescription: number; // 接口描述
-  intfTag: number; // 接口标识
-  overallSuccessAverageBaseValue: number; // 整体成功率平均基数值
-  lastMonthOverallSuccessAverageBaseValue: number; //上月整体成功率平均基数值
-  lastMonthIntfAgingAverageBaseValue: number; //上月纯接口时效平均基数值(毫秒)
-  lastMonthEventFinishAverageBaseValue: number; //上月事件结束平均基数值(秒)
-};
-
-export type { ParamsType };
-
-export async function save(data: ParamsType): Promise<{ data: unknown[] }> {
+export async function save(data) {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/sysUser`, {
-    method: data?.id ? 'PUT' : 'POST',
+    method: data?.userId ? 'PUT' : 'POST',
     data,
   });
 }
@@ -33,6 +19,13 @@ export async function findByPage(data) {
 // 删除
 export async function deleteUser(id): Promise<TConfigTableData> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/sysUser/${id}`, {
-    method: 'get',
+    method: 'delete',
+  });
+}
+
+// 获取用户角色
+export async function systemUser(id): Promise<TConfigTableData> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/sysUser/${id}`, {
+    method: 'GET',
   });
 }

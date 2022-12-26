@@ -2,10 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { findByPage } from './service';
+import { findByPage, interfaceCallRecordExport } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
 import moment from 'moment';
+import { Button, Modal, message } from 'antd';
+import { download } from '@/utils';
 
 function getHaveTDate(arr: any[]) {
   return [
@@ -142,6 +144,8 @@ const columns: ProColumns<TableListItem>[] = [
   },
 ];
 
+let searchData = {};
+
 const TableList: React.FC = () => {
   const { actionRef } = useSelector((state) => state.configList);
   const ref = useRef();
@@ -155,6 +159,7 @@ const TableList: React.FC = () => {
     }
   }, [ref]);
 
+  console.log(actionRef, ref);
   return (
     <PageContainer>
       <ProTable<TableListItem, TableListPagination>
@@ -167,13 +172,38 @@ const TableList: React.FC = () => {
         }}
         rowKey="key"
         search={{ labelWidth: 120 }}
-        // toolBarRender={() => [<Edit key="eidt" />]}
+        toolBarRender={() => [
+          <Button
+            key="export"
+            onClick={() => {
+              Modal.confirm({
+                title: '提示',
+                content: '确定要导出数据吗？',
+                onOk: () => {
+                  // const data = ref.current?.getFieldsValue();
+                  interfaceCallRecordExport(searchData)
+                    .then((res) => {
+                      const blob = new Blob([res], {
+                        type: 'application/vnd.ms-excel,charset=utf-8',
+                      });
+                      const fileName = `记录池数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                      download(blob, fileName);
+                    })
+                    .catch((err) => {
+                      message.error(err.message);
+                    });
+                },
+              });
+            }}
+          >
+            导出报表
+          </Button>,
+        ]}
         sticky
         scroll={{ x: 2000 }}
         formRef={ref}
         request={async (params, sort) => {
-          console.log(sort);
-          // const { current, pageSize, ...rest } = params;
+          searchData = params;
           const { success, data } = await findByPage(params, sort);
           return {
             success: success,

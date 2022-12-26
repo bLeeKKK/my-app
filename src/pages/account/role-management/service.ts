@@ -40,6 +40,6 @@ export async function findByPage(data): Promise<TConfigTableData> {
 // 删除
 export async function deleteRole(roleId): Promise<TConfigTableData> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/sysRole/${roleId}`, {
-    method: 'get',
+    method: 'delete',
   });
 }

@@ -1,6 +1,6 @@
 import { message, Form, Button } from 'antd';
 import { ModalForm, ProFormText, ProForm, ProFormTreeSelect } from '@ant-design/pro-form';
-import { save, update, treeselect } from '../service';
+import { save, treeselect } from '../service';
 import type { ParamsType } from '../service';
 import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
@@ -26,19 +26,19 @@ const handleAdd = async (data: ParamsType) => {
   }
 };
 
-const handleUpdate = async (data: ParamsType) => {
-  const hide = message.loading('正在添加');
-  try {
-    await update(data);
-    hide();
-    message.success('添加成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.warn('添加失败请重试！');
-    return false;
-  }
-};
+// const handleUpdate = async (data: ParamsType) => {
+//   const hide = message.loading('正在添加');
+//   try {
+//     await update(data);
+//     hide();
+//     message.success('添加成功');
+//     return true;
+//   } catch (error) {
+//     hide();
+//     message.warn('添加失败请重试！');
+//     return false;
+//   }
+// };
 
 export default function AddModalForm() {
   const { actionRef, visible, editType, edit } = useSelector((state) => state.rightManagement);
@@ -95,7 +95,7 @@ export default function AddModalForm() {
         onFinish={async (value) => {
           let flag = false;
           if (edit?.id) {
-            flag = await handleUpdate({ ...edit, ...value });
+            flag = await handleAdd({ ...edit, ...value });
           } else flag = await handleAdd(value as ParamsType);
           if (flag) {
             closeModal();
