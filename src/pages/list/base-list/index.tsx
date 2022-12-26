@@ -147,7 +147,7 @@ const columns: ProColumns<TableListItem>[] = [
 let searchData = {};
 
 const TableList: React.FC = () => {
-  const { actionRef } = useSelector((state) => state.configList);
+  const { actionRef } = useSelector((state) => state.baseList);
   const ref = useRef();
 
   useEffect(() => {
