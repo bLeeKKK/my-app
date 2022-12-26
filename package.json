@@ -48,6 +48,7 @@
   ],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@ant-design/plots": "^1.2.2",
     "@ant-design/pro-components": "^1.1.25",
     "@antv/xflow": "^1.0.52",
     "@umijs/route-utils": "^2.0.0",

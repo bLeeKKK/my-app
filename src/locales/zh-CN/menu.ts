@@ -19,7 +19,8 @@ export default {
 
   'menu.list': '数据管理',
   'menu.list.table-list': '数据列表',
-  'menu.list.base-list': '基础列表',
+  'menu.list.base-list': '记录池数据',
+  'menu.list.base-time-list': '全链路时效数据池',
 
   'menu.account': '用户权限管理',
   'menu.account.account-management': '用户管理',

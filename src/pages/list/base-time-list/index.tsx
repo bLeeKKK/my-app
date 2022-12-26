@@ -28,126 +28,91 @@ const columnsEnum = {
 };
 
 const columns: ProColumns<TableListItem>[] = [
-  { title: '是否成功', dataIndex: 'status', valueEnum: columnsEnum, fixed: true, width: 100 },
-  { title: '备注', dataIndex: 'remark', fixed: true, width: 100 },
-  { title: '接口标识', dataIndex: 'intfTag', ellipsis: true, width: 200 },
-  { title: '接口描述', dataIndex: 'intfDescription', ellipsis: true, width: 200 },
-
   {
-    title: '事件开始时间',
-    dataIndex: 'eventStDatetime',
+    title: '开始处理时间',
+    dataIndex: 'startDate',
     width: 200,
     search: false,
-    sorter: true,
-    // valueType: 'dateTime',
+    fixed: true,
     tip: `默认搜索使用：${startMonth} 到 ${endMonth}`,
     render: (t) => moment(t as string).format('YYYY-MM-DD HH:mm:ss.SSS'),
   },
   {
-    title: '事件开始时间',
-    key: 'eventStDatetimes',
-    dataIndex: 'eventStDatetimes',
+    title: '开始处理时间',
+    key: 'startDates',
+    dataIndex: 'startDates',
     valueType: 'dateTimeRange',
     hideInTable: true,
     tip: `默认搜索使用：${startMonth} 到 ${endMonth}`,
     search: {
       transform: (value: any) => ({
-        eventStDatetimes: getHaveTDate(value),
+        startDates: getHaveTDate(value),
       }),
     },
   },
   {
-    title: '事件结束时间',
-    dataIndex: 'eventEndDatetime',
+    title: '结束处理时间',
+    dataIndex: 'endDate',
     width: 200,
     search: false,
-    sorter: true,
-    // valueType: 'dateTime',
+    fixed: true,
     render: (t) => moment(t as string).format('YYYY-MM-DD HH:mm:ss.SSS'),
   },
   {
-    title: '事件结束时间',
-    key: 'eventEndDatetimes',
-    dataIndex: 'eventEndDatetimes',
+    title: '结束处理时间',
+    key: 'endDates',
+    dataIndex: 'endDates',
     valueType: 'dateTimeRange',
     hideInTable: true,
     search: {
       transform: (value: any) => ({
-        eventEndDatetimes: getHaveTDate(value),
+        endDates: getHaveTDate(value),
       }),
     },
   },
+  { title: '当前系统', dataIndex: 'sourceSys', width: 120 },
+  { title: '节点代码', dataIndex: 'nodeCode', width: 200 },
+  { title: '小节点代码', dataIndex: 'smallNodeCode', width: 200 },
   {
-    title: '事件时间间隔(ms)',
-    dataIndex: 'eventFinishInterval',
+    title: '预计发货',
+    dataIndex: 'expectShipTime',
+    width: 200,
     search: false,
-    valueType: 'digit',
-    width: 160,
-    sorter: true,
+    render: (t) => moment(t as string).format('YYYY-MM-DD HH:mm:ss.SSS'),
+  },
+  {
+    title: '预计发货',
+    key: 'expectShipTimes',
+    dataIndex: 'expectShipTimes',
+    valueType: 'dateTimeRange',
+    hideInTable: true,
+    search: {
+      transform: (value: any) => ({
+        expectShipTimes: getHaveTDate(value),
+      }),
+    },
   },
 
-  {
-    title: '接口开始时间',
-    dataIndex: 'intfStDatetime',
-    width: 200,
-    search: false,
-    sorter: true,
-    valueType: 'dateTime',
-  },
-  {
-    title: '接口开始时间',
-    key: 'intfStDatetimes',
-    dataIndex: 'intfStDatetimes',
-    valueType: 'dateTimeRange',
-    hideInTable: true,
-    search: {
-      transform: (value: any) => ({
-        intfStDatetimes: getHaveTDate(value),
-      }),
-    },
-  },
-  {
-    title: '接口结束时间',
-    dataIndex: 'intfEndDatetime',
-    width: 200,
-    search: false,
-    sorter: true,
-    valueType: 'dateTime',
-  },
-  {
-    title: '接口结束时间',
-    key: 'intfEndDatetimes',
-    dataIndex: 'intfEndDatetimes',
-    valueType: 'dateTimeRange',
-    hideInTable: true,
-    search: {
-      transform: (value: any) => ({
-        intfEndDatetimes: getHaveTDate(value),
-      }),
-    },
-  },
-  {
-    title: '接口时间间隔(ms)',
-    dataIndex: 'receiveDataInterval',
-    search: false,
-    valueType: 'digit',
-    sorter: true,
-  },
-  {
-    title: '错误描述',
-    dataIndex: 'errorRemark',
-    search: false,
-    width: 200,
-    ellipsis: {
-      showTitle: true,
-    },
-  },
+  { title: '待办处理原因', dataIndex: 'agendaCause', width: 140 },
+  { title: '处理用户', dataIndex: 'consumer', width: 100 },
+  { title: '经营部id', dataIndex: 'businessDept' },
+  { title: '当前系统单号', dataIndex: 'currentCode', width: 140 },
+
+  { title: '分公司', dataIndex: 'filiale' },
+  { title: '总公司id', dataIndex: 'headOffice' },
+  { title: '超时等级', dataIndex: 'overTimeClassId' },
+  { title: '产品线', dataIndex: 'productLine' },
+  { title: '特约备注', dataIndex: 'remark' },
+  { title: '备注1', dataIndex: 'remark1' },
+  { title: '备注2', dataIndex: 'remark2' },
+  { title: '上游单据号', dataIndex: 'sourceCode' },
+  { title: '货源类型', dataIndex: 'sourceType' },
 ];
 
 let searchData = {};
 
 const TableList: React.FC = () => {
-  const { actionRef } = useSelector((state) => state.baseList);
+  const { actionRef } = useSelector((state) => state.baseTimeList);
   const ref = useRef();
 
   useEffect(() => {
@@ -166,7 +131,7 @@ const TableList: React.FC = () => {
         actionRef={actionRef}
         form={{
           initialValues: {
-            eventStDatetimes: [startMonth, endMonth],
+            startDates: [startMonth, endMonth],
           },
         }}
         rowKey="key"
@@ -199,7 +164,7 @@ const TableList: React.FC = () => {
           </Button>,
         ]}
         sticky
-        scroll={{ x: 2000 }}
+        scroll={{ x: 3000 }}
         formRef={ref}
         request={async (params, sort) => {
           searchData = params;

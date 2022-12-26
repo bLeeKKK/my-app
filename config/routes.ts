@@ -71,6 +71,11 @@
         component: './list/base-list',
       },
       {
+        path: '/list/base-time-list',
+        name: 'base-time-list',
+        component: './list/base-time-list',
+      },
+      {
         component: './404',
       },
     ],

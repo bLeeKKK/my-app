@@ -1,7 +1,7 @@
+import React from 'react';
 import type { EventValue } from 'rc-picker/lib/interface';
 import type { Moment } from 'moment';
 import { useState } from 'react';
-import { message } from 'antd';
 import moment from 'moment';
 import type { TDate, TMoment } from '../types.d';
 
