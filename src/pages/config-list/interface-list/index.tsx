@@ -17,7 +17,7 @@ const handleDelete = async (id: string) => {
 };
 
 const TableList: React.FC = () => {
-  const { actionRef } = useSelector((state) => state.configList);
+  const { actionRef } = useSelector((state) => state.interfaceList);
   const dispatch = useDispatch();
 
   const columns: ProColumns<TableListItem>[] = [
@@ -33,7 +33,7 @@ const TableList: React.FC = () => {
         //   href="#"
         //   onClick={() => {
         //     dispatch({
-        //       type: 'configList/setEdit',
+        //       type: 'interfaceList/setEdit',
         //       payload: {
         //         edit: record,
         //         visible: true,
@@ -48,7 +48,7 @@ const TableList: React.FC = () => {
           key="edit"
           onClick={() => {
             dispatch({
-              type: 'configList/setEdit',
+              type: 'interfaceList/setEdit',
               payload: {
                 edit: record,
                 visible: true,

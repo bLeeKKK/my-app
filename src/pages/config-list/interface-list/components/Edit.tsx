@@ -49,14 +49,14 @@ const handleUpdate = async (data: ParamsType) => {
 };
 
 export default function AddModalForm() {
-  const { actionRef, visible, editType, edit } = useSelector((state) => state.configList);
+  const { actionRef, visible, editType, edit } = useSelector((state) => state.interfaceList);
   const [form] = Form.useForm();
   const baseType = useWatch('baseType', form);
   const eidtFlag = editType === 2 && edit;
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch({
-      type: 'configList/setEdit',
+      type: 'interfaceList/setEdit',
       payload: {
         edit: undefined,
         editType: undefined,
@@ -78,7 +78,7 @@ export default function AddModalForm() {
         key="primary"
         onClick={() => {
           dispatch({
-            type: 'configList/setEdit',
+            type: 'interfaceList/setEdit',
             payload: {
               edit: undefined,
               visible: true,
