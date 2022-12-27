@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import XFalow from './components/XFalow';
 import { ProCard } from '@ant-design/pro-components';
 // import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Row, Col, Button } from 'antd';
+import { Button } from 'antd';
 import { useLocation, useHistory } from 'umi';
 import { update } from './sercice';
 import { message } from 'antd';
@@ -17,16 +17,19 @@ const handleUpdate = async (data) => {
   const newData = { ...flowData };
   const hide = message.loading('正在修改');
   try {
-    const obj = {};
+    const objNext = {};
+    const objUp = {};
     edges.forEach((res) => {
       const [id, target] = res.id.split('-');
-      obj[id] = target;
+      objNext[id] = target;
+      objUp[target] = id;
     });
 
     const newNodes = nodes.map((res) => {
       const node = res.data;
       node.nodeName = node._nodeName;
-      node.nextNodeId = obj[node.id];
+      node.nextNodeId = objNext[node.id];
+      node.upNodeId = objUp[node.id];
       return node;
     });
     const newEdges = edges.map((res) => {
