@@ -16,8 +16,9 @@ type ParamsType = {
 export type { ParamsType };
 
 export async function save(data: ParamsType): Promise<{ data: unknown[] }> {
+  console.log('save data', data);
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/sysMenu`, {
-    method: 'POST',
+    method: data?.menuId ? 'PUT' : 'POST',
     data,
   });
 }

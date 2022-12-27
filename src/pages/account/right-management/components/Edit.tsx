@@ -94,7 +94,7 @@ export default function AddModalForm() {
         }}
         onFinish={async (value) => {
           let flag = false;
-          if (edit?.id) {
+          if (edit?.menuId) {
             flag = await handleAdd({ ...edit, ...value });
           } else flag = await handleAdd(value as ParamsType);
           if (flag) {
@@ -109,7 +109,7 @@ export default function AddModalForm() {
           {/* 上级菜单 */}
           <ProFormTreeSelect
             name="parentId"
-            label="上级菜单"
+            label="上级权限"
             width="sm"
             fieldProps={{
               fieldNames: {

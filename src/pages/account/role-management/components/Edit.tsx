@@ -13,12 +13,12 @@ import { treeselect, roleMenuTreeselect } from '../../right-management/service';
 import type { ParamsType } from '../service';
 import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
-import { useUpdateEffect, useAsyncEffect } from 'ahooks';
+import { useAsyncEffect } from 'ahooks';
 import { getModel } from '@/utils';
 
 export const STATUS_OPTIONS = [
-  { value: 0, label: '正常' },
-  { value: 1, label: '停用' },
+  { value: false, label: '正常' },
+  { value: true, label: '停用' },
 ];
 
 const handleAdd = async (data: ParamsType) => {
