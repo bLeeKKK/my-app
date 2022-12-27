@@ -29,6 +29,7 @@ export async function findByPage(data: ParamsType): Promise<{ success: boolean; 
     params: {
       current,
       size: pageSize,
+      delFlag: 0,
     },
   });
 }
