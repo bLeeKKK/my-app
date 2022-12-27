@@ -8,11 +8,9 @@ import { useUpdateEffect } from 'ahooks';
 import { getModel } from '@/utils';
 import { findAllByDictCode } from '@/services/dictionary';
 
-const { useWatch } = Form;
-
 export const FREEZE_OPTIONS = [
-  { value: 0, label: '正常' },
-  { value: 1, label: '冻结' },
+  { value: false, label: '正常' },
+  { value: true, label: '冻结' },
 ];
 
 const handleAdd = async (data: ParamsType) => {
@@ -46,8 +44,6 @@ const handleUpdate = async (data: ParamsType) => {
 export default function AddModalForm() {
   const { actionRef, visible, editType, edit } = useSelector((state) => state.operationFlow);
   const [form] = Form.useForm();
-  const baseType = useWatch('baseType', form);
-  const eidtFlag = editType === 2 && edit;
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch({
@@ -63,6 +59,8 @@ export default function AddModalForm() {
   useUpdateEffect(() => {
     if (visible && editType === 2 && edit) {
       form.setFieldsValue(edit);
+    } else {
+      form.resetFields();
     }
   }, [visible, editType, edit]);
 
@@ -108,7 +106,8 @@ export default function AddModalForm() {
         <ProFormText
           label="流程编号"
           width="md"
-          rules={[{ required: true, message: '请输入流程编号' }]}
+          disabled={edit}
+          // rules={[{ required: true, message: '请输入流程编号' }]}
           name="busFlowCode"
         />
         <ProFormText

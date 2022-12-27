@@ -5,7 +5,7 @@ import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { businessFlowConfigDelete, findByPage } from './service';
 import type { TableListItem, TableListPagination } from './data';
-import Edit from './components/Edit';
+import Edit, { FREEZE_OPTIONS } from './components/Edit';
 import { useDispatch, useSelector, useHistory } from 'umi';
 import { EditOutlined, DeleteOutlined, GroupOutlined } from '@ant-design/icons';
 import IconBox from '@/components/IconBox';
@@ -67,6 +67,13 @@ const TableList: React.FC = () => {
           key="falow"
         />,
       ],
+    },
+    {
+      title: '状态',
+      dataIndex: 'freeze',
+      valueType: 'select',
+      fieldProps: { options: FREEZE_OPTIONS },
+      width: 100,
     },
     { title: '流程编号', dataIndex: 'busFlowCode', width: 200 },
     { title: '流程描述', dataIndex: 'busFlowName', width: 150 },

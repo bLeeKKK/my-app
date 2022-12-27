@@ -21,12 +21,6 @@ const startMonth = moment().startOf('month').format('YYYY-MM-DD HH:mm:ss');
 // 当月结束日期时间
 const endMonth = moment().endOf('month').format('YYYY-MM-DD HH:mm:ss');
 
-const columnsEnum = {
-  0: { text: '是', status: 'success' },
-  1: { text: '否', status: 'warning' },
-  2: { text: '报错', status: 'error' },
-};
-
 const columns: ProColumns<TableListItem>[] = [
   {
     title: '开始处理时间',

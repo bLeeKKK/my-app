@@ -473,22 +473,22 @@ const InterfaceIntegrate: FC = () => {
     line: (
       <>
         <Row gutter={[8, 8]} style={{ marginTop: '8px' }}>
-          <Col span={12}>
+          <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
             <Card title="Card title">
               <ShowLine />
             </Card>
           </Col>
-          <Col span={12}>
+          <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
             <Card title="Card title">
               <ShowLine />
             </Card>
           </Col>
-          <Col span={12}>
+          <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
             <Card title="Card title">
               <ShowLine />
             </Card>
           </Col>
-          <Col span={12}>
+          <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
             <Card title="Card title">
               <ShowLine />
             </Card>
