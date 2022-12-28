@@ -10,18 +10,6 @@ import { Button, Modal, message } from 'antd';
 import { download } from '@/utils';
 import ShowBox from './components/ShowBox';
 
-function getHaveTDate(arr: any[]) {
-  return [
-    moment(arr[0]).format('YYYY-MM-DDTHH:mm:ss'),
-    moment(arr[1]).format('YYYY-MM-DDTHH:mm:ss'),
-  ];
-}
-
-// 当月开始日期时间
-const startMonth = moment().startOf('month').format('YYYY-MM-DD HH:mm:ss');
-// 当月结束日期时间
-const endMonth = moment().endOf('month').format('YYYY-MM-DD HH:mm:ss');
-
 const columns: ProColumns<TableListItem>[] = [{ title: '数据源代码', dataIndex: 'sourceCode' }];
 
 let searchData = {};
@@ -46,11 +34,6 @@ const TableList: React.FC = () => {
       <ProTable<TableListItem, TableListPagination>
         headerTitle="查询表格"
         actionRef={actionRef}
-        form={{
-          initialValues: {
-            startDates: [startMonth, endMonth],
-          },
-        }}
         rowKey="sourceCode"
         search={{ labelWidth: 120 }}
         expandable={{
