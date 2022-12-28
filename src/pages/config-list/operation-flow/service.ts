@@ -30,13 +30,14 @@ export async function findByPage(data: ParamsType): Promise<{ success: boolean; 
       current,
       size: pageSize,
       delFlag: 0,
+      free: 0,
     },
   });
 }
 
 // 流程配置-删除
 export async function businessFlowConfigDelete(data: ParamsType): Promise<{ data: unknown[] }> {
-  return request(`${SERVER_PATH}/${BIZLOG_CORE}/businessFlowConfig/delete`, {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/businessFlowConfig/freeze`, {
     method: 'GET',
     params: data,
   });
