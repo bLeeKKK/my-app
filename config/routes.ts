@@ -81,6 +81,13 @@
         component: './list/base-show-list',
       },
       {
+        layout: false,
+        hideInMenu: true,
+        path: '/list/base-show',
+        name: 'base-show',
+        component: './list/base-show',
+      },
+      {
         component: './404',
       },
     ],

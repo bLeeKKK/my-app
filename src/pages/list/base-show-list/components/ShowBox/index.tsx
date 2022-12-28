@@ -15,7 +15,7 @@ export const timeDiff = (startTime, endTime) => {
 };
 
 export default function ShowBox({ data }) {
-  const { sourceSysList } = data;
+  const sourceSysList = data?.sourceSysList;
   return (
     <div className={styles.warper}>
       <ul className={styles['ul-box']}>
