@@ -30,11 +30,11 @@
     name: 'config-list',
     icon: 'form',
     routes: [
-      {
-        path: '/config-list/interface-list',
-        name: 'interface-list',
-        component: './config-list/interface-list',
-      },
+      // {
+      //   path: '/config-list/interface-list',
+      //   name: 'interface-list',
+      //   component: './config-list/interface-list',
+      // },
       {
         path: '/config-list/operation-flow',
         name: 'operation-flow',
@@ -60,20 +60,25 @@
     name: 'list',
     icon: 'table',
     routes: [
-      {
-        path: '/list/table-list',
-        name: 'table-list',
-        component: './list/table-list',
-      },
-      {
-        path: '/list/base-list',
-        name: 'base-list',
-        component: './list/base-list',
-      },
+      // {
+      //   path: '/list/table-list',
+      //   name: 'table-list',
+      //   component: './list/table-list',
+      // },
+      // {
+      //   path: '/list/base-list',
+      //   name: 'base-list',
+      //   component: './list/base-list',
+      // },
       {
         path: '/list/base-time-list',
         name: 'base-time-list',
         component: './list/base-time-list',
+      },
+      {
+        path: '/list/base-show-list',
+        name: 'base-show-list',
+        component: './list/base-show-list',
       },
       {
         component: './404',
@@ -99,6 +104,28 @@
         path: '/account/right-management',
         name: 'right-management',
         component: './account/right-management',
+      },
+    ],
+  },
+  {
+    path: '/monitor',
+    name: 'monitor',
+    icon: 'appstore',
+    routes: [
+      {
+        path: '/monitor/interface-list',
+        name: 'interface-list',
+        component: './monitor/interface-list',
+      },
+      {
+        path: '/monitor/base-list',
+        name: 'base-list',
+        component: './monitor/base-list',
+      },
+      {
+        path: '/monitor/table-list',
+        name: 'table-list',
+        component: './monitor/table-list',
       },
     ],
   },
