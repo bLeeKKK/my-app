@@ -69,3 +69,13 @@ export async function exportOverallDataAverage(data: ParamsType): Promise<{ data
     data,
   });
 }
+
+// 按接口维度整合-时分秒
+export async function statisticLastPeriodOverallData(periodType) {
+  return request(
+    `${SERVER_PATH}/${BIZLOG_CORE}/statisticInterfaceDimensionData/statisticLastPeriodOverallData/${periodType}`,
+    {
+      method: 'GET',
+    },
+  );
+}

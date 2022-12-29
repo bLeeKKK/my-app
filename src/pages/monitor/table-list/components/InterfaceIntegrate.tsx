@@ -1,10 +1,15 @@
 import type { FC } from 'react';
+import { Fragment } from 'react';
 import type { ColumnsType } from 'antd/es/table';
 import type { TMoment, TBasicList, TBasicListItemDataType } from '../types.d';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Table, Card, Radio, DatePicker, Button, Modal, message, Row, Col } from 'antd';
 import { useRequest } from 'umi';
-import { getInterfaceDimensionData, exportInterfaceDimensionData } from '../service';
+import {
+  getInterfaceDimensionData,
+  exportInterfaceDimensionData,
+  statisticLastPeriodOverallData,
+} from '../service';
 import { ranges, getPeriod, useDatePick } from '../utils';
 import { download } from '@/utils';
 import { useUpdateEffect } from 'ahooks';
@@ -27,6 +32,18 @@ const tabListNoTitle = [
     tab: '基本列表',
   },
 ];
+const changeToStr = (type) => {
+  switch (type) {
+    case 'avg':
+      return '平均';
+    case 'min':
+      return '最小';
+    case 'max':
+      return '最大';
+    default:
+      return type;
+  }
+};
 
 const expandedRowRender = (item: TBasicList) => {
   const { statistic } = item;
@@ -140,239 +157,7 @@ const expandedRowRender = (item: TBasicList) => {
   );
 };
 
-const ShowLine = () => {
-  const [data, setData] = useState<any[]>([]);
-
-  useEffect(() => {
-    setData([
-      {
-        date: '2018/8/1',
-        type: 'download',
-        value: 4623,
-      },
-      {
-        date: '2018/8/1',
-        type: 'register',
-        value: 2208,
-      },
-      {
-        date: '2018/8/1',
-        type: 'bill',
-        value: 182,
-      },
-      {
-        date: '2018/8/2',
-        type: 'download',
-        value: 6145,
-      },
-      {
-        date: '2018/8/2',
-        type: 'register',
-        value: 2016,
-      },
-      {
-        date: '2018/8/2',
-        type: 'bill',
-        value: 257,
-      },
-      {
-        date: '2018/8/3',
-        type: 'download',
-        value: 508,
-      },
-      {
-        date: '2018/8/3',
-        type: 'register',
-        value: 2916,
-      },
-      {
-        date: '2018/8/3',
-        type: 'bill',
-        value: 289,
-      },
-      {
-        date: '2018/8/4',
-        type: 'download',
-        value: 6268,
-      },
-      {
-        date: '2018/8/4',
-        type: 'register',
-        value: 4512,
-      },
-      {
-        date: '2018/8/4',
-        type: 'bill',
-        value: 428,
-      },
-      {
-        date: '2018/8/5',
-        type: 'download',
-        value: 6411,
-      },
-      {
-        date: '2018/8/5',
-        type: 'register',
-        value: 8281,
-      },
-      {
-        date: '2018/8/5',
-        type: 'bill',
-        value: 619,
-      },
-      {
-        date: '2018/8/6',
-        type: 'download',
-        value: 1890,
-      },
-      {
-        date: '2018/8/6',
-        type: 'register',
-        value: 2008,
-      },
-      {
-        date: '2018/8/6',
-        type: 'bill',
-        value: 87,
-      },
-      {
-        date: '2018/8/7',
-        type: 'download',
-        value: 4251,
-      },
-      {
-        date: '2018/8/7',
-        type: 'register',
-        value: 1963,
-      },
-      {
-        date: '2018/8/7',
-        type: 'bill',
-        value: 706,
-      },
-      {
-        date: '2018/8/8',
-        type: 'download',
-        value: 2978,
-      },
-      {
-        date: '2018/8/8',
-        type: 'register',
-        value: 2367,
-      },
-      {
-        date: '2018/8/8',
-        type: 'bill',
-        value: 387,
-      },
-      {
-        date: '2018/8/9',
-        type: 'download',
-        value: 3880,
-      },
-      {
-        date: '2018/8/9',
-        type: 'register',
-        value: 2956,
-      },
-      {
-        date: '2018/8/9',
-        type: 'bill',
-        value: 488,
-      },
-      {
-        date: '2018/8/10',
-        type: 'download',
-        value: 3606,
-      },
-      {
-        date: '2018/8/10',
-        type: 'register',
-        value: 678,
-      },
-      {
-        date: '2018/8/10',
-        type: 'bill',
-        value: 507,
-      },
-      {
-        date: '2018/8/11',
-        type: 'download',
-        value: 4311,
-      },
-      {
-        date: '2018/8/11',
-        type: 'register',
-        value: 3188,
-      },
-      {
-        date: '2018/8/11',
-        type: 'bill',
-        value: 548,
-      },
-      {
-        date: '2018/8/12',
-        type: 'download',
-        value: 4116,
-      },
-      {
-        date: '2018/8/12',
-        type: 'register',
-        value: 3491,
-      },
-      {
-        date: '2018/8/12',
-        type: 'bill',
-        value: 456,
-      },
-      {
-        date: '2018/8/13',
-        type: 'download',
-        value: 6419,
-      },
-      {
-        date: '2018/8/13',
-        type: 'register',
-        value: 2852,
-      },
-      {
-        date: '2018/8/13',
-        type: 'bill',
-        value: 689,
-      },
-      {
-        date: '2018/8/14',
-        type: 'download',
-        value: 1643,
-      },
-      {
-        date: '2018/8/14',
-        type: 'register',
-        value: 4788,
-      },
-      {
-        date: '2018/8/14',
-        type: 'bill',
-        value: 280,
-      },
-      {
-        date: '2018/8/15',
-        type: 'download',
-        value: 445,
-      },
-      {
-        date: '2018/8/15',
-        type: 'register',
-        value: 4319,
-      },
-      {
-        date: '2018/8/15',
-        type: 'bill',
-        value: 176,
-      },
-    ]);
-  }, []);
-
+const ShowLine = ({ data = [] }) => {
   const config = {
     data,
     xField: 'date',
@@ -385,19 +170,17 @@ const ShowLine = () => {
     },
     seriesField: 'type',
     color: ({ type }) => {
-      return type === 'register' ? '#F4664A' : type === 'download' ? '#30BF78' : '#FAAD14';
+      return type === '平均' ? '#F4664A' : type === '最大' ? '#30BF78' : '#FAAD14';
     },
     lineStyle: ({ type }) => {
-      if (type === 'register') {
+      if (type === '平均') {
         return {
           lineDash: [4, 4],
           opacity: 1,
         };
       }
 
-      return {
-        opacity: 0.5,
-      };
+      return { opacity: 0.5 };
     },
   };
   return <Line {...config} />;
@@ -407,6 +190,7 @@ const ShowLine = () => {
 const InterfaceIntegrate: FC = () => {
   // 搜索参数
   const [date, setDate, typeDate, setTypeDate, stDate, endDate] = useDatePick();
+  const [radioValue, setRadioValue] = useState('D');
   const [activeTabKey, setActiveTabKey] = useState('line');
   const [expandedRowKeys, setExpandedRowKeys] = useState<(string | number)[]>([]);
   const { data, loading } = useRequest(
@@ -420,6 +204,11 @@ const InterfaceIntegrate: FC = () => {
       render: (text) => getPeriod(text, typeDate),
     },
   ];
+
+  // 图表数据
+  const { data: dataMap } = useRequest(() => statisticLastPeriodOverallData(radioValue), {
+    refreshDeps: [radioValue],
+  });
 
   useUpdateEffect(() => {
     const first = data?.records?.[0];
@@ -472,28 +261,40 @@ const InterfaceIntegrate: FC = () => {
   const contentListNoTitle = {
     line: (
       <>
-        <Row gutter={[8, 8]} style={{ marginTop: '8px' }}>
-          <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
-            <Card title="Card title">
-              <ShowLine />
-            </Card>
-          </Col>
-          <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
-            <Card title="Card title">
-              <ShowLine />
-            </Card>
-          </Col>
-          <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
-            <Card title="Card title">
-              <ShowLine />
-            </Card>
-          </Col>
-          <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
-            <Card title="Card title">
-              <ShowLine />
-            </Card>
-          </Col>
-        </Row>
+        {dataMap?.map((res) => (
+          <Fragment key={res.intfTag}>
+            <Row gutter={[8, 8]} style={{ marginTop: '16px' }}>
+              <Col span={24}>
+                <Card title={res.intfTag}>
+                  <Row gutter={[16, 8]}>
+                    <Col span={12}>
+                      <h3>事件时效</h3>
+                      <ShowLine
+                        data={res.eventAgingList?.map((res) => {
+                          return {
+                            ...res,
+                            type: changeToStr(res.type),
+                          };
+                        })}
+                      />
+                    </Col>
+                    <Col span={12}>
+                      <h3>接口时效</h3>
+                      <ShowLine
+                        data={res.intfAgingList?.map((res) => {
+                          return {
+                            ...res,
+                            type: changeToStr(res.type),
+                          };
+                        })}
+                      />
+                    </Col>
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+          </Fragment>
+        ))}
       </>
     ),
     list: (
@@ -522,6 +323,31 @@ const InterfaceIntegrate: FC = () => {
 
   const extraContentExtra = {
     list: extraContent,
+    line: (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <RadioGroup
+          optionType="button"
+          value={radioValue}
+          onChange={(event) => {
+            setRadioValue(event.target.value);
+          }}
+          options={[
+            {
+              label: '天',
+              value: 'D',
+            },
+            {
+              label: '小时',
+              value: 'H',
+            },
+            {
+              label: '分钟',
+              value: 'MI',
+            },
+          ]}
+        />
+      </div>
+    ),
   };
 
   return (
