@@ -79,3 +79,14 @@ export async function statisticLastPeriodOverallData(periodType) {
     },
   );
 }
+
+// 按系统维度整合-时
+export async function statisticRealTimeSystemDataList(data) {
+  return request(
+    `${SERVER_PATH}/${BIZLOG_CORE}/statisticOverallDataAverage/statisticRealTimeSystemDataList`,
+    {
+      method: 'POST',
+      data,
+    },
+  );
+}

@@ -14,8 +14,8 @@ import { ranges, getPeriod, useDatePick } from '../utils';
 import { download } from '@/utils';
 import { useUpdateEffect } from 'ahooks';
 import moment from 'moment';
-import { Line } from '@ant-design/plots';
 import styles from '../style.less';
+import ShowLine from './ShowLine';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -155,35 +155,6 @@ const expandedRowRender = (item: TBasicList) => {
       })}
     </>
   );
-};
-
-const ShowLine = ({ data = [] }) => {
-  const config = {
-    data,
-    xField: 'date',
-    yField: 'value',
-    yAxis: {
-      label: {
-        // 数值格式化为千分位
-        formatter: (v) => `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
-      },
-    },
-    seriesField: 'type',
-    color: ({ type }) => {
-      return type === '平均' ? '#F4664A' : type === '最大' ? '#30BF78' : '#FAAD14';
-    },
-    lineStyle: ({ type }) => {
-      if (type === '平均') {
-        return {
-          lineDash: [4, 4],
-          opacity: 1,
-        };
-      }
-
-      return { opacity: 0.5 };
-    },
-  };
-  return <Line {...config} />;
 };
 
 // 接口维度整合

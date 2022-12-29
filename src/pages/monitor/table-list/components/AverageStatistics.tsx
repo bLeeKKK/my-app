@@ -1,14 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import type { FC } from 'react';
-import { Table, Card, Radio, DatePicker, Button, Modal, message, Empty } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import { Table, Card, Radio, DatePicker, Button, Modal, message, Empty, Row, Col } from 'antd';
+// import type { ColumnsType } from 'antd/es/table';
 import { useRequest } from 'umi';
-import { getOverallDataAverage, exportOverallDataAverage } from '../service';
+import {
+  getOverallDataAverage,
+  exportOverallDataAverage,
+  statisticRealTimeSystemDataList,
+} from '../service';
 import type { TDate } from '../types.d';
 import styles from '../style.less';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { download } from '@/utils';
+import ShowLine from './ShowLine';
+
+const changeToStr = (type) => {
+  switch (type) {
+    case 'avg':
+      return '平均';
+    case 'min':
+      return '最小';
+    case 'max':
+      return '最大';
+    default:
+      return type;
+  }
+};
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -32,6 +50,16 @@ const ranges = {
   过去90天: [moment().subtract(89, 'days').startOf('day'), moment().endOf('day')],
   // 这个月第一天零点到最后一天23:59:59
 };
+const tabListNoTitle = [
+  {
+    key: 'line',
+    tab: '图表',
+  },
+  {
+    key: 'list',
+    tab: '基本列表',
+  },
+];
 
 // 时间处理
 const getPeriod = (text: string | number, typeDate: TDate, noDate: boolean = false) => {
@@ -60,6 +88,7 @@ const getPeriod = (text: string | number, typeDate: TDate, noDate: boolean = fal
 // 按时效维度整合
 const AverageStatistics: FC = () => {
   // 搜索参数
+  const [activeTabKey, setActiveTabKey] = useState('line');
   const [typeDate, setTypeDate] = useState<TDate>('W');
   const [date, setDate] = useState<Moment[]>([
     moment().subtract(1, 'week').startOf('week'),
@@ -74,17 +103,10 @@ const AverageStatistics: FC = () => {
     stDate = moment(date?.[0]).startOf('week').format('YYYY-MM-DD HH:mm:ss');
     endDate = moment(date?.[1]).endOf('week').format('YYYY-MM-DD HH:mm:ss');
   }
-  const { data, loading } = useRequest(
+  const { data } = useRequest(
     () => getOverallDataAverage({ periodType: typeDate, stDate, endDate }),
     { refreshDeps: [typeDate, date] },
   );
-  const columns: ColumnsType<unknown> = [
-    {
-      title: '周期',
-      dataIndex: 'period',
-      render: (text) => getPeriod(text, typeDate),
-    },
-  ];
 
   let picker: string | undefined = undefined;
   if (typeDate === 'W') picker = 'week';
@@ -126,6 +148,18 @@ const AverageStatistics: FC = () => {
       />
     </div>
   );
+  // 图表数据
+  const { data: dataMap } = useRequest(
+    () =>
+      statisticRealTimeSystemDataList({
+        endDate,
+        stDate,
+        periodType: typeDate,
+      }),
+    {
+      refreshDeps: [stDate, endDate],
+    },
+  );
 
   const obj = {};
   (data?.records || []).forEach(({ period, statistic }: unknown) => {
@@ -145,85 +179,154 @@ const AverageStatistics: FC = () => {
 
   const showArr = Object.keys(obj);
 
+  const extraContentExtra = {
+    list: extraContent,
+    // line: extraContent,
+  };
+
+  console.log(dataMap);
+  const contentListNoTitle = {
+    line: (
+      <>
+        {dataMap?.map((res) => (
+          <Fragment key={res.intfTag}>
+            <Row gutter={[8, 8]} style={{ marginTop: '16px' }}>
+              <Col span={24}>
+                <Card title={res.intfTag}>
+                  <Row gutter={[16, 8]}>
+                    <Col span={8}>
+                      <h3>成功率</h3>
+                      {/* <ShowLine
+                        data={res.eventAgingList?.map((res) => {
+                          return {
+                            ...res,
+                            type: changeToStr(res.type),
+                          };
+                        })}
+                      /> */}
+                    </Col>
+                    <Col span={8}>
+                      <h3>事件结束</h3>
+                      <ShowLine
+                        data={res.eventAgingList?.map((res) => {
+                          return {
+                            ...res,
+                            type: changeToStr(res.type),
+                          };
+                        })}
+                      />
+                    </Col>
+                    <Col span={8}>
+                      <h3>纯接口时效</h3>
+                      <ShowLine
+                        data={res.intfAgingList?.map((res) => {
+                          return {
+                            ...res,
+                            type: changeToStr(res.type),
+                          };
+                        })}
+                      />
+                    </Col>
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+          </Fragment>
+        ))}
+      </>
+    ),
+    list: (
+      <>
+        {showArr.length ? (
+          showArr.map((item) => {
+            const { text, tag, arr } = obj[item];
+
+            return (
+              <Table
+                key={tag}
+                className={styles['expanded-table']}
+                bordered
+                title={() => text}
+                dataSource={arr}
+                pagination={false}
+                rowKey="period"
+                size="small"
+                sticky
+              >
+                <Column
+                  title="周期"
+                  dataIndex="period"
+                  render={(t) => getPeriod(t, typeDate, true)}
+                />
+                <ColumnGroup title="成功率">
+                  <Column
+                    title="基数"
+                    dataIndex="successRateAverageBase"
+                    render={(t) => `${100 * (t || 0) + '%'}`}
+                  />
+                  <Column
+                    title="数值"
+                    dataIndex="successRate"
+                    render={(t, { successRateAverageBase }) => {
+                      const txt = `${100 * (t || 0) + '%'}`;
+                      if (t > successRateAverageBase) return greenDiv(txt);
+                      else if (t < successRateAverageBase) return redDiv(txt);
+                      return txt;
+                    }}
+                  />
+                </ColumnGroup>
+                <ColumnGroup title="事件结束（s）">
+                  <Column title="基数" dataIndex="eventAgingAverageBase" render={(t) => t || 0} />
+                  <Column
+                    title="数值"
+                    dataIndex="eventAgingAverage"
+                    render={(t, { eventAgingAverageBase }) => {
+                      const num = (t / 1000).toFixed(2);
+                      if (num < eventAgingAverageBase) return greenDiv(num);
+                      else if (num > eventAgingAverageBase) return redDiv(num);
+                      return num;
+                    }}
+                  />
+                </ColumnGroup>
+                <ColumnGroup title="纯接口时效（ms）">
+                  <Column title="基数" dataIndex="intfAgingAverageBase" render={(t) => t || 0} />
+                  <Column
+                    title="数值"
+                    dataIndex="intfAgingAverage"
+                    render={(t, { intfAgingAverageBase }) => {
+                      const num = t;
+                      if (num < intfAgingAverageBase) return greenDiv(num);
+                      else if (num > intfAgingAverageBase) return redDiv(num);
+                      return num;
+                    }}
+                  />
+                </ColumnGroup>
+              </Table>
+            );
+          })
+        ) : (
+          <Empty />
+        )}
+      </>
+    ),
+  };
+
   return (
     <Card
       className={styles['standard-list']}
       bordered={false}
-      title="基本列表"
+      // title="基本列表"
       style={{ marginTop: 24 }}
       bodyStyle={{ padding: '0 32px 40px 32px' }}
-      extra={extraContent}
+      // extra={extraContent}
+      tabList={tabListNoTitle}
+      activeTabKey={activeTabKey}
+      tabBarExtraContent={extraContentExtra[activeTabKey]}
+      onTabChange={(key: string) => {
+        setActiveTabKey(key);
+      }}
     >
-      {showArr.length ? (
-        showArr.map((item) => {
-          const { text, tag, arr } = obj[item];
-
-          return (
-            <Table
-              key={tag}
-              className={styles['expanded-table']}
-              bordered
-              title={() => text}
-              dataSource={arr}
-              pagination={false}
-              rowKey="period"
-              size="small"
-              sticky
-            >
-              <Column
-                title="周期"
-                dataIndex="period"
-                render={(t) => getPeriod(t, typeDate, true)}
-              />
-              <ColumnGroup title="成功率">
-                <Column
-                  title="基数"
-                  dataIndex="successRateAverageBase"
-                  render={(t) => `${100 * (t || 0) + '%'}`}
-                />
-                <Column
-                  title="数值"
-                  dataIndex="successRate"
-                  render={(t, { successRateAverageBase }) => {
-                    const txt = `${100 * (t || 0) + '%'}`;
-                    if (t > successRateAverageBase) return greenDiv(txt);
-                    else if (t < successRateAverageBase) return redDiv(txt);
-                    return txt;
-                  }}
-                />
-              </ColumnGroup>
-              <ColumnGroup title="事件结束（s）">
-                <Column title="基数" dataIndex="eventAgingAverageBase" render={(t) => t || 0} />
-                <Column
-                  title="数值"
-                  dataIndex="eventAgingAverage"
-                  render={(t, { eventAgingAverageBase }) => {
-                    const num = (t / 1000).toFixed(2);
-                    if (num < eventAgingAverageBase) return greenDiv(num);
-                    else if (num > eventAgingAverageBase) return redDiv(num);
-                    return num;
-                  }}
-                />
-              </ColumnGroup>
-              <ColumnGroup title="纯接口时效（ms）">
-                <Column title="基数" dataIndex="intfAgingAverageBase" render={(t) => t || 0} />
-                <Column
-                  title="数值"
-                  dataIndex="intfAgingAverage"
-                  render={(t, { intfAgingAverageBase }) => {
-                    const num = t;
-                    if (num < intfAgingAverageBase) return greenDiv(num);
-                    else if (num > intfAgingAverageBase) return redDiv(num);
-                    return num;
-                  }}
-                />
-              </ColumnGroup>
-            </Table>
-          );
-        })
-      ) : (
-        <Empty />
-      )}
+      {contentListNoTitle[activeTabKey]}
     </Card>
   );
 };
