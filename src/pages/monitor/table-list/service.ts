@@ -90,3 +90,14 @@ export async function statisticRealTimeSystemDataList(data) {
     },
   );
 }
+
+// 按系统维度整合-时分秒
+export async function statisticRealTimeAverageData(params) {
+  return request(
+    `${SERVER_PATH}/${BIZLOG_CORE}/statisticInterfaceDimensionData/statisticRealTimeAverageData`,
+    {
+      method: 'get',
+      params,
+    },
+  );
+}

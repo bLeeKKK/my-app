@@ -138,6 +138,7 @@ const AverageStatistics: FC = () => {
       </Button>
       <RadioGroup value={typeDate} onChange={(val) => setTypeDate(val.target.value)}>
         <RadioButton value="W">周</RadioButton>
+        <RadioButton value="M">月份</RadioButton>
       </RadioGroup>
       <RangePicker
         className={styles.search}
@@ -181,7 +182,21 @@ const AverageStatistics: FC = () => {
 
   const extraContentExtra = {
     list: extraContent,
-    // line: extraContent,
+    line: (
+      <>
+        <RadioGroup value={typeDate} onChange={(val) => setTypeDate(val.target.value)}>
+          <RadioButton value="W">周</RadioButton>
+          <RadioButton value="M">月份</RadioButton>
+        </RadioGroup>
+        <RangePicker
+          className={styles.search}
+          ranges={ranges}
+          picker={picker}
+          value={date}
+          onChange={(val) => setDate(val)}
+        />
+      </>
+    ),
   };
 
   console.log(dataMap);
