@@ -226,7 +226,7 @@ const AverageStatistics: FC = () => {
                         data={res.eventAgingList?.map((res) => {
                           return {
                             ...res,
-                            type: changeToStr(res.type),
+                            // type: changeToStr(res.type),
                           };
                         })}
                       />
@@ -237,7 +237,7 @@ const AverageStatistics: FC = () => {
                         data={res.intfAgingList?.map((res) => {
                           return {
                             ...res,
-                            type: changeToStr(res.type),
+                            // type: changeToStr(res.type),
                           };
                         })}
                       />

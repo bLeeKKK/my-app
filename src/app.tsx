@@ -11,6 +11,7 @@ import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
+const authArr = ['/list/base-show/']; // 不需要鉴权页面
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -38,8 +39,17 @@ export async function getInitialState(): Promise<{
     return undefined;
   };
 
+  /**
+   *  补充：/list/base-show/?sourceCode=12 该页面不做鉴权校验
+   *  代码：!authArr.some((res) => res === location.pathname)
+   * */
   // 如果不是登录页面，执行
-  if (history.location.pathname !== loginPath) {
+  const { location } = history;
+  console.log(location, !authArr.some((res) => res === location.pathname));
+  if (
+    history.location.pathname !== loginPath &&
+    !authArr.some((res) => res === location.pathname)
+  ) {
     const currentUser = await fetchUserInfo();
     return {
       fetchUserInfo,
@@ -66,8 +76,17 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
+
+      /**
+       *  补充：/list/base-show/?sourceCode=12 该页面不做鉴权校验
+       *  代码：!authArr.some((res) => res === location.pathname)
+       * */
       // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
+      if (
+        !initialState?.currentUser &&
+        location.pathname !== loginPath &&
+        !authArr.some((res) => res === location.pathname)
+      ) {
         history.push(loginPath);
       }
     },

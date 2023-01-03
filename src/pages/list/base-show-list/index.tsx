@@ -67,7 +67,6 @@ const TableList: React.FC = () => {
           </Button>,
         ]}
         sticky
-        scroll={{ x: 3000 }}
         formRef={ref}
         request={async (params, sort) => {
           searchData = params;

@@ -32,5 +32,5 @@ export default {
   'menu.monitor': '接口时效监控',
   'menu.monitor.interface-list': '接口配置',
   'menu.monitor.base-list': '记录池数据',
-  'menu.monitor.table-list': '数据列表',
+  'menu.monitor.table-list': '数据图表',
 };

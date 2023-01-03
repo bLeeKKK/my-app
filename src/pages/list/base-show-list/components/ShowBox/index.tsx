@@ -1,4 +1,4 @@
-import { Tag } from 'antd';
+import { Empty, Tag } from 'antd';
 import styles from './styles.less';
 import moment from 'moment';
 
@@ -53,7 +53,7 @@ export default function ShowBox({ data }) {
               )}
             </div>
           </li>
-        ))}
+        )) || <Empty />}
       </ul>
     </div>
   );
