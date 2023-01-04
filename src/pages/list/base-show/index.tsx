@@ -6,8 +6,9 @@ import ShowBox from '../base-show-list/components/ShowBox';
 export default function BaseShow() {
   const { query } = useLocation();
   const sourceCode = query?.sourceCode;
-  const { data } = useRequest(() => findSourceCode({ sourceCode }), {
-    refreshDeps: [sourceCode],
+  const sourceSys = query?.sourceSys;
+  const { data } = useRequest(() => findSourceCode({ sourceCode, sourceSys }), {
+    refreshDeps: [sourceCode, sourceSys],
   });
 
   return (
