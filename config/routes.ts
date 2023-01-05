@@ -30,11 +30,11 @@
     name: 'config-list',
     icon: 'form',
     routes: [
-      // {
-      //   path: '/config-list/interface-list',
-      //   name: 'interface-list',
-      //   component: './config-list/interface-list',
-      // },
+      {
+        path: '/config-list/over-time-level',
+        name: 'over-time-level',
+        component: './config-list/over-time-level',
+      },
       {
         path: '/config-list/operation-flow',
         name: 'operation-flow',

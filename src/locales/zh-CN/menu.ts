@@ -14,6 +14,7 @@ export default {
   // 'menu.config-list.interface-list': '接口配置',
   // 'menu.config-list.procedure-list': '流程列表',
   'menu.config-list.operation-flow': '业务流程配置',
+  'menu.config-list.over-time-level': '超时等级配置',
   // 'menu.config-list.er-map': '流程配置图',
   'menu.config-list.operation-flow.flow-map': '流程配置图',
 
