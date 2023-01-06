@@ -19,7 +19,7 @@ export async function update(data: ParamsType): Promise<{ data: unknown[] }> {
   });
 }
 
-// 流程配置-分页查询
+// 超时等级配置-分页查询
 export async function findByPage(data: ParamsType): Promise<{ success: boolean; data: unknown }> {
   const { current, pageSize, ...rest } = data;
 
@@ -34,9 +34,9 @@ export async function findByPage(data: ParamsType): Promise<{ success: boolean; 
   });
 }
 
-// 流程配置-删除
+// 超时等级配置-删除
 export async function overTimeLevelConfigDelete(data: ParamsType): Promise<{ data: unknown[] }> {
-  return request(`${SERVER_PATH}/${BIZLOG_CORE}/overTimeLevelConfig/freeze`, {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/overTimeLevelConfig/delete`, {
     method: 'GET',
     params: data,
   });

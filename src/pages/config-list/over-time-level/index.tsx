@@ -6,8 +6,8 @@ import ProTable from '@ant-design/pro-table';
 import { overTimeLevelConfigDelete, findByPage } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import Edit, { FREEZE_OPTIONS, NORMAL_OPTIONS } from './components/Edit';
-import { useDispatch, useSelector, useHistory } from 'umi';
-import { EditOutlined, DeleteOutlined, GroupOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'umi';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import IconBox from '@/components/IconBox';
 
 const handleDelete = async (id: string) => {
@@ -60,7 +60,7 @@ const TableList: React.FC = () => {
       ],
     },
     {
-      title: '状态',
+      title: '冻结状态',
       dataIndex: 'freeze',
       valueType: 'select',
       fieldProps: { options: FREEZE_OPTIONS },
@@ -76,8 +76,9 @@ const TableList: React.FC = () => {
     { title: '起始范围', dataIndex: 'startScope', search: false },
     { title: '结束范围', dataIndex: 'endScope', search: false },
     {
-      title: '起始范围',
+      title: '颜色',
       dataIndex: 'signColor',
+      search: false,
       render: (val) => (val ? <Tag color={val}>{val}</Tag> : null),
     },
     { title: '超时等级描述', dataIndex: 'overTimeRemark' },

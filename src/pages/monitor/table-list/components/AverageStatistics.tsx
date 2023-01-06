@@ -15,19 +15,6 @@ import type { Moment } from 'moment';
 import { download } from '@/utils';
 import ShowLine from './ShowLine';
 
-const changeToStr = (type) => {
-  switch (type) {
-    case 'avg':
-      return '平均';
-    case 'min':
-      return '最小';
-    case 'max':
-      return '最大';
-    default:
-      return type;
-  }
-};
-
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const { Column, ColumnGroup } = Table;
@@ -211,14 +198,13 @@ const AverageStatistics: FC = () => {
                   <Row gutter={[16, 8]}>
                     <Col span={8}>
                       <h3>成功率</h3>
-                      {/* <ShowLine
-                        data={res.eventAgingList?.map((res) => {
+                      <ShowLine
+                        data={res.successRateList?.map((res) => {
                           return {
                             ...res,
-                            type: changeToStr(res.type),
                           };
                         })}
-                      /> */}
+                      />
                     </Col>
                     <Col span={8}>
                       <h3>事件结束</h3>
