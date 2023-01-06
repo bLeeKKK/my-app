@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { NsGraph, NsNodeCmd } from '@antv/xflow';
 import type { EntityCanvasModel, EntityProperty } from '../interface';
 import { BarsOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { EntityType } from '../const';
-import { useReactive, useBoolean } from 'ahooks';
+import { useBoolean, useUpdateEffect } from 'ahooks';
 import { XFlowNodeCommands, useXFlowApp } from '@antv/xflow';
-import { Form, message } from 'antd';
+import { Form } from 'antd';
 import {
   ModalForm,
   ProFormText,
@@ -27,6 +27,19 @@ const Entity = (props: Props) => {
   const app = useXFlowApp();
   const [visible, { setTrue, setFalse }] = useBoolean(false);
   const [form] = Form.useForm();
+  const [editNode, setEditNode] = useState();
+
+  useUpdateEffect(() => {
+    if (editNode) {
+      form.setFieldsValue(editNode);
+    } else {
+      form.resetFields();
+    }
+  }, [editNode]);
+
+  useUpdateEffect(() => {
+    if (!visible) setEditNode(undefined);
+  }, [visible]);
 
   const getCls = () => {
     if (entity?.entityType === EntityType.FACT) {
@@ -67,6 +80,21 @@ const Entity = (props: Props) => {
                       className="btn"
                       onClick={() => {
                         // property.majorNodeCode
+                        const obj = entity.childNodeList.find(
+                          (res) => res.smallNodeCode === property.smallNodeCode,
+                        );
+                        if (obj) {
+                          setEditNode(obj);
+                          setTrue();
+                        }
+                      }}
+                    >
+                      编辑
+                    </span>
+                    <span
+                      className="btn"
+                      onClick={() => {
+                        // property.majorNodeCode
                         const childNodeList = entity.childNodeList.filter(
                           (res) => res.smallNodeCode !== property.smallNodeCode,
                         );
@@ -76,7 +104,6 @@ const Entity = (props: Props) => {
                             nodeConfig: { ...entity, childNodeList },
                           },
                         );
-                        setFalse();
                       }}
                     >
                       删除
@@ -89,7 +116,7 @@ const Entity = (props: Props) => {
         </div>
       </div>
       <ModalForm
-        title={`添加节点`}
+        title={`添加小节点`}
         width="600px"
         layout="horizontal"
         visible={visible}
@@ -98,10 +125,20 @@ const Entity = (props: Props) => {
           if (!flag) setFalse();
         }}
         onFinish={async (value) => {
+          const initArr = entity?.childNodeList || [];
+          let childNodeList = initArr;
+          if (editNode) {
+            const index = initArr.findIndex((res) => res.smallNodeCode === editNode?.smallNodeCode);
+            if (index >= 0) {
+              childNodeList.splice(index, 1, value);
+            }
+          } else {
+            childNodeList = [...initArr, value];
+          }
           app.commandService.executeCommand<NsNodeCmd.UpdateNode.IArgs>(
             XFlowNodeCommands.UPDATE_NODE.id,
             {
-              nodeConfig: { ...entity, childNodeList: [...(entity?.childNodeList || []), value] },
+              nodeConfig: { ...entity, childNodeList },
             },
           );
           setFalse();

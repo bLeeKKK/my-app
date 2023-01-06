@@ -23,6 +23,7 @@ export default {
   // 'menu.list.base-list': '记录池数据',
   'menu.list.base-time-list': '全链路时效数据池',
   'menu.list.base-show-list': '全链路数据列表',
+  'menu.list.base-report-forms': '业务管理报表',
   'menu.list.base-show': '流程详情',
 
   'menu.account': '用户权限管理',

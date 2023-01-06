@@ -23,7 +23,7 @@ const endMonth = moment().endOf('month').format('YYYY-MM-DD HH:mm:ss');
 
 const columns: ProColumns<TableListItem>[] = [
   {
-    title: '开始处理时间',
+    title: '订单时间',
     dataIndex: 'startDate',
     width: 200,
     search: false,
@@ -47,69 +47,10 @@ const columns: ProColumns<TableListItem>[] = [
       }),
     },
   },
-  {
-    title: '结束处理时间',
-    dataIndex: 'endDate',
-    width: 200,
-    search: false,
-    fixed: true,
-    valueType: 'dateTime',
-    fieldProps: {
-      format: 'YYYY-MM-DD HH:mm:ss.SSS',
-    },
-  },
-  {
-    title: '结束处理时间',
-    key: 'endDates',
-    dataIndex: 'endDates',
-    valueType: 'dateTimeRange',
-    hideInTable: true,
-    search: {
-      transform: (value: any) => ({
-        endDates: getHaveTDate(value),
-      }),
-    },
-  },
-  { title: '当前系统', dataIndex: 'sourceSys', width: 120 },
-  { title: '节点代码', dataIndex: 'nodeCode', width: 200 },
-  { title: '小节点代码', dataIndex: 'smallNodeCode', width: 200 },
-  {
-    title: '预计发货',
-    dataIndex: 'expectShipTime',
-    width: 200,
-    search: false,
-    valueType: 'dateTime',
-    fieldProps: {
-      format: 'YYYY-MM-DD HH:mm:ss.SSS',
-    },
-  },
-  {
-    title: '预计发货',
-    key: 'expectShipTimes',
-    dataIndex: 'expectShipTimes',
-    valueType: 'dateTimeRange',
-    hideInTable: true,
-    search: {
-      transform: (value: any) => ({
-        expectShipTimes: getHaveTDate(value),
-      }),
-    },
-  },
-
-  { title: '待办处理原因', dataIndex: 'agendaCause', width: 140 },
-  { title: '处理用户', dataIndex: 'consumer', width: 100 },
-  { title: '经营部id', dataIndex: 'businessDept' },
-  { title: '当前系统单号', dataIndex: 'currentCode', width: 140 },
-
+  { title: '产品公司', dataIndex: 'headOffice' },
   { title: '分公司', dataIndex: 'filiale' },
-  { title: '总公司id', dataIndex: 'headOffice' },
-  { title: '超时等级', dataIndex: 'overTimeClassId' },
-  { title: '产品线', dataIndex: 'productLine' },
-  { title: '特约备注', dataIndex: 'remark' },
-  { title: '备注1', dataIndex: 'remark1' },
-  { title: '备注2', dataIndex: 'remark2' },
-  { title: '上游单据号', dataIndex: 'sourceCode' },
-  { title: '货源类型', dataIndex: 'sourceType' },
+  { title: '订单号', dataIndex: 'sourceCode' },
+  // { title: '节点名称', dataIndex: 'nodeName' },
 ];
 
 let searchData = {};
@@ -167,7 +108,6 @@ const TableList: React.FC = () => {
           </Button>,
         ]}
         sticky
-        scroll={{ x: 3000 }}
         formRef={ref}
         request={async (params, sort) => {
           searchData = params;

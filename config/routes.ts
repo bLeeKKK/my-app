@@ -81,6 +81,11 @@
         component: './list/base-show-list',
       },
       {
+        path: '/list/base-report-forms',
+        name: 'base-report-forms',
+        component: './list/base-report-forms',
+      },
+      {
         layout: false,
         hideInMenu: true,
         path: '/list/base-show',
