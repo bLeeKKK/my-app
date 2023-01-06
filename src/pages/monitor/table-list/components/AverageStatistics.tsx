@@ -170,7 +170,7 @@ const AverageStatistics: FC = () => {
   const extraContentExtra = {
     list: extraContent,
     line: (
-      <>
+      <div className={styles['extra-content']}>
         <RadioGroup value={typeDate} onChange={(val) => setTypeDate(val.target.value)}>
           <RadioButton value="W">周</RadioButton>
           <RadioButton value="M">月份</RadioButton>
@@ -182,7 +182,7 @@ const AverageStatistics: FC = () => {
           value={date}
           onChange={(val) => setDate(val)}
         />
-      </>
+      </div>
     ),
   };
 
