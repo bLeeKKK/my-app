@@ -121,7 +121,7 @@ const Login: React.FC = () => {
             <LoginMessage
               content={intl.formatMessage({
                 id: 'pages.login.accountLogin.errorMessage',
-                defaultMessage: '账户或密码错误(admin/ant.design)',
+                defaultMessage: '账户或密码错误(admin/123456)',
               })}
             />
           )}
@@ -129,7 +129,7 @@ const Login: React.FC = () => {
             <>
               <ProFormText
                 name="userName"
-                initialValue="admin"
+                // initialValue="admin"
                 fieldProps={{
                   size: 'large',
                   prefix: <UserOutlined className={styles.prefixIcon} />,
@@ -152,7 +152,7 @@ const Login: React.FC = () => {
               />
               <ProFormText.Password
                 name="password"
-                initialValue="123456"
+                // initialValue="123456"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,

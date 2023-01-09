@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -57,7 +57,9 @@ let searchData = {};
 
 const TableList: React.FC = () => {
   const { actionRef } = useSelector((state) => state.baseTimeList);
+  const [columnsReq, setColumnsReq] = useState([]);
   const ref = useRef();
+  const nodeColumsReq = columnsReq.splice(5, 10000);
 
   useEffect(() => {
     if (ref) {
@@ -74,9 +76,7 @@ const TableList: React.FC = () => {
         headerTitle="查询表格"
         actionRef={actionRef}
         form={{
-          initialValues: {
-            startDates: [startMonth, endMonth],
-          },
+          initialValues: { startDates: [startMonth, endMonth] },
         }}
         rowKey="key"
         search={{ labelWidth: 120 }}
@@ -107,22 +107,24 @@ const TableList: React.FC = () => {
             导出报表
           </Button>,
         ]}
+        scroll={{ x: 3000 }}
         sticky
         formRef={ref}
         request={async (params, sort) => {
           searchData = params;
           const { success, data } = await findByPage(params, sort);
+
+          setColumnsReq(data?.headerData || []);
           return {
             success: success,
             data: data.records,
             total: data.total,
-            // intfStDatetimes: ['2022-11-11T10:33:41.436', '2022-11-30T10:33:41.436'],
           };
         }}
         pagination={{
           showSizeChanger: true,
         }}
-        columns={columns}
+        columns={[...columns, ...nodeColumsReq]}
       />
     </PageContainer>
   );
