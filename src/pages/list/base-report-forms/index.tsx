@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -57,7 +57,17 @@ let searchData = {};
 
 const TableList: React.FC = () => {
   const { actionRef } = useSelector((state) => state.baseTimeList);
+  const [columnsReq, setColumnsReq] = useState([]);
   const ref = useRef();
+  const nodeColumsReq = columnsReq.splice(5, 10000).map((res) => {
+    res.children = (res?.children || []).map((re) => ({
+      ...re,
+      dataIndex: [res.title, re.dataIndex], // `${res.title}.${re.dataIndex}`,
+    }));
+    return {
+      ...res,
+    };
+  });
 
   useEffect(() => {
     if (ref) {
@@ -68,15 +78,15 @@ const TableList: React.FC = () => {
     }
   }, [ref]);
 
+  console.log([...columns, ...nodeColumsReq]);
   return (
     <PageContainer>
       <ProTable<TableListItem, TableListPagination>
         headerTitle="查询表格"
         actionRef={actionRef}
+        bordered
         form={{
-          initialValues: {
-            startDates: [startMonth, endMonth],
-          },
+          initialValues: { startDates: [startMonth, endMonth] },
         }}
         rowKey="key"
         search={{ labelWidth: 120 }}
@@ -107,22 +117,38 @@ const TableList: React.FC = () => {
             导出报表
           </Button>,
         ]}
+        scroll={{ x: 3000 }}
         sticky
         formRef={ref}
         request={async (params, sort) => {
           searchData = params;
           const { success, data } = await findByPage(params, sort);
+          const arr = data?.records || [];
+
+          const newArr = arr.map((res) => {
+            const obj = (res?.detailList || []).reduce((pre, item) => {
+              return {
+                ...pre,
+                [item.nodeName]: item,
+              };
+            }, {});
+            return {
+              ...res,
+              ...obj,
+            };
+          });
+          console.log(newArr);
+          setColumnsReq(data?.headerData || []);
           return {
             success: success,
-            data: data.records,
+            data: newArr,
             total: data.total,
-            // intfStDatetimes: ['2022-11-11T10:33:41.436', '2022-11-30T10:33:41.436'],
           };
         }}
         pagination={{
           showSizeChanger: true,
         }}
-        columns={columns}
+        columns={[...columns, ...nodeColumsReq]}
       />
     </PageContainer>
   );
