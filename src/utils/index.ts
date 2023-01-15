@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import moment from 'moment';
 
 /**
  *  @description: 获取弹窗模式
@@ -42,4 +43,16 @@ export const download = (blob: Blob, fileName: string) => {
       }
     }
   }
+};
+
+// 两个时间差 时分秒
+export const timeDiff = (startTime, endTime) => {
+  const start = moment(startTime, 'YYYY-MM-DD HH:mm:ss');
+  const end = moment(endTime, 'YYYY-MM-DD HH:mm:ss');
+  const diff = end.diff(start);
+  const duration = moment.duration(diff);
+  const hours = duration.hours();
+  const minutes = duration.minutes();
+  const seconds = duration.seconds();
+  return `${hours || 0}小时${minutes || 0}分钟${seconds || 0}秒`;
 };
