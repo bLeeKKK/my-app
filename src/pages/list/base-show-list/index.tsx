@@ -10,6 +10,7 @@ import { Button, Modal, message, Popover } from 'antd';
 import { download } from '@/utils';
 import { Tag } from 'antd';
 import { useRafInterval } from 'ahooks';
+import { timeDiff } from '@/utils';
 
 let searchData = {};
 
@@ -21,7 +22,9 @@ function intoChild(arr, render) {
     // 不处理字段
     if (arrExtar.includes(res.dataIndex)) return { ...res, fixed: 'left' };
 
-    res.dataIndex = res?.dataIndex?.split?.('.') || res.dataIndex;
+    res.dataIndex = Array.isArray(res?.dataIndex)
+      ? res.dataIndex
+      : res?.dataIndex?.split?.('.') || res.dataIndex;
     if (res.children && res.children.length) {
       res.children = intoChild(res.children, render);
       return {
@@ -63,14 +66,15 @@ const TableList: React.FC = () => {
             <>
               <div>开始时间：{moment(smallNode.startDate).format('YYYY-MM-DD HH:mm:ss')}</div>
               <div style={{ color: smallNode.endDate ? '' : 'red' }}>
-                结束时间：{moment(smallNode.endDate || now).format('YYYY-MM-DD HH:mm:ss')}
-              </div>
-              {/* smallNode.endDate
+                结束时间：
+                {smallNode.endDate
                   ? moment(smallNode.endDate || now).format('YYYY-MM-DD HH:mm:ss')
-                  : '处理中' */}
+                  : '处理中'}
+              </div>
             </>
           }
         >
+          <div>{timeDiff(smallNode.startDate, smallNode.endDate || now)}</div>
           <div>待办：{smallNode.agendaCause || '-'}</div>
           <Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>
         </Popover>

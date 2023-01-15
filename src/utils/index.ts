@@ -54,5 +54,5 @@ export const timeDiff = (startTime, endTime) => {
   const hours = duration.hours();
   const minutes = duration.minutes();
   const seconds = duration.seconds();
-  return `${hours || 0}小时${minutes || 0}分钟${seconds || 0}秒`;
+  return `${hours || 0}时${minutes || 0}分${seconds || 0}秒`;
 };
