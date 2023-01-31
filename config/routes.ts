@@ -81,6 +81,11 @@
         component: './list/base-show-list',
       },
       {
+        path: '/list/base-show-list-no',
+        name: 'base-show-list-no',
+        component: './list/base-show-list-no',
+      },
+      {
         path: '/list/base-report-forms',
         name: 'base-report-forms',
         component: './list/base-report-forms',

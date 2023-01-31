@@ -36,6 +36,7 @@ function intoChild(arr, render) {
     return {
       ...res,
       render,
+      width: '115px',
     };
   });
 
