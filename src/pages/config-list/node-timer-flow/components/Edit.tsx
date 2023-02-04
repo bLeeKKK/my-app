@@ -194,6 +194,7 @@ export default function AddModalForm() {
                       value: res.smallNodeCode,
                       majorNodeCode: res.majorNodeCode,
                       smallNodeCode: res.smallNodeCode,
+                      smallNodeName: res.smallNodeName,
                     }),
                   );
                 }
