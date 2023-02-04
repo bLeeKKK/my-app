@@ -53,6 +53,12 @@
           },
         ],
       },
+
+      {
+        path: '/config-list/node-timer-flow',
+        name: 'node-timer-flow',
+        component: './config-list/node-timer-flow',
+      },
     ],
   },
   {

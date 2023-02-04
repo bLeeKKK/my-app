@@ -17,6 +17,7 @@ export default {
   'menu.config-list.over-time-level': '超时等级配置',
   // 'menu.config-list.er-map': '流程配置图',
   'menu.config-list.operation-flow.flow-map': '流程配置图',
+  'menu.config-list.node-timer-flow': '节点时效配置',
 
   'menu.list': '数据管理',
   // 'menu.list.table-list': '数据列表',
