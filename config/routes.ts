@@ -97,6 +97,11 @@
         component: './list/base-report-forms',
       },
       {
+        path: '/list/base-node-time-list',
+        name: 'base-node-time-list',
+        component: './list/base-node-time-list',
+      },
+      {
         layout: false,
         hideInMenu: true,
         path: '/list/base-show',
