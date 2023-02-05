@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, Fragment } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 // import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -48,343 +48,7 @@ function intoChild(arr, render) {
 // const now = new Date();
 const TableList: React.FC = () => {
   const { actionRef } = useSelector((state) => state.baseNodeTimeList);
-  const [nodeColumns, setNodeColumns] = useState([
-    {
-      dataIndex: 'usoOrderNo',
-      title: 'uso单号',
-    },
-    {
-      dataIndex: 'scmcOrderNo',
-      title: 'scmc单号',
-    },
-    {
-      dataIndex: 'mofcOrderNo',
-      title: 'mofc单号',
-    },
-    {
-      dataIndex: 'lrpOrderNo',
-      title: 'lrp单号',
-    },
-    {
-      dataIndex: 'transType',
-      title: '运输产品',
-    },
-    {
-      dataIndex: 'serviceType',
-      title: '服务要求',
-    },
-    {
-      children: [
-        {
-          children: [
-            {
-              dataIndex: 'USO_Order_B002_S008',
-              title: 'USO_Order_B002_S008',
-            },
-            {
-              dataIndex: 'USO_Order_B002_S002',
-              title: 'USO_Order_B002_S002',
-            },
-            {
-              dataIndex: 'USO_Order_B002_S005',
-              title: 'USO_Order_B002_S005',
-            },
-            {
-              dataIndex: 'USO_Order_B002_S003',
-              title: 'USO_Order_B002_S003',
-            },
-            {
-              dataIndex: 'USO_Order_B002_S007',
-              title: 'USO_Order_B002_S007',
-            },
-            {
-              dataIndex: 'USO_Order_B002_S004',
-              title: 'USO_Order_B002_S004',
-            },
-            {
-              dataIndex: 'USO_Order_B004_S001',
-              title: 'USO_Order_B004_S001',
-            },
-            {
-              dataIndex: 'USO_Order_B002_S006',
-              title: 'USO_Order_B002_S006',
-            },
-            {
-              dataIndex: 'USO_Order_B002_S001',
-              title: 'USO_Order_B002_S001',
-            },
-          ],
-          dataIndex: 'FDB8A6174EE24DF28A06A332CB3AF290',
-          title: '财务审核时效',
-        },
-        {
-          children: [
-            {
-              dataIndex: 'USO_Order_B001_S004',
-              title: 'USO_Order_B001_S004',
-            },
-            {
-              dataIndex: 'USO_Order_B001_S001',
-              title: 'USO_Order_B001_S001',
-            },
-            {
-              dataIndex: 'USO_Order_B005_S003',
-              title: 'USO_Order_B005_S003',
-            },
-            {
-              dataIndex: 'USO_Order_B001_S003',
-              title: 'USO_Order_B001_S003',
-            },
-            {
-              dataIndex: 'USO_Order_B001_S002',
-              title: 'USO_Order_B001_S002',
-            },
-          ],
-          dataIndex: '933565A0E2D84F4B987B9D48B2C23A02',
-          title: 'C端货源占用时效',
-        },
-      ],
-      dataIndex: 'B8F385C4E8DD404FB955564A0B48EF1A',
-      title: '业务',
-    },
-    {
-      children: [
-        {
-          children: [
-            {
-              dataIndex: 'USO_Order_B005_S003',
-              title: 'USO_Order_B005_S003',
-            },
-            {
-              dataIndex: 'LRP_Dispatch_B002_S003',
-              title: 'LRP_Dispatch_B002_S003',
-            },
-          ],
-          dataIndex: '069EB075765349F6923524C192A98E94',
-          title: 'C端派单时效',
-        },
-        {
-          children: [
-            {
-              dataIndex: 'USO_Order_B005_S003',
-              title: 'USO_Order_B005_S003',
-            },
-            {
-              dataIndex: 'MOFC_Order_B004_S001',
-              title: 'MOFC_Order_B004_S001',
-            },
-          ],
-          dataIndex: '337CC46F72BA4D7F9D671D09811255E4',
-          title: '确定物流方式时效',
-        },
-        {
-          children: [
-            {
-              dataIndex: 'MOFC_Order_B001_S001',
-              title: 'MOFC_Order_B001_S001',
-            },
-            {
-              dataIndex: 'MOFC_Order_B005_S001',
-              title: 'MOFC_Order_B005_S001',
-            },
-          ],
-          dataIndex: '28F28765B1504FC38046F61E2B22E3AF',
-          title: '归集时效',
-        },
-        {
-          children: [
-            {
-              dataIndex: 'MOFC_Order_B004_S001',
-              title: 'MOFC_Order_B004_S001',
-            },
-          ],
-          dataIndex: '2CB097DC3D9D49348627EE67CD084FCD',
-          title: '配送时效',
-        },
-        {
-          children: [
-            {
-              dataIndex: 'LRP_New_B001_S001',
-              title: 'LRP_New_B001_S001',
-            },
-            {
-              dataIndex: 'LRP_Dispatch_B002_S001',
-              title: 'LRP_Dispatch_B002_S001',
-            },
-          ],
-          dataIndex: '7D418FDA8CAC49AEA6DAB4F1DFC3D824',
-          title: '民生派单时效',
-        },
-        {
-          children: [
-            {
-              dataIndex: 'LRP_Dispatch_B002_S003',
-              title: 'LRP_Dispatch_B002_S003',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S007',
-              title: 'LRP_Transport_B003_S007',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S001',
-              title: 'LRP_Transport_B003_S001',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S005',
-              title: 'LRP_Transport_B003_S005',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S006',
-              title: 'LRP_Transport_B003_S006',
-            },
-          ],
-          dataIndex: 'D0F7DF97761C49899487D315FA2AE1DA',
-          title: 'C端出库时效',
-        },
-        {
-          children: [
-            {
-              dataIndex: 'LRP_Transport_B003_S001',
-              title: 'LRP_Transport_B003_S001',
-            },
-            {
-              dataIndex: 'LRP_Dispatch_B002_S001',
-              title: 'LRP_Dispatch_B002_S001',
-            },
-          ],
-          dataIndex: '592326EE61BB45C08787319422ED7082',
-          title: '到车时效',
-        },
-        {
-          children: [
-            {
-              dataIndex: 'LRP_Transport_B003_S005',
-              title: 'LRP_Transport_B003_S005',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S001',
-              title: 'LRP_Transport_B003_S001',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S007',
-              title: 'LRP_Transport_B003_S007',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S001',
-              title: 'LRP_Transport_B003_S001',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S006',
-              title: 'LRP_Transport_B003_S006',
-            },
-          ],
-          dataIndex: '39BAB84FFEBF411789EC1766F3C6F369',
-          title: '装车时效',
-        },
-        {
-          children: [
-            {
-              dataIndex: 'LRP_Sign_B005_S004',
-              title: 'LRP_Sign_B005_S004',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S005',
-              title: 'LRP_Transport_B003_S005',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S006',
-              title: 'LRP_Transport_B003_S006',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S001',
-              title: 'LRP_Transport_B003_S001',
-            },
-            {
-              dataIndex: 'LRP_Transport_B003_S007',
-              title: 'LRP_Transport_B003_S007',
-            },
-          ],
-          dataIndex: '81938E76D2874C8881433422BA3FDEF0',
-          title: '在途时效',
-        },
-        {
-          children: [
-            {
-              dataIndex: 'LRP_End_B006_S001',
-              title: 'LRP_End_B006_S001',
-            },
-            {
-              dataIndex: 'LRP_Sign_B005_S004',
-              title: 'LRP_Sign_B005_S004',
-            },
-          ],
-          dataIndex: 'E6B0BFA5CE63443EBFE1C832F7D5B804',
-          title: '回单时效',
-        },
-        {
-          children: [],
-          dataIndex: 'CC7C6AB9312C4A0199B7A0DD0E443E26',
-          title: '业务总时效',
-        },
-        {
-          children: [],
-          dataIndex: '1E7765AB555946A0915E559587D85967',
-          title: '履约时效',
-        },
-        {
-          children: [],
-          dataIndex: '62DDD6D6C3FB44B9B934F177D862C122',
-          title: '物流总时效',
-        },
-      ],
-      dataIndex: '5833520DE86E4C93A969A1E0C035000E',
-      title: '物流',
-    },
-    {
-      children: [
-        {
-          children: [{}, {}],
-          dataIndex: '9635EC054CA94C66936DAE2812E194ED',
-          title: '3',
-        },
-      ],
-      dataIndex: 'ASD32WC4E8DD409FB923564A0B48EF1',
-      title: '财务',
-    },
-    {
-      children: [
-        {
-          children: [
-            {
-              dataIndex: 'LRP_Dispatch_B002_S003',
-              title: 'LRP_Dispatch_B002_S003',
-            },
-            {
-              dataIndex: 'SCMC_PlanOrder_S001',
-              title: 'SCMC_PlanOrder_S001',
-            },
-            {
-              dataIndex: 'MOFC_Order_B004_S001',
-              title: 'MOFC_Order_B004_S001',
-            },
-            {
-              dataIndex: 'SCMC_PlanOrder_S003',
-              title: 'SCMC_PlanOrder_S003',
-            },
-          ],
-          dataIndex: 'B0776DBA335945809C203216FBF2153C',
-          title: '22',
-        },
-      ],
-      dataIndex: '157A6975A4414D5585BB617EB2F095E1',
-      title: '财务',
-    },
-    {
-      children: [],
-      dataIndex: 'F9E0831D215C494684DB1B04E354F248',
-      title: '财务222',
-    },
-  ]);
+  const [nodeColumns, setNodeColumns] = useState([]);
   const ref = useRef();
   const [now, setNow] = useState(new Date());
 
@@ -396,9 +60,20 @@ const TableList: React.FC = () => {
     if (smallNode === '-') {
       return smallNode;
     }
+    const names = smallNode?.smallNodeName || [];
+    const times = smallNode?.smallNodeTime || [];
     return (
       <>
-        <Popover
+        {names.map((res, index) => {
+          return (
+            <Fragment key={index}>
+              {res}：{times[index]}
+              <br />
+            </Fragment>
+          );
+        })}
+        {smallNode?.aging}
+        {/* <Popover
           content={
             <>
               <div>开始时间：{moment(smallNode.startDate).format('YYYY-MM-DD HH:mm:ss')}</div>
@@ -414,7 +89,7 @@ const TableList: React.FC = () => {
           <div>{timeDiff(smallNode.startDate, smallNode.endDate || now)}</div>
           <div>待办：{smallNode.agendaCause || '-'}</div>
           <Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>
-        </Popover>
+        </Popover> */}
       </>
     );
   });
@@ -462,8 +137,213 @@ const TableList: React.FC = () => {
         formRef={ref}
         request={async (params, sort) => {
           searchData = params;
-          const { success, data } = await getAllFullLinkRecordVo(params, sort);
-          // setNodeColumns(data?.headerData || []);
+          const { success, data } = await Promise.resolve({
+            success: true,
+            data: {
+              records: [
+                {
+                  usoOrderNo: {
+                    serviceType: null,
+                    no: '113011',
+                    transType: null,
+                    B8F385C4E8DD404FB955564A0B48EF1A: {
+                      '933565A0E2D84F4B987B9D48B2C23A02': {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      FDB8A6174EE24DF28A06A332CB3AF290: {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                    },
+                    '5833520DE86E4C93A969A1E0C035000E': {
+                      '337CC46F72BA4D7F9D671D09811255E4': {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      '2CB097DC3D9D49348627EE67CD084FCD': {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      '28F28765B1504FC38046F61E2B22E3AF': {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      '62DDD6D6C3FB44B9B934F177D862C122': {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      '069EB075765349F6923524C192A98E94': {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      '39BAB84FFEBF411789EC1766F3C6F369': {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      D0F7DF97761C49899487D315FA2AE1DA: {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      '592326EE61BB45C08787319422ED7082': {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      '1E7765AB555946A0915E559587D85967': {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      '7D418FDA8CAC49AEA6DAB4F1DFC3D824': {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      '81938E76D2874C8881433422BA3FDEF0': {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      E6B0BFA5CE63443EBFE1C832F7D5B804: {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                      CC7C6AB9312C4A0199B7A0DD0E443E26: {
+                        smallNodeTime: ['60分钟', '60分钟'],
+                        aging: '正常 120分钟',
+                        smallNodeName: ['初始', '审核'],
+                      },
+                    },
+                    ASD32WC4E8DD409FB923564A0B48EF1: {},
+                    '157A6975A4414D5585BB617EB2F095E1': {},
+                  },
+                },
+              ],
+              total: 185953,
+              size: 10,
+              current: 1,
+              orders: [],
+              headerData: [
+                {
+                  title: 'uso单号',
+                  dataIndex: 'usoOrderNo',
+                  children: [
+                    { title: 'no', dataIndex: 'usoOrderNo.no' },
+                    { title: 'scmc单号', dataIndex: 'usoOrderNo.scmcOrderNo' },
+                    { title: 'mofc单号', dataIndex: 'usoOrderNo.mofcOrderNo' },
+                    { title: 'lrp单号', dataIndex: 'usoOrderNo.lrpOrderNo' },
+                    { title: '运输产品', dataIndex: 'usoOrderNo.transType' },
+                    { title: '服务要求', dataIndex: 'usoOrderNo.serviceType' },
+                    {
+                      title: '业务',
+                      dataIndex: 'usoOrderNo.B8F385C4E8DD404FB955564A0B48EF1A',
+                      children: [
+                        {
+                          title: '财务审核时效',
+                          dataIndex:
+                            'usoOrderNo.B8F385C4E8DD404FB955564A0B48EF1A.FDB8A6174EE24DF28A06A332CB3AF290',
+                        },
+                        {
+                          title: 'C端货源占用时效',
+                          dataIndex:
+                            'usoOrderNo.B8F385C4E8DD404FB955564A0B48EF1A.933565A0E2D84F4B987B9D48B2C23A02',
+                        },
+                      ],
+                    },
+                    {
+                      title: '物流',
+                      dataIndex: 'usoOrderNo.5833520DE86E4C93A969A1E0C035000E',
+                      children: [
+                        {
+                          title: 'C端派单时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.069EB075765349F6923524C192A98E94',
+                        },
+                        {
+                          title: '确定物流方式时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.337CC46F72BA4D7F9D671D09811255E4',
+                        },
+                        {
+                          title: '归集时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.28F28765B1504FC38046F61E2B22E3AF',
+                        },
+                        {
+                          title: '配送时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.2CB097DC3D9D49348627EE67CD084FCD',
+                        },
+                        {
+                          title: '民生派单时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.7D418FDA8CAC49AEA6DAB4F1DFC3D824',
+                        },
+                        {
+                          title: 'C端出库时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.D0F7DF97761C49899487D315FA2AE1DA',
+                        },
+                        {
+                          title: '到车时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.592326EE61BB45C08787319422ED7082',
+                        },
+                        {
+                          title: '装车时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.39BAB84FFEBF411789EC1766F3C6F369',
+                        },
+                        {
+                          title: '在途时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.81938E76D2874C8881433422BA3FDEF0',
+                        },
+                        {
+                          title: '回单时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.E6B0BFA5CE63443EBFE1C832F7D5B804',
+                        },
+                        {
+                          title: '业务总时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.CC7C6AB9312C4A0199B7A0DD0E443E26',
+                        },
+                        {
+                          title: '履约时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.1E7765AB555946A0915E559587D85967',
+                        },
+                        {
+                          title: '物流总时效',
+                          dataIndex:
+                            'usoOrderNo.5833520DE86E4C93A969A1E0C035000E.62DDD6D6C3FB44B9B934F177D862C122',
+                        },
+                      ],
+                    },
+                    { title: '财务', dataIndex: 'usoOrderNo.ASD32WC4E8DD409FB923564A0B48EF1' },
+                    { title: '财务', dataIndex: 'usoOrderNo.157A6975A4414D5585BB617EB2F095E1' },
+                  ],
+                },
+              ],
+              searchCount: true,
+              pages: 18596,
+            },
+          });
+
+          // await getAllFullLinkRecordVo(params, sort);
+          setNodeColumns(data?.headerData || []);
           return {
             success: success,
             data: data.records,
