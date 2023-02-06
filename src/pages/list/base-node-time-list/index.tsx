@@ -36,7 +36,7 @@ function intoChild(arr, render) {
     return {
       ...res,
       render,
-      width: '115px',
+      width: '110px',
     };
   });
 
@@ -131,9 +131,9 @@ const TableList: React.FC = () => {
             导出报表
           </Button>,
         ]}
-        sticky
         bordered
-        scroll={{ x: 5000 }}
+        sticky
+        scroll={{ x: '100px' }}
         formRef={ref}
         request={async (params, sort) => {
           searchData = params;
