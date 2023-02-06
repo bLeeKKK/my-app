@@ -1,12 +1,11 @@
 import type { FC } from 'react';
-import { Fragment } from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Card, Radio, Select, Row, Col, Empty } from 'antd';
 import styles from '../style.less';
 import { useDispatch, useSelector } from 'umi';
 import { useRequest } from 'umi';
 import { statisticRealTimeAverageData } from '../service';
-import { useUpdateEffect } from 'ahooks';
+// import { useUpdateEffect } from 'ahooks';
 import ShowLine from './ShowLine';
 
 const RadioGroup = Radio.Group;
@@ -15,7 +14,7 @@ const RadioGroup = Radio.Group;
 const StatisticsSys: FC = () => {
   // 搜索参数
   const [radioValue, setRadioValue] = useState('D');
-  const [sys, setSys] = useState();
+  const [sys, setSys] = useState('USO');
   const { source_sys, period_type } = useSelector((state) => state.dictionary);
   const dispatch = useDispatch();
   const { data: dataMap, run } = useRequest((params) => statisticRealTimeAverageData(params), {
@@ -28,9 +27,9 @@ const StatisticsSys: FC = () => {
     dispatch({ type: 'dictionary/findAllByDictCode', payload: { code: 'period_type' } });
   }, [dispatch]);
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     run({ periodType: radioValue, sendSystem: sys });
-  }, [radioValue, sys]);
+  }, [radioValue, run, sys]);
 
   const extraContent = (
     <div className={styles['extra-content']}>
