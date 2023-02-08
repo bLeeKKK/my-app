@@ -80,6 +80,7 @@ const TableList: React.FC = () => {
         <Popover
           content={
             <>
+              {/* {smallNode?.agingTime} */}
               {names.map((res, index) => {
                 return (
                   <Fragment key={index}>
@@ -93,7 +94,10 @@ const TableList: React.FC = () => {
           }
         >
           {smallNode?.aging ? (
-            <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
+            <>
+              {smallNode?.agingTime}
+              <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
+            </>
           ) : (
             !!names?.length && <Tag>处理中</Tag>
           )}
