@@ -5,8 +5,7 @@ import ProTable from '@ant-design/pro-table';
 import { getAgingReport } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
-import { useRafInterval } from 'ahooks';
-import { Tag } from 'antd';
+import { Tag, Popover } from 'antd';
 import styles from './styles.less';
 
 // 不需要处理小节点的
@@ -78,17 +77,27 @@ const TableList: React.FC = () => {
     const times = smallNode?.smallNodeTime || [];
     return (
       <>
-        <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
-        <hr />
-        {names.map((res, index) => {
-          return (
-            <Fragment key={index}>
-              <div style={{ fontSize: '12px' }}>
-                {res}：{times[index]}分钟
-              </div>
-            </Fragment>
-          );
-        })}
+        <Popover
+          content={
+            <>
+              {names.map((res, index) => {
+                return (
+                  <Fragment key={index}>
+                    <div style={{ fontSize: '12px' }}>
+                      {res}：{times[index]}分钟
+                    </div>
+                  </Fragment>
+                );
+              })}
+            </>
+          }
+        >
+          {smallNode?.aging ? (
+            <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
+          ) : (
+            !!names?.length && <Tag>处理中</Tag>
+          )}
+        </Popover>
       </>
     );
   });
