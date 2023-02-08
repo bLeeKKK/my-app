@@ -7,6 +7,7 @@ import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
 import { useRafInterval } from 'ahooks';
 import { Tag } from 'antd';
+import styles from './styles.less';
 
 // 不需要处理小节点的
 const arrExtar = ['sourceCode'];
@@ -58,16 +59,21 @@ const TableList: React.FC = () => {
   const { actionRef } = useSelector((state) => state.baseNodeTimeList);
   const [nodeColumns, setNodeColumns] = useState([]);
   const ref = useRef();
-  const [now, setNow] = useState(new Date());
+  // const [now, setNow] = useState(new Date());
 
-  useRafInterval(() => {
-    setNow(new Date());
-  }, 1000);
+  // useRafInterval(() => {
+  //   setNow(new Date());
+  // }, 1000);
 
   const newColumns = intoChild(nodeColumns, (smallNode) => {
     if (smallNode === '-') {
       return smallNode;
     }
+    const t = typeof smallNode;
+    if (t === 'string' || t === 'number') {
+      return smallNode;
+    }
+
     const names = smallNode?.smallNodeName || [];
     const times = smallNode?.smallNodeTime || [];
     return (
@@ -78,28 +84,11 @@ const TableList: React.FC = () => {
           return (
             <Fragment key={index}>
               <div style={{ fontSize: '12px' }}>
-                {res}：{times[index]}
+                {res}：{times[index]}分钟
               </div>
             </Fragment>
           );
         })}
-        {/* <Popover
-          content={
-            <>
-              <div>开始时间：{moment(smallNode.startDate).format('YYYY-MM-DD HH:mm:ss')}</div>
-              <div style={{ color: smallNode.endDate ? '' : 'red' }}>
-                结束时间：
-                {smallNode.endDate
-                  ? moment(smallNode.endDate || now).format('YYYY-MM-DD HH:mm:ss')
-                  : '处理中'}
-              </div>
-            </>
-          }
-        >
-          <div>{timeDiff(smallNode.startDate, smallNode.endDate || now)}</div>
-          <div>待办：{smallNode.agendaCause || '-'}</div>
-          <Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>
-        </Popover> */}
       </>
     );
   });
@@ -107,6 +96,7 @@ const TableList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<TableListItem, TableListPagination>
+        tableClassName={styles['base-node-time-list']}
         headerTitle="查询表格"
         actionRef={actionRef}
         rowKey="sourceCode"
