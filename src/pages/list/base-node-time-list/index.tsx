@@ -105,11 +105,12 @@ const TableList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<TableListItem, TableListPagination>
+        // search={{ labelWidth: 120 }}
+        search={false}
         tableClassName={styles['base-node-time-list']}
         headerTitle="查询表格"
         actionRef={actionRef}
         rowKey="sourceCode"
-        search={{ labelWidth: 120 }}
         // expandable={{
         //   expandedRowRender,
         // }}
