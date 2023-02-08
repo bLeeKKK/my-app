@@ -2,17 +2,11 @@ import React, { useRef, useState, Fragment } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 // import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { getAgingReport, interfaceCallRecordExport } from './service';
+import { getAgingReport } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
-import moment from 'moment';
-import { Button, Modal, message, Popover } from 'antd';
-import { download } from '@/utils';
-import { Tag } from 'antd';
 import { useRafInterval } from 'ahooks';
-import { timeDiff } from '@/utils';
-
-let searchData = {};
+import { Tag } from 'antd';
 
 // 不需要处理小节点的
 const arrExtar = ['sourceCode'];
@@ -43,8 +37,22 @@ function intoChild(arr, render) {
   return newArr;
 }
 
-// const expandedRowRender = (data) => <ShowBox data={data} />;
+function getColor(aging = '') {
+  // 正常（绿色），一般预警（蓝色），较重预警（黄色），严重预警(橙色），特别严重预警（红色）
+  if (aging.includes('正常')) {
+    return 'green';
+  } else if (aging.includes('一般预警')) {
+    return 'blue';
+  } else if (aging.includes('较重预警')) {
+    return 'yellow';
+  } else if (aging.includes('严重预警')) {
+    return 'orange';
+  } else if (aging.includes('特别严重预警')) {
+    return 'red';
+  }
+}
 
+// const expandedRowRender = (data) => <ShowBox data={data} />;
 // const now = new Date();
 const TableList: React.FC = () => {
   const { actionRef } = useSelector((state) => state.baseNodeTimeList);
@@ -64,6 +72,8 @@ const TableList: React.FC = () => {
     const times = smallNode?.smallNodeTime || [];
     return (
       <>
+        <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
+        <hr />
         {names.map((res, index) => {
           return (
             <Fragment key={index}>
@@ -73,7 +83,6 @@ const TableList: React.FC = () => {
             </Fragment>
           );
         })}
-        {smallNode?.aging}
         {/* <Popover
           content={
             <>
@@ -137,8 +146,6 @@ const TableList: React.FC = () => {
         scroll={{ x: '100px' }}
         formRef={ref}
         request={async (params, sort) => {
-          searchData = params;
-
           const { data, success } = await getAgingReport(params, sort);
           setNodeColumns(data?.headerData || []);
           return {
