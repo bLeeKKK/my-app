@@ -140,7 +140,6 @@ const TableList: React.FC = () => {
           searchData = params;
 
           const { data, success } = await getAgingReport(params, sort);
-          console.log(data, success);
           setNodeColumns(data?.headerData || []);
           return {
             success: success,
