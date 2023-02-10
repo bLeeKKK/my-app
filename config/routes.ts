@@ -102,6 +102,11 @@
         component: './list/base-node-time-list',
       },
       {
+        path: '/list/mofc-sure-list',
+        name: 'mofc-sure-list',
+        component: './list/mofc-sure-list',
+      },
+      {
         layout: false,
         hideInMenu: true,
         path: '/list/base-show',

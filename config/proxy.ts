@@ -14,6 +14,12 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/local.api': '' },
     },
+    '/report-inf/deliverEbocLeftMofc/findAllByPage': {
+      // 本地 测试环境
+      target: 'http://10.38.52.26:8012',
+      changeOrigin: true,
+      // pathRewrite: { '^/local.api': '' },
+    },
   },
 
   test: {
