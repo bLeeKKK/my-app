@@ -23,6 +23,21 @@ function getHaveTDate(arr: any[]) {
   ];
 }
 
+// mofc状态 初始,接单中,已接单,已出库,已揽件,部分签收,已拒签,已签收,取消中,已取消
+const STATUS_OPTIONS = {
+  ['初始']: { text: '初始', status: '初始' },
+  ['已派单']: { text: '已派单', status: '已派单' },
+  ['接单中']: { text: '接单中', status: '接单中' },
+  ['已接单']: { text: '已接单', status: '已接单' },
+  ['已出库']: { text: '已出库', status: '已出库' },
+  ['已揽件']: { text: '已揽件', status: '已揽件' },
+  ['部分签收']: { text: '部分签收', status: '部分签收' },
+  ['已拒签']: { text: '已拒签', status: '已拒签' },
+  ['已签收']: { text: '已签收', status: '已签收' },
+  ['取消中']: { text: '取消中', status: '取消中' },
+  ['已取消']: { text: '已取消', status: '已取消' },
+};
+
 const MofcSureList: React.FC = () => {
   const { actionRef } = useSelector((state) => state.accountManagement);
 
@@ -49,10 +64,26 @@ const MofcSureList: React.FC = () => {
     },
     { title: 'EBOC发货编号', dataIndex: 'ebocFhNo', width: 140 },
     { title: 'EBOC单据号', dataIndex: 'ebocLNo', width: 140 },
+    { title: 'EBOC状态', dataIndex: 'ebocStatus', width: 140 },
+    {
+      title: 'MOFC删除标记',
+      dataIndex: 'mofcDelFlag',
+      width: 140,
+      valueEnum: {
+        0: { text: '否', status: '0' },
+        1: { text: '是', status: '1' },
+      },
+    },
     { title: 'MOFC发货编号', dataIndex: 'mofcFhNo', width: 140 },
     { title: 'MOFC单据号', dataIndex: 'mofcLNo', width: 140 },
     { title: 'MOFC状态编号', dataIndex: 'mofcStatus', width: 140 },
-    { title: 'MOFC状态', dataIndex: 'serverStatus', width: 140 },
+    {
+      title: 'MOFC状态',
+      dataIndex: 'serverStatus',
+      width: 140,
+      valueEnum: STATUS_OPTIONS,
+      valueType: 'select',
+    },
   ];
 
   return (
