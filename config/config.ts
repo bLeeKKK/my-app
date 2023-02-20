@@ -83,4 +83,16 @@ export default defineConfig({
   mfsu: {},
   webpack5: {},
   exportStatic: {},
+  // mountElementId: 'root',
+  qiankun: {
+    master: {
+      // 注册子应用信息
+      apps: [
+        {
+          name: 'app1', // 唯一 id
+          entry: 'http://192.168.31.91:8001', // html entry // ?sourceOrderkey=82135509&sourceSys=SCMC&userName=MOFC-管理员
+        },
+      ],
+    },
+  },
 });

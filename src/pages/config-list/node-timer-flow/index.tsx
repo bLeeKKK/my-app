@@ -1,6 +1,5 @@
 import React from 'react';
 import { message, Popconfirm } from 'antd';
-import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { nodeValidityPeriodConfigDelete, findByParent } from './service';
@@ -98,29 +97,29 @@ const TableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
-      <ProTable<TableListItem, TableListPagination>
-        headerTitle="查询表格"
-        actionRef={actionRef}
-        rowKey="id"
-        search={{ labelWidth: 120 }}
-        toolBarRender={() => [<Edit key="eidt" />]}
-        sticky
-        // scroll={{ x: 1500 }}
-        // pagination={{
-        //   pageSize: 30,
-        // }}
-        pagination={false}
-        request={async (params) => {
-          const { success, data } = await findByParent(0, params);
-          return {
-            success: success,
-            data: data,
-          };
-        }}
-        columns={columns}
-      />
-    </PageContainer>
+    // <PageContainer>
+    <ProTable<TableListItem, TableListPagination>
+      headerTitle="查询表格"
+      actionRef={actionRef}
+      rowKey="id"
+      search={{ labelWidth: 120 }}
+      toolBarRender={() => [<Edit key="eidt" />]}
+      sticky
+      // scroll={{ x: 1500 }}
+      // pagination={{
+      //   pageSize: 30,
+      // }}
+      pagination={false}
+      request={async (params) => {
+        const { success, data } = await findByParent(0, params);
+        return {
+          success: success,
+          data: data,
+        };
+      }}
+      columns={columns}
+    />
+    // </PageContainer>
   );
 };
 

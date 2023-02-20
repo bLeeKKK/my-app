@@ -71,28 +71,28 @@ const RightManagement: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
-      <ProTable<TableListItem, TableListPagination>
-        headerTitle="查询表格"
-        actionRef={actionRef}
-        rowKey="menuId"
-        search={{ labelWidth: 120 }}
-        toolBarRender={() => [<Edit key="eidt" />]}
-        sticky
-        pagination={false}
-        // dataSource={data || []}
-        request={async () => {
-          // const { success, data } = await treeselect();
-          const { success, data } = await findByPage();
+    // <PageContainer>
+    <ProTable<TableListItem, TableListPagination>
+      headerTitle="查询表格"
+      actionRef={actionRef}
+      rowKey="menuId"
+      search={{ labelWidth: 120 }}
+      toolBarRender={() => [<Edit key="eidt" />]}
+      sticky
+      pagination={false}
+      // dataSource={data || []}
+      request={async () => {
+        // const { success, data } = await treeselect();
+        const { success, data } = await findByPage();
 
-          return {
-            success,
-            data,
-          };
-        }}
-        columns={columns}
-      />
-    </PageContainer>
+        return {
+          success,
+          data,
+        };
+      }}
+      columns={columns}
+    />
+    // </PageContainer>
   );
 };
 

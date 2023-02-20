@@ -107,64 +107,64 @@ const TableList: React.FC = () => {
   });
 
   return (
-    <PageContainer>
-      <ProTable<TableListItem, TableListPagination>
-        // search={{ labelWidth: 120 }}
-        search={false}
-        tableClassName={styles['base-node-time-list']}
-        headerTitle="查询表格"
-        actionRef={actionRef}
-        rowKey="sourceCode"
-        // expandable={{
-        //   expandedRowRender,
-        // }}
-        // toolBarRender={() => [
-        //   <Button
-        //     key="export"
-        //     onClick={() => {
-        //       Modal.confirm({
-        //         title: '提示',
-        //         content: '确定要导出数据吗？',
-        //         onOk: () => {
-        //           // const data = ref.current?.getFieldsValue();
-        //           interfaceCallRecordExport(searchData)
-        //             .then((res) => {
-        //               const blob = new Blob([res], {
-        //                 type: 'application/vnd.ms-excel,charset=utf-8',
-        //               });
-        //               const fileName = `记录池数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
-        //               download(blob, fileName);
-        //             })
-        //             .catch((err) => {
-        //               message.error(err.message);
-        //             });
-        //         },
-        //       });
-        //     }}
-        //   >
-        //     导出报表
-        //   </Button>,
-        // ]}
-        bordered
-        sticky
-        scroll={{ x: '100px' }}
-        formRef={ref}
-        request={async (params, sort) => {
-          const { data, success } = await getAgingReport(params, sort);
-          setNodeColumns(data?.headerData || []);
-          return {
-            success: success,
-            data: data.records,
-            total: data.total,
-            // intfStDatetimes: ['2022-11-11T10:33:41.436', '2022-11-30T10:33:41.436'],
-          };
-        }}
-        pagination={{
-          showSizeChanger: true,
-        }}
-        columns={newColumns}
-      />
-    </PageContainer>
+    // <PageContainer>
+    <ProTable<TableListItem, TableListPagination>
+      // search={{ labelWidth: 120 }}
+      search={false}
+      tableClassName={styles['base-node-time-list']}
+      headerTitle="查询表格"
+      actionRef={actionRef}
+      rowKey="sourceCode"
+      // expandable={{
+      //   expandedRowRender,
+      // }}
+      // toolBarRender={() => [
+      //   <Button
+      //     key="export"
+      //     onClick={() => {
+      //       Modal.confirm({
+      //         title: '提示',
+      //         content: '确定要导出数据吗？',
+      //         onOk: () => {
+      //           // const data = ref.current?.getFieldsValue();
+      //           interfaceCallRecordExport(searchData)
+      //             .then((res) => {
+      //               const blob = new Blob([res], {
+      //                 type: 'application/vnd.ms-excel,charset=utf-8',
+      //               });
+      //               const fileName = `记录池数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+      //               download(blob, fileName);
+      //             })
+      //             .catch((err) => {
+      //               message.error(err.message);
+      //             });
+      //         },
+      //       });
+      //     }}
+      //   >
+      //     导出报表
+      //   </Button>,
+      // ]}
+      bordered
+      sticky
+      scroll={{ x: '100px' }}
+      formRef={ref}
+      request={async (params, sort) => {
+        const { data, success } = await getAgingReport(params, sort);
+        setNodeColumns(data?.headerData || []);
+        return {
+          success: success,
+          data: data.records,
+          total: data.total,
+          // intfStDatetimes: ['2022-11-11T10:33:41.436', '2022-11-30T10:33:41.436'],
+        };
+      }}
+      pagination={{
+        showSizeChanger: true,
+      }}
+      columns={newColumns}
+    />
+    // </PageContainer>
   );
 };
 

@@ -115,35 +115,33 @@ const MofcSureList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
-      <ProTable<TableListItem, TableListPagination>
-        headerTitle="查询表格"
-        actionRef={actionRef}
-        rowKey="key"
-        search={{ labelWidth: 120 }}
-        // toolBarRender={() => [<Edit key="eidt" />]}
-        sticky
-        scroll={{ x: 1500 }}
-        // pagination={{
-        //   pageSize: 30,
-        // }}
-        request={async (params) => {
-          const { current, pageSize, ...reset } = params;
-          console.log('params', params);
-          const { success, data } = await findByPage({
-            current,
-            size: pageSize,
-            ...reset,
-          });
-          return {
-            success: success,
-            data: data.records,
-            total: data.total,
-          };
-        }}
-        columns={columns}
-      />
-    </PageContainer>
+    <ProTable<TableListItem, TableListPagination>
+      headerTitle="查询表格"
+      actionRef={actionRef}
+      rowKey="key"
+      search={{ labelWidth: 120 }}
+      // toolBarRender={() => [<Edit key="eidt" />]}
+      sticky
+      scroll={{ x: 1500 }}
+      // pagination={{
+      //   pageSize: 30,
+      // }}
+      request={async (params) => {
+        const { current, pageSize, ...reset } = params;
+        // console.log('params', params);
+        const { success, data } = await findByPage({
+          current,
+          size: pageSize,
+          ...reset,
+        });
+        return {
+          success: success,
+          data: data.records,
+          total: data.total,
+        };
+      }}
+      columns={columns}
+    />
   );
 };
 

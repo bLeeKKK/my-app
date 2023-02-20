@@ -78,79 +78,79 @@ const TableList: React.FC = () => {
     }
   }, [ref]);
 
-  console.log([...columns, ...nodeColumsReq]);
+  // console.log([...columns, ...nodeColumsReq]);
   return (
-    <PageContainer>
-      <ProTable<TableListItem, TableListPagination>
-        headerTitle="查询表格"
-        actionRef={actionRef}
-        bordered
-        form={{
-          initialValues: { startDates: [startMonth, endMonth] },
-        }}
-        rowKey="key"
-        search={{ labelWidth: 120 }}
-        toolBarRender={() => [
-          <Button
-            key="export"
-            onClick={() => {
-              Modal.confirm({
-                title: '提示',
-                content: '确定要导出数据吗？',
-                onOk: () => {
-                  // const data = ref.current?.getFieldsValue();
-                  interfaceCallRecordExport(searchData)
-                    .then((res) => {
-                      const blob = new Blob([res], {
-                        type: 'application/vnd.ms-excel,charset=utf-8',
-                      });
-                      const fileName = `记录池数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
-                      download(blob, fileName);
-                    })
-                    .catch((err) => {
-                      message.error(err.message);
+    // <PageContainer>
+    <ProTable<TableListItem, TableListPagination>
+      headerTitle="查询表格"
+      actionRef={actionRef}
+      bordered
+      form={{
+        initialValues: { startDates: [startMonth, endMonth] },
+      }}
+      rowKey="key"
+      search={{ labelWidth: 120 }}
+      toolBarRender={() => [
+        <Button
+          key="export"
+          onClick={() => {
+            Modal.confirm({
+              title: '提示',
+              content: '确定要导出数据吗？',
+              onOk: () => {
+                // const data = ref.current?.getFieldsValue();
+                interfaceCallRecordExport(searchData)
+                  .then((res) => {
+                    const blob = new Blob([res], {
+                      type: 'application/vnd.ms-excel,charset=utf-8',
                     });
-                },
-              });
-            }}
-          >
-            导出报表
-          </Button>,
-        ]}
-        scroll={{ x: 3000 }}
-        sticky
-        formRef={ref}
-        request={async (params, sort) => {
-          searchData = params;
-          const { success, data } = await findByPage(params, sort);
-          const arr = data?.records || [];
+                    const fileName = `记录池数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                    download(blob, fileName);
+                  })
+                  .catch((err) => {
+                    message.error(err.message);
+                  });
+              },
+            });
+          }}
+        >
+          导出报表
+        </Button>,
+      ]}
+      scroll={{ x: 3000 }}
+      sticky
+      formRef={ref}
+      request={async (params, sort) => {
+        searchData = params;
+        const { success, data } = await findByPage(params, sort);
+        const arr = data?.records || [];
 
-          const newArr = arr.map((res) => {
-            const obj = (res?.detailList || []).reduce((pre, item) => {
-              return {
-                ...pre,
-                [item.nodeName]: item,
-              };
-            }, {});
+        const newArr = arr.map((res) => {
+          const obj = (res?.detailList || []).reduce((pre, item) => {
             return {
-              ...res,
-              ...obj,
+              ...pre,
+              [item.nodeName]: item,
             };
-          });
-          console.log(newArr);
-          setColumnsReq(data?.headerData || []);
+          }, {});
           return {
-            success: success,
-            data: newArr,
-            total: data.total,
+            ...res,
+            ...obj,
           };
-        }}
-        pagination={{
-          showSizeChanger: true,
-        }}
-        columns={[...columns, ...nodeColumsReq]}
-      />
-    </PageContainer>
+        });
+        console.log(newArr);
+        setColumnsReq(data?.headerData || []);
+        return {
+          success: success,
+          data: newArr,
+          total: data.total,
+        };
+      }}
+      pagination={{
+        showSizeChanger: true,
+      }}
+      columns={[...columns, ...nodeColumsReq]}
+    />
+    // </PageContainer>
   );
 };
 

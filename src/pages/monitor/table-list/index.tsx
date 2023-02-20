@@ -10,6 +10,11 @@ export const TableList: FC = () => {
   const [tabActiveKey, setTabActiveKey] = useState<string>('interfaceIntegrate');
   return (
     <PageContainer
+      header={{
+        title: '',
+        ghost: true,
+        breadcrumb: { routes: [] },
+      }}
       tabActiveKey={tabActiveKey}
       onTabChange={(key) => setTabActiveKey(key)}
       tabList={[

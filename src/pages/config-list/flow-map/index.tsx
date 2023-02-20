@@ -76,9 +76,9 @@ const FlowMap = () => {
   };
 
   return (
-    <PageContainer>
-      <ProCard direction="column" ghost gutter={[0, 16]}>
-        {/* <ProCard bordered>
+    // <PageContainer>
+    <ProCard direction="column" ghost gutter={[0, 16]}>
+      {/* <ProCard bordered>
           <Row>
             <Col span={12}>
               <ArrowLeftOutlined onClick={() => history.goBack()} style={{ fontSize: '28px' }} />
@@ -93,22 +93,21 @@ const FlowMap = () => {
             </Col>
           </Row>
         </ProCard> */}
-        <div className="btn-box">
-          <Button onClick={() => history.goBack()} className="btn">
-            返回
-          </Button>
-          <Button type="primary" onClick={save} className="btn">
-            保存
-          </Button>
+      <div className="btn-box">
+        <Button onClick={() => history.goBack()} className="btn">
+          返回
+        </Button>
+        <Button type="primary" onClick={save} className="btn">
+          保存
+        </Button>
+      </div>
+      <ProCard ghost bordered>
+        <div style={{ width: '100%', height: '600px' }}>
+          <XFalow ref={ref} id={id} save={save} />
         </div>
-        <ProCard ghost bordered>
-          <div style={{ width: '100%', height: '600px' }}>
-            <XFalow ref={ref} id={id} save={save} />
-          </div>
-        </ProCard>
       </ProCard>
-      {/* <Prompt when={true} message="您确定半途而废么？" /> */}
-    </PageContainer>
+    </ProCard>
+    // </PageContainer>
   );
 };
 

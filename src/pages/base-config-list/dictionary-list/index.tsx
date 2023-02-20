@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
 import { ProCard, ProList } from '@ant-design/pro-components';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import Edit from './components/Edit';
@@ -17,7 +16,7 @@ import ProTable from '@ant-design/pro-table';
 import { useControllableValue } from 'ahooks';
 import { message } from 'antd';
 
-const IconText = ({ icon, text, ...props }) => {
+const IconText = ({ icon, text, ...props }: any) => {
   const Icon = icon;
   return (
     <Tooltip placement="top" title={text}>
@@ -151,71 +150,71 @@ const DictionaryList: React.FC = () => {
   };
 
   return (
-    <PageContainer>
-      <ProCard split="vertical">
-        <ProCard headerBordered colSpan="400px" className={styles['left-box']}>
-          <Catalogue onChange={setSelectedRowKeys} />
-        </ProCard>
-        <ProCard ghost={true} headerBordered colSpan="calc(100% - 400px)">
-          <ProTable
-            actionRef={actionRefDetails}
-            headerTitle="字典详情"
-            rowKey="key"
-            sticky
-            manualRequest={true}
-            search={false}
-            toolBarRender={() => [<EditDetails key="editDetails" dictCode={dictCode} />]}
-            params={{ dictCode }}
-            request={async ({ dictCode: code }) => {
-              try {
-                const { success, data } = await findAllByDictCode({ dictCode: code });
-                if (!success) throw new Error('获取数据失败');
-                return {
-                  success,
-                  data: data,
-                };
-              } catch (error) {
-                return { success: true, data: [] };
-              }
-            }}
-            // dataSource={data?.data || []}
-            columns={[
-              {
-                title: '操作',
-                key: 'option',
-                valueType: 'option',
-                width: 120,
-                render: (_, row) => [
-                  <IconText
-                    icon={EditOutlined}
-                    text="编辑"
-                    key="list-vertical-edit"
-                    onClick={() => onEdit(row)}
-                  />,
-                  <Popconfirm
-                    key="del"
-                    placement="top"
-                    title="确定删除？"
-                    onConfirm={async () => {
-                      const flag = await handleDeleteDetail(row.id);
-                      if (flag && actionRefDetails?.current) actionRefDetails.current.reload();
-                    }}
-                    okText="是"
-                    cancelText="否"
-                  >
-                    <IconText icon={DeleteOutlined} text="删除" key="list-vertical-del" />
-                  </Popconfirm>,
-                ],
-              },
-              { title: '名称', dataIndex: 'name' },
-              { title: '实际使用值', dataIndex: 'value' },
-              { title: '编码', dataIndex: 'code' },
-              { title: '字典编码', dataIndex: 'dictCode' },
-            ]}
-          />
-        </ProCard>
+    // <KeepAlive name="/base-config-list/dictionary-list">
+    <ProCard split="vertical">
+      <ProCard headerBordered colSpan="400px" className={styles['left-box']}>
+        <Catalogue onChange={setSelectedRowKeys} />
       </ProCard>
-    </PageContainer>
+      <ProCard ghost={true} headerBordered colSpan="calc(100% - 400px)">
+        <ProTable
+          actionRef={actionRefDetails}
+          headerTitle="字典详情"
+          rowKey="key"
+          sticky
+          manualRequest={true}
+          search={false}
+          toolBarRender={() => [<EditDetails key="editDetails" dictCode={dictCode} />]}
+          params={{ dictCode }}
+          request={async ({ dictCode: code }) => {
+            try {
+              const { success, data } = await findAllByDictCode({ dictCode: code });
+              if (!success) throw new Error('获取数据失败');
+              return {
+                success,
+                data: data,
+              };
+            } catch (error) {
+              return { success: true, data: [] };
+            }
+          }}
+          // dataSource={data?.data || []}
+          columns={[
+            {
+              title: '操作',
+              key: 'option',
+              valueType: 'option',
+              width: 120,
+              render: (_, row) => [
+                <IconText
+                  icon={EditOutlined}
+                  text="编辑"
+                  key="list-vertical-edit"
+                  onClick={() => onEdit(row)}
+                />,
+                <Popconfirm
+                  key="del"
+                  placement="top"
+                  title="确定删除？"
+                  onConfirm={async () => {
+                    const flag = await handleDeleteDetail(row.id);
+                    if (flag && actionRefDetails?.current) actionRefDetails.current.reload();
+                  }}
+                  okText="是"
+                  cancelText="否"
+                >
+                  <IconText icon={DeleteOutlined} text="删除" key="list-vertical-del" />
+                </Popconfirm>,
+              ],
+            },
+            { title: '名称', dataIndex: 'name' },
+            { title: '实际使用值', dataIndex: 'value' },
+            { title: '编码', dataIndex: 'code' },
+            { title: '字典编码', dataIndex: 'dictCode' },
+          ]}
+        />
+      </ProCard>
+    </ProCard>
+    // </KeepAlive>
   );
 };
 

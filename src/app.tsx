@@ -2,6 +2,7 @@ import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from 'umi';
 import type { RequestConfig } from 'umi';
 import Footer from '@/components/Footer';
+import PageContainerBox from '@/components/PageContainerBox';
 import RightContent from '@/components/RightContent';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
@@ -45,7 +46,7 @@ export async function getInitialState(): Promise<{
    * */
   // 如果不是登录页面，执行
   const { location } = history;
-  console.log(location, !authArr.some((res) => res === location.pathname));
+  // console.log(location, !authArr.some((res) => res === location.pathname));
   if (
     history.location.pathname !== loginPath &&
     !authArr.some((res) => res === location.pathname)
@@ -102,6 +103,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
           </Link>,
         ]
       : [],
+    // headerContentRender: () => <ProBreadcrumb />,
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
@@ -110,7 +112,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       // if (initialState?.loading) return <PageLoading />;
       return (
         <>
-          {children}
+          <PageContainerBox>{children}</PageContainerBox>
           {!props.location?.pathname?.includes('/login') && (
             <SettingDrawer
               disableUrlParams
