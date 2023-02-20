@@ -53,6 +53,12 @@
           },
         ],
       },
+
+      {
+        path: '/config-list/node-timer-flow',
+        name: 'node-timer-flow',
+        component: './config-list/node-timer-flow',
+      },
     ],
   },
   {
@@ -81,9 +87,24 @@
         component: './list/base-show-list',
       },
       {
+        path: '/list/base-show-list-no',
+        name: 'base-show-list-no',
+        component: './list/base-show-list-no',
+      },
+      {
         path: '/list/base-report-forms',
         name: 'base-report-forms',
         component: './list/base-report-forms',
+      },
+      {
+        path: '/list/base-node-time-list',
+        name: 'base-node-time-list',
+        component: './list/base-node-time-list',
+      },
+      {
+        path: '/list/mofc-sure-list',
+        name: 'mofc-sure-list',
+        component: './list/mofc-sure-list',
       },
       {
         layout: false,

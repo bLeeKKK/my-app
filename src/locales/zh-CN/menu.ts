@@ -17,13 +17,17 @@ export default {
   'menu.config-list.over-time-level': '超时等级配置',
   // 'menu.config-list.er-map': '流程配置图',
   'menu.config-list.operation-flow.flow-map': '流程配置图',
+  'menu.config-list.node-timer-flow': '节点时效配置',
 
   'menu.list': '数据管理',
   // 'menu.list.table-list': '数据列表',
   // 'menu.list.base-list': '记录池数据',
   'menu.list.base-time-list': '全链路时效数据池',
   'menu.list.base-show-list': '全链路数据列表',
+  'menu.list.base-show-list-no': '全链路数据列表(单号)',
   'menu.list.base-report-forms': '业务管理报表',
+  'menu.list.base-node-time-list': '节点时效报表',
+  'menu.list.mofc-sure-list': 'MOFC缺失单据',
   'menu.list.base-show': '流程详情',
 
   'menu.account': '用户权限管理',

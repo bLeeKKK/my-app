@@ -19,3 +19,6 @@ export const MOCKER_API = '/mocker.api';
 
 // 模块
 export const BIZLOG_CORE = 'bizlog-core';
+
+// 模块
+export const BIZLOG_REPORT_CORE = 'bizlog-report-inf';

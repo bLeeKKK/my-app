@@ -59,7 +59,15 @@ const TableList: React.FC = () => {
   const { actionRef } = useSelector((state) => state.baseTimeList);
   const [columnsReq, setColumnsReq] = useState([]);
   const ref = useRef();
-  const nodeColumsReq = columnsReq.splice(5, 10000);
+  const nodeColumsReq = columnsReq.splice(5, 10000).map((res) => {
+    res.children = (res?.children || []).map((re) => ({
+      ...re,
+      dataIndex: [res.title, re.dataIndex], // `${res.title}.${re.dataIndex}`,
+    }));
+    return {
+      ...res,
+    };
+  });
 
   useEffect(() => {
     if (ref) {
@@ -70,11 +78,13 @@ const TableList: React.FC = () => {
     }
   }, [ref]);
 
+  console.log([...columns, ...nodeColumsReq]);
   return (
     <PageContainer>
       <ProTable<TableListItem, TableListPagination>
         headerTitle="查询表格"
         actionRef={actionRef}
+        bordered
         form={{
           initialValues: { startDates: [startMonth, endMonth] },
         }}
@@ -113,11 +123,25 @@ const TableList: React.FC = () => {
         request={async (params, sort) => {
           searchData = params;
           const { success, data } = await findByPage(params, sort);
+          const arr = data?.records || [];
 
+          const newArr = arr.map((res) => {
+            const obj = (res?.detailList || []).reduce((pre, item) => {
+              return {
+                ...pre,
+                [item.nodeName]: item,
+              };
+            }, {});
+            return {
+              ...res,
+              ...obj,
+            };
+          });
+          console.log(newArr);
           setColumnsReq(data?.headerData || []);
           return {
             success: success,
-            data: data.records,
+            data: newArr,
             total: data.total,
           };
         }}

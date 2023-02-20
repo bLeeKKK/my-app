@@ -52,10 +52,10 @@ export async function findByPage(data, sort) {
   });
 }
 // 分页查询
-export async function getAllFullLinkRecordVo(data, sort) {
+export async function getAgingReport(data, sort) {
   const search = getSearchData(data, sort);
 
-  return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/getAllFullLinkRecordVo`, {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/getAgingReport`, {
     method: 'post',
     ...search,
   });
