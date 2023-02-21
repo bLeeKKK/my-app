@@ -94,10 +94,9 @@ const TableList: React.FC = () => {
           }
         >
           {smallNode?.aging ? (
-            <>
-              {smallNode?.agingTime}
-              <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
-            </>
+            <div style={{whiteSpace:'nowrap'}}>
+              {smallNode?.agingTime} <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
+            </div>
           ) : (
             !!names?.length && <Tag>处理中</Tag>
           )}
@@ -150,7 +149,7 @@ const TableList: React.FC = () => {
       scroll={{ x: '100px' }}
       formRef={ref}
       request={async (params, sort) => {
-        const { data, success } = await zonghe(params, sort);
+        const { data, success } = await getAgingReport(params, sort);
         setNodeColumns(data?.headerData || []);
         return {
           success: success,

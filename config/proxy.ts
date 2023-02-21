@@ -10,7 +10,7 @@ export default {
   dev: {
     '/local.api': {
       // 本地 测试环境
-      target: 'http://10.38.52.89:8012',
+      target: 'https://ecmp.changhong.com/',
       changeOrigin: true,
       pathRewrite: { '^/local.api': '' },
     },
