@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 // import { PageContainer } from '@ant-design/pro-layout';
 // import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { getAllFullLinkRecordVo, interfaceCallRecordExport } from './service';
+import { zonghe, interfaceCallRecordExport } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
 import moment from 'moment';
@@ -126,7 +126,7 @@ const TableList: React.FC = () => {
       formRef={ref}
       request={async (params, sort) => {
         searchData = params;
-        const { success, data } = await getAllFullLinkRecordVo(params, sort);
+        const { success, data } = await zonghe(params, sort);
         setNodeColumns(data?.headerData || []);
         return {
           success: success,

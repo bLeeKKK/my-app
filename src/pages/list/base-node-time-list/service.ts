@@ -60,15 +60,6 @@ export async function getAgingReport(data, sort) {
     ...search,
   });
 }
-// 分页查询
-export async function zonghe(data, sort) {
-  const search = getSearchData(data, sort);
-
-  return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/zonghe`, {
-    method: 'post',
-    ...search,
-  });
-}
 
 // 导出接口记录池数据
 export async function interfaceCallRecordExport(data: ParamsType): Promise<{ data: unknown[] }> {

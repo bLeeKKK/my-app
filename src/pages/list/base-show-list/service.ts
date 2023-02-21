@@ -51,6 +51,27 @@ export async function findByPage(data, sort) {
     ...search,
   });
 }
+
+// // 分页查询
+// export async function zonghe(data, sort) {
+//   const search = getSearchData(data, sort);
+
+//   return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/zonghe`, {
+//     method: 'post',
+//     ...search,
+//   });
+// }
+
+// 分页查询
+export async function zonghe(data, sort) {
+  const search = getSearchData(data, sort);
+
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/zonghe`, {
+    method: 'post',
+    ...search,
+  });
+}
+
 // 分页查询
 export async function getAllFullLinkRecordVo(data, sort) {
   const search = getSearchData(data, sort);
