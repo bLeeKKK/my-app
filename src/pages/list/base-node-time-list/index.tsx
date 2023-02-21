@@ -7,6 +7,7 @@ import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
 import { Tag, Popover } from 'antd';
 import styles from './styles.less';
+import Trend from '@/components/Trend';
 
 // 不需要处理小节点的
 const arrExtar = ['sourceCode'];
@@ -30,7 +31,7 @@ function intoChild(arr, render) {
     return {
       ...res,
       render,
-      width: '110px',
+      width: '200px',
     };
   });
 
@@ -77,10 +78,9 @@ const TableList: React.FC = () => {
     const times = smallNode?.smallNodeTime || [];
     return (
       <>
-        <Popover
+        {/* <Popover
           content={
             <>
-              {/* {smallNode?.agingTime} */}
               {names.map((res, index) => {
                 return (
                   <Fragment key={index}>
@@ -93,10 +93,6 @@ const TableList: React.FC = () => {
             </>
           }
         >
-          {/* <div className={styles[]}>
-            <div>2</div>
-            <div>3</div>
-          </div> */}
           {smallNode?.aging ? (
             <div style={{ whiteSpace: 'nowrap' }}>
               {smallNode?.agingTime}{' '}
@@ -105,6 +101,60 @@ const TableList: React.FC = () => {
           ) : (
             !!names?.length && <Tag>处理中</Tag>
           )}
+        </Popover> */}
+        <Popover
+          content={
+            <>
+              {names.map((res, index) => {
+                return (
+                  <Fragment key={index}>
+                    <div style={{ fontSize: '12px' }}>
+                      {res}：{times[index]}分钟
+                    </div>
+                  </Fragment>
+                );
+              })}
+            </>
+          }
+        >
+          <div style={{ display: 'flex' }}>
+            <div>
+              {names.length
+                ? names.map((res, index) => {
+                    return (
+                      <div
+                        style={{
+                          fontSize: '12px',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          width: '110px',
+                        }}
+                        key={res + index}
+                      >
+                        {times[index]}：{res}
+                      </div>
+                    );
+                  })
+                : '-----'}
+            </div>
+            <div style={{ borderLeft: '1px solid rgb(232, 232, 232)', paddingLeft: '4px' }}>
+              {names?.length ? (
+                <Trend flag="up" style={{ marginRight: 16 }}>
+                  月同比
+                  <span className={styles.trendText}>12%</span>
+                </Trend>
+              ) : null}
+              {smallNode?.aging ? (
+                <div style={{ whiteSpace: 'nowrap' }}>
+                  <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
+                  <div>总：{smallNode?.agingTime}分钟</div>
+                </div>
+              ) : (
+                !!names?.length && <Tag>处理中</Tag>
+              )}
+            </div>
+          </div>
         </Popover>
       </>
     );
