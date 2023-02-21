@@ -1,8 +1,8 @@
 import React, { useRef, useState, Fragment } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
+// import { PageContainer } from '@ant-design/pro-layout';
 // import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { getAgingReport } from './service';
+import { getAgingReport, zonghe } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
 import { Tag, Popover } from 'antd';
@@ -150,7 +150,7 @@ const TableList: React.FC = () => {
       scroll={{ x: '100px' }}
       formRef={ref}
       request={async (params, sort) => {
-        const { data, success } = await getAgingReport(params, sort);
+        const { data, success } = await zonghe(params, sort);
         setNodeColumns(data?.headerData || []);
         return {
           success: success,
