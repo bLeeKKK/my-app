@@ -119,8 +119,9 @@ const TableList: React.FC = () => {
         >
           <div style={{ display: 'flex' }}>
             <div>
-              {names.length
-                ? names.map((res, index) => {
+              {names.length ? (
+                <>
+                  {names.map((res, index) => {
                     return (
                       <div
                         style={{
@@ -132,15 +133,18 @@ const TableList: React.FC = () => {
                         }}
                         key={res + index}
                       >
-                        {times[index]}：{res}
+                        {times[index]}-{res}
                       </div>
                     );
-                  })
-                : '-----'}
+                  })}
+                </>
+              ) : (
+                '-----'
+              )}
             </div>
             <div style={{ borderLeft: '1px solid rgb(232, 232, 232)', paddingLeft: '4px' }}>
               {names?.length ? (
-                <Trend flag="up" style={{ marginRight: 16 }}>
+                <Trend flag={Math.random() > 0.5 ? 'up' : 'down'} style={{ marginRight: 16 }}>
                   月同比
                   <span className={styles.trendText}>12%</span>
                 </Trend>

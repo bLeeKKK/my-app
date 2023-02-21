@@ -15,12 +15,29 @@ import { timeDiff } from '@/utils';
 let searchData = {};
 
 // 不需要处理小节点的
-const arrExtar = ['sourceCode', 'XXX'];
+const arrExtar = ['sourceCode', 'currentCode'];
+const getDeepObj = (obj, path = '') => {
+  const pathArr = path.split('.');
+  let res = obj;
+  pathArr.forEach((item) => {
+    res = res[item];
+  });
+  return res;
+};
 // 处理小节点渲染
 function intoChild(arr, render) {
   const newArr = arr.map((res) => {
     // 不处理字段
-    if (arrExtar.includes(res.dataIndex)) return { ...res, fixed: 'left' };
+    if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left' };
+    if (res.dataIndex.includes('.currentCode1')) {
+      return {
+        ...res,
+        width: '90px',
+        render: (_, record) => {
+          return getDeepObj(record, res.dataIndex);
+        },
+      };
+    }
 
     res.dataIndex = Array.isArray(res?.dataIndex)
       ? res.dataIndex

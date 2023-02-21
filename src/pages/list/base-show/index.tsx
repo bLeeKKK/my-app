@@ -37,7 +37,9 @@ export default function BaseShow() {
           tab: '基础展示',
           children: (
             <div style={{ minHeight: '800px' }}>
-              <ShowBox data={data?.data} />
+              {data?.data?.map((item, index) => (
+                <ShowBox data={item} key={index} />
+              ))}
             </div>
           ),
         },

@@ -90,7 +90,8 @@ export default defineConfig({
       apps: [
         {
           name: 'bizlog-web', // 唯一 id
-          entry: 'https://ecmp.changhong.com/bizlog-web/index.html', // html entry // ?sourceOrderkey=82135509&sourceSys=SCMC&userName=MOFC-管理员
+          entry: 'http://localhost:8000', // html entry // ?sourceOrderkey=82135509&sourceSys=SCMC&userName=MOFC-管理员
+          // entry: 'https://ecmp.changhong.com/bizlog-web/index.html', // html entry // ?sourceOrderkey=82135509&sourceSys=SCMC&userName=MOFC-管理员
         },
       ],
     },
