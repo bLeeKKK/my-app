@@ -93,9 +93,14 @@ const TableList: React.FC = () => {
             </>
           }
         >
+          {/* <div className={styles[]}>
+            <div>2</div>
+            <div>3</div>
+          </div> */}
           {smallNode?.aging ? (
-            <div style={{whiteSpace:'nowrap'}}>
-              {smallNode?.agingTime} <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
+            <div style={{ whiteSpace: 'nowrap' }}>
+              {smallNode?.agingTime}{' '}
+              <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
             </div>
           ) : (
             !!names?.length && <Tag>处理中</Tag>

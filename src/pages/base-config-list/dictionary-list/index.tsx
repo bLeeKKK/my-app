@@ -151,7 +151,7 @@ const DictionaryList: React.FC = () => {
 
   return (
     // <KeepAlive name="/base-config-list/dictionary-list">
-    <ProCard split="vertical">
+    <ProCard split="vertical" className={styles['dir-box']}>
       <ProCard headerBordered colSpan="400px" className={styles['left-box']}>
         <Catalogue onChange={setSelectedRowKeys} />
       </ProCard>
