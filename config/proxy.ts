@@ -10,10 +10,16 @@ export default {
   dev: {
     '/bizlog-core': {
       // 本地 测试环境
-      target: 'https://decmp.changhong.com/',
+      target: 'https://ecmp.changhong.com/',
       changeOrigin: true,
       // pathRewrite: { '': '' },
     },
+    // 'bizlog-web': {
+    //   // 本地 测试环境
+    //   target: 'https://ecmp.changhong.com',
+    //   changeOrigin: true,
+    //   // pathRewrite: { '': '' },
+    // },
   },
 
   test: {
