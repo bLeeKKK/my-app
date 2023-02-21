@@ -25,12 +25,6 @@
         lazyLoad: true,
         wrappers: ['@/wrappers/withKeepLive'],
       },
-      // {
-      //   path: '/base-config-list/app1',
-      //   name: 'app1',
-      //   component: './base-config-list/app1',
-      //   // wrappers: ['@/wrappers/withKeepLive'],
-      // },
     ],
   },
   {
@@ -129,7 +123,7 @@
         path: '/list/base-show',
         name: 'base-show',
         component: './list/base-show',
-        wrappers: ['@/wrappers/withKeepLive'],
+        // wrappers: ['@/wrappers/withKeepLive'],
       },
       {
         component: './404',

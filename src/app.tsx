@@ -5,10 +5,14 @@ import Footer from '@/components/Footer';
 import PageContainerBox from '@/components/PageContainerBox';
 import RightContent from '@/components/RightContent';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
-import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
+import {
+  PageLoading,
+  // SettingDrawer
+} from '@ant-design/pro-components';
 import { history, Link } from 'umi';
 import defaultSettings from '../config/defaultSettings';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { getMenuData, getPageTitle } from '@ant-design/pro-components';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -108,12 +112,23 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
+
     childrenRender: (children, props) => {
       // if (initialState?.loading) return <PageLoading />;
+      const { breadcrumbMap } = getMenuData(props.routes, { locale: true });
+      // console.log(breadcrumbMap.get(props.location.pathname), breadcrumb, menuData);
+      const routerConfig = breadcrumbMap.get(props.location.pathname);
       return (
         <>
-          <PageContainerBox>{children}</PageContainerBox>
-          {!props.location?.pathname?.includes('/login') && (
+          {/* routerConfig?.layout 为false 不在菜单内的页面不进行包裹 */}
+          {routerConfig?.layout === false ? (
+            children
+          ) : (
+            <PageContainerBox {...props}>{children}</PageContainerBox>
+          )}
+
+          {/* <PageContainerBox {...props}>{children}</PageContainerBox> */}
+          {/* {!props.location?.pathname?.includes('/login') && isDev && (
             <SettingDrawer
               disableUrlParams
               enableDarkTheme
@@ -125,7 +140,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
                 }));
               }}
             />
-          )}
+          )} */}
         </>
       );
     },

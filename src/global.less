@@ -55,6 +55,75 @@ ol {
   }
 }
 
+
+// 自定义样式处理 ----- start
+
+// 页面内容框样式
+.ant-pro-page-container {
+
+  // 全局内容头部样式
+  .ant-pro-page-container-warp {
+    .ant-page-header.has-footer {
+      padding: 8px 8px 0 8px;
+    }
+
+    .ant-page-header-footer {
+      margin: 0;
+    }
+  }
+
+  // 全局页面内容框样式
+  .ant-pro-grid-content {
+    .ant-pro-page-container-children-content {
+      margin: 8px;
+
+      // 全局搜索框样式
+      .ant-pro-card.ant-pro-table-search.ant-pro-table-search-query-filter {
+        padding: 8px 8px 0 8px;
+        margin-bottom: 8px;
+
+        .ant-form-item {
+          margin-bottom: 8px;
+        }
+      }
+
+
+      .ant-pro-card {
+        .ant-pro-card-body {
+          padding: 8px 16px;
+
+          // 全局工具栏样式
+          .ant-pro-table-list-toolbar-container {
+            padding: 8px;
+
+            .ant-pro-table-list-toolbar-title {
+              font-size: 14px;
+            }
+          }
+        }
+
+        // 全局表格样式
+        .ant-table-wrapper {
+
+          // 表头
+          .ant-table-header.ant-table-sticky-holder {
+
+            tr>th,
+            tr>td {
+              padding: 6px 8px;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+// 自定义样式处理 ----- end
+
 // Compatible with IE11
 @media screen and(-ms-high-contrast: active),
 (-ms-high-contrast: none) {

@@ -12,4 +12,15 @@ export default defineConfig({
     babelPlugins: [],
     babelOptions: {},
   },
+  // qiankun: {
+  //   master: {
+  //     // 注册子应用信息
+  //     apps: [
+  //       {
+  //         name: 'bizlog-web', // 唯一 id
+  //         entry: 'http://localhost:8003', // html entry // ?sourceOrderkey=82135509&sourceSys=SCMC&userName=MOFC-管理员
+  //       },
+  //     ],
+  //   },
+  // },
 });

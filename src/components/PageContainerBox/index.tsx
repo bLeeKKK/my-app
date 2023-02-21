@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
-import { useHistory, useIntl, useLocation, MicroApp } from 'umi';
+import { useHistory, useIntl, useLocation } from 'umi';
 import { getMenuData, getPageTitle } from '@ant-design/pro-components';
-import routes from '../../../config/routes';
+// import routes from '../../../config/routes';
 import { useAliveController } from 'react-activation';
 import './index.less';
 // import { Tabs } from 'antd';
 
 // const { TabPane } = Tabs;
-function PageContainerBox({ children }: any) {
+function PageContainerBox({ children, routes }: any) {
   const history = useHistory();
   const location = useLocation();
   const intl = useIntl();
@@ -17,7 +17,7 @@ function PageContainerBox({ children }: any) {
     [intl],
   );
 
-  const { getCachingNodes, dropScope, refresh } = useAliveController();
+  const { getCachingNodes, dropScope } = useAliveController();
   const cachingNodes = getCachingNodes();
   console.log(cachingNodes);
 
@@ -32,32 +32,6 @@ function PageContainerBox({ children }: any) {
     });
   }, [cachingNodes, breadcrumb]);
 
-  // return (
-  //   <>
-  //     <Tabs
-  //       type="editable-card"
-  //       hideAdd
-  //       onEdit={(targetKey, action) => {
-  //         if (action === 'remove') {
-  //           console.log(location.pathname, targetKey);
-  //           if (location.pathname === targetKey) {
-  //             dropScope(targetKey);
-  //             // 前往排除当前 item 后的最后一个 tab
-  //             history.push(list.filter((item) => item.key !== targetKey).pop()?.key || '/');
-  //           } else {
-  //             dropScope((targetKey as string) || '/');
-  //           }
-  //         }
-  //       }}
-  //     >
-  //       {list.map((item) => (
-  //         <TabPane tab={item.tab} key={item.key} closable={item.key !== '/'} />
-  //       ))}
-  //     </Tabs>
-  //     {children}
-  //   </>
-  // );
-
   return (
     <PageContainer
       // fixedHeader
@@ -70,6 +44,7 @@ function PageContainerBox({ children }: any) {
       tabActiveKey={history.location.pathname}
       onTabChange={(key) => history.push(key)}
       tabProps={{
+        className: 'page-tabs',
         type: 'editable-card',
         hideAdd: true,
         onEdit: (targetKey, action) => {
@@ -87,7 +62,6 @@ function PageContainerBox({ children }: any) {
         },
       }}
     >
-      {/* <MicroApp name="app1" /> */}
       {children}
     </PageContainer>
   );

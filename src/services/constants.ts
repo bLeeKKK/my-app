@@ -9,7 +9,8 @@ const GATEWAY = '';
  */
 const getServerPath = () => {
   if (process.env.NODE_ENV !== 'production') {
-    return '/local.api';
+    // return '/local.api';
+    return '';
   }
   return `${BASE_DOMAIN}${GATEWAY}`;
 };
