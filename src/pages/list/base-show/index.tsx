@@ -3,6 +3,7 @@ import { findSourceCode } from './service';
 import { useRequest } from 'ahooks';
 import ShowBox from '../base-show-list/components/ShowBox';
 import { PageContainer } from '@ant-design/pro-components';
+import { Empty } from 'antd';
 
 export default function BaseShow() {
   const { query } = useLocation();
@@ -12,7 +13,7 @@ export default function BaseShow() {
     refreshDeps: [sourceCode, sourceSys],
   });
 
-  console.log(sourceSys);
+  const showArr = data?.data || [];
   return (
     <PageContainer
       // fixedHeader
@@ -37,9 +38,11 @@ export default function BaseShow() {
           tab: '基础展示',
           children: (
             <div style={{ minHeight: '800px' }}>
-              {data?.data?.map((item, index) => (
-                <ShowBox data={item} key={index} />
-              ))}
+              {showArr.length ? (
+                showArr.map((item, index) => <ShowBox data={item} key={index} />)
+              ) : (
+                <Empty />
+              )}
             </div>
           ),
         },

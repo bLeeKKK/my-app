@@ -19,7 +19,6 @@ function PageContainerBox({ children, routes }: any) {
 
   const { getCachingNodes, dropScope } = useAliveController();
   const cachingNodes = getCachingNodes();
-  console.log(cachingNodes);
 
   const list = useMemo(() => {
     return cachingNodes.map(({ name }) => {
