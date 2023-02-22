@@ -18,7 +18,7 @@ export default function BaseShow() {
     <PageContainer
       // fixedHeader
       // ghost
-      style={{ height: '100%' }}
+      style={{ height: '100%', marginTop: '45px' }}
       header={{
         title: '',
         breadcrumb: {},
