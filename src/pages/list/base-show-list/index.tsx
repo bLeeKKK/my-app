@@ -20,7 +20,7 @@ const getDeepObj = (obj, path = '') => {
   const pathArr = path.split('.');
   let res = obj;
   pathArr.forEach((item) => {
-    res = res[item];
+    res = res?.[item];
   });
   return res;
 };
