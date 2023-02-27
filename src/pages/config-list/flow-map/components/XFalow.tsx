@@ -57,15 +57,6 @@ const Main: React.FC<IProps> = forwardRef((props: IProps, ref) => {
   /** XFlow应用实例 */
   const app = useXFlowApp();
 
-  /** 画布配置项 */
-  const graphConfig = useGraphConfig();
-  /** 预设XFlow画布需要渲染的React节点 / 边 */
-  graphConfig.setNodeRender('NODE1', (propsNode) => {
-    return <Entity {...propsNode} deleteNode={handleDeleteNode} />;
-  });
-  graphConfig.setEdgeRender('EDGE1', (propsEdge) => {
-    return <Relation {...propsEdge} deleteRelation={handleDeleteEdge} />;
-  });
   /** 命令配置项 */
   const cmdConfig = useCmdConfig();
   /** 快捷键配置项 */
@@ -75,6 +66,7 @@ const Main: React.FC<IProps> = forwardRef((props: IProps, ref) => {
   const [graphStatuts, setGraphStatus] = useState<string>('NORMAL');
   /** 是否展示新建节点弹窗 */
   const [isShowCreateNodeModal, setIsShowCreateNodeModal] = useState<boolean>(false);
+  const [editBigNode, setEditBigNode] = useState<any>();
   /** 是否展示新建关联关系弹窗 */
   const [isShowCreateRelationModal, setIsShowCreateRelationModal] = useState<boolean>(false);
   /** 连线source数据 */
@@ -83,6 +75,25 @@ const Main: React.FC<IProps> = forwardRef((props: IProps, ref) => {
   const [relationTargetData, setRelationTargetData] = useState<EntityCanvasModel>(undefined);
   // 流程数据
   const [flowData, setFlowData] = useState();
+
+  /** 画布配置项 */
+  const graphConfig = useGraphConfig();
+  /** 预设XFlow画布需要渲染的React节点 / 边 */
+  graphConfig.setNodeRender('NODE1', (propsNode) => {
+    return (
+      <Entity
+        {...propsNode}
+        deleteNode={handleDeleteNode}
+        openEdit={(edit) => {
+          setIsShowCreateNodeModal(true);
+          setEditBigNode(edit);
+        }}
+      />
+    );
+  });
+  graphConfig.setEdgeRender('EDGE1', (propsEdge) => {
+    return <Relation {...propsEdge} deleteRelation={handleDeleteEdge} />;
+  });
 
   useImperativeHandle(ref, () => ({
     app,
@@ -349,7 +360,10 @@ const Main: React.FC<IProps> = forwardRef((props: IProps, ref) => {
         {/** 创建节点弹窗 */}
         <CreateNodeModal
           flowData={flowData}
+          edit={editBigNode}
+          setEditBigNode={setEditBigNode}
           visible={isShowCreateNodeModal}
+          setVisible={setIsShowCreateNodeModal}
           onOk={handleCreateNode}
           onCancel={() => {
             setIsShowCreateNodeModal(false);

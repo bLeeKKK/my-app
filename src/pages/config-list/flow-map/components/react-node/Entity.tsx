@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { NsGraph, NsNodeCmd } from '@antv/xflow';
 import type { EntityCanvasModel, EntityProperty } from '../interface';
-import { BarsOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { BarsOutlined, DeleteOutlined, PlusOutlined, EditOutlined } from '@ant-design/icons';
 import { EntityType } from '../const';
 import { useBoolean, useUpdateEffect } from 'ahooks';
 import { XFlowNodeCommands, useXFlowApp } from '@antv/xflow';
@@ -24,6 +24,7 @@ type Props = OwnProps & NsGraph.IReactNodeProps;
 
 const Entity = (props: Props) => {
   const entity: EntityCanvasModel = props?.data;
+  const { openEdit } = props;
   const app = useXFlowApp();
   const [visible, { setTrue, setFalse }] = useBoolean(false);
   const [form] = Form.useForm();
@@ -65,6 +66,7 @@ const Entity = (props: Props) => {
               <span>（{entity?._nodeName}）</span>
             </div>
             <div className="icon-box">
+              <EditOutlined className="icon" onClick={() => openEdit(entity)} />
               <PlusOutlined className="icon" onClick={setTrue} />
               <DeleteOutlined className="icon" onClick={() => props.deleteNode(entity?.id)} />
             </div>

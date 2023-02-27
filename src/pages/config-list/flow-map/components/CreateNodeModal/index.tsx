@@ -6,6 +6,9 @@ import {
   ProFormTextArea,
   ProFormDigit,
 } from '@ant-design/pro-form';
+import { useUpdateEffect } from 'ahooks';
+import type { NsNodeCmd } from '@antv/xflow';
+import { XFlowNodeCommands, useXFlowApp } from '@antv/xflow';
 // import './index.less';
 
 interface Props {
@@ -13,12 +16,28 @@ interface Props {
   onOk: Function;
   onCancel: Function;
   flowData: unknown;
+  edit?: any;
+  setEditBigNode?: Function;
+  setVisible?: Function;
 }
 
 /** 创建模型弹窗 */
 const CreateEntityModal = (props: Props) => {
-  const { visible, onOk, onCancel, flowData } = props;
+  const { visible, onOk, onCancel, flowData, edit, setEditBigNode, setVisible } = props;
   const [form] = Form.useForm();
+  const app = useXFlowApp();
+
+  useUpdateEffect(() => {
+    if (edit) {
+      form.setFieldsValue(edit);
+    } else {
+      form.resetFields();
+    }
+  }, [edit]);
+
+  useUpdateEffect(() => {
+    if (!visible) setEditBigNode(undefined);
+  }, [visible]);
 
   return (
     <ModalForm
@@ -31,6 +50,20 @@ const CreateEntityModal = (props: Props) => {
         if (!flag) onCancel();
       }}
       onFinish={async (value) => {
+        if (edit) {
+          app.commandService.executeCommand<NsNodeCmd.UpdateNode.IArgs>(
+            XFlowNodeCommands.UPDATE_NODE.id,
+            {
+              nodeConfig: {
+                ...edit,
+                ...value,
+                id: value.nodeCode,
+              },
+            },
+          );
+          setVisible(false);
+          return;
+        }
         onOk(value);
       }}
     >
