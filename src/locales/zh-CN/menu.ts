@@ -26,7 +26,7 @@ export default {
   'menu.list.base-show-list': '全链路数据列表',
   'menu.list.base-show-list-no': '全链路数据列表(单号)',
   'menu.list.base-report-forms': '业务管理报表',
-  'menu.list.base-node-time-list': '节点时效报表',
+  'menu.list.base-node-time-list': '综合报表',
   'menu.list.mofc-sure-list': 'MOFC缺失单据',
   'menu.list.base-show': '流程详情',
 

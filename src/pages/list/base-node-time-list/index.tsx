@@ -76,6 +76,8 @@ const TableList: React.FC = () => {
 
     const names = smallNode?.smallNodeName || [];
     const times = smallNode?.smallNodeTime || [];
+    // const names = smallNode?.smallNodeName || [];
+    // const times = smallNode?.smallNodeTime || [];
     return (
       <>
         {/* <Popover
@@ -103,6 +105,44 @@ const TableList: React.FC = () => {
           )}
         </Popover> */}
         <Popover
+          content={
+            <>
+              {smallNode.smallNode.map((res, index) => {
+                return (
+                  <Fragment key={index}>
+                    <div style={{ fontSize: '12px' }}>
+                   {res.nodeName + '  【 开始时间：' + res.startDate +'      结束时间：' + res.endDate +' 】'} 
+                    </div>
+                  </Fragment>
+                );
+              })}
+            </>
+          }
+        >
+          <div style={{ display: 'flex' }}>
+            <div>
+              {names.length ? (
+                <>
+                 <div>总：{smallNode?.agingTime}分钟</div>
+                </>
+              ) : (
+                '-----'
+              )}
+            </div>
+            <div style={{ borderLeft: '1px solid rgb(232, 232, 232)', paddingLeft: '4px' }}>
+              {smallNode?.aging ? (
+                <div style={{ whiteSpace: 'nowrap' }}>
+                  <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
+                  
+                </div>
+              ) : (
+                !!names?.length && <Tag>处理中</Tag>
+              )}
+            </div>
+          </div>
+        </Popover>
+
+        {/* <Popover
           content={
             <>
               {names.map((res, index) => {
@@ -159,7 +199,8 @@ const TableList: React.FC = () => {
               )}
             </div>
           </div>
-        </Popover>
+        </Popover> */}
+
       </>
     );
   });
