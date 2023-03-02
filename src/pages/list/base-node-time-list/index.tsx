@@ -31,7 +31,7 @@ function intoChild(arr, render) {
     return {
       ...res,
       render,
-      width: '200px',
+      width: '100px',
     };
   });
 
@@ -80,30 +80,7 @@ const TableList: React.FC = () => {
     // const times = smallNode?.smallNodeTime || [];
     return (
       <>
-        {/* <Popover
-          content={
-            <>
-              {names.map((res, index) => {
-                return (
-                  <Fragment key={index}>
-                    <div style={{ fontSize: '12px' }}>
-                      {res}：{times[index]}分钟
-                    </div>
-                  </Fragment>
-                );
-              })}
-            </>
-          }
-        >
-          {smallNode?.aging ? (
-            <div style={{ whiteSpace: 'nowrap' }}>
-              {smallNode?.agingTime}{' '}
-              <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
-            </div>
-          ) : (
-            !!names?.length && <Tag>处理中</Tag>
-          )}
-        </Popover> */}
+     
         <Popover
           content={
             <>
@@ -119,17 +96,16 @@ const TableList: React.FC = () => {
             </>
           }
         >
-          <div style={{ display: 'flex' }}>
-            <div>
+          <div>
               {names.length ? (
                 <>
-                 <div>总：{smallNode?.agingTime}分钟</div>
+                 <div>总: {smallNode?.agingTime}分钟</div>
                 </>
               ) : (
-                '-----'
+                '--'
               )}
             </div>
-            <div style={{ borderLeft: '1px solid rgb(232, 232, 232)', paddingLeft: '4px' }}>
+            <div>
               {smallNode?.aging ? (
                 <div style={{ whiteSpace: 'nowrap' }}>
                   <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
@@ -139,72 +115,12 @@ const TableList: React.FC = () => {
                 !!names?.length && <Tag>处理中</Tag>
               )}
             </div>
-          </div>
         </Popover>
-
-        {/* <Popover
-          content={
-            <>
-              {names.map((res, index) => {
-                return (
-                  <Fragment key={index}>
-                    <div style={{ fontSize: '12px' }}>
-                      {res}：{times[index]}分钟
-                    </div>
-                  </Fragment>
-                );
-              })}
-            </>
-          }
-        >
-          <div style={{ display: 'flex' }}>
-            <div>
-              {names.length ? (
-                <>
-                  {names.map((res, index) => {
-                    return (
-                      <div
-                        style={{
-                          fontSize: '12px',
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          width: '110px',
-                        }}
-                        key={res + index}
-                      >
-                        {times[index]}-{res}
-                      </div>
-                    );
-                  })}
-                </>
-              ) : (
-                '-----'
-              )}
-            </div>
-            <div style={{ borderLeft: '1px solid rgb(232, 232, 232)', paddingLeft: '4px' }}>
-              {names?.length ? (
-                <Trend flag={Math.random() > 0.5 ? 'up' : 'down'} style={{ marginRight: 16 }}>
-                  月同比
-                  <span className={styles.trendText}>12%</span>
-                </Trend>
-              ) : null}
-              {smallNode?.aging ? (
-                <div style={{ whiteSpace: 'nowrap' }}>
-                  <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
-                  <div>总：{smallNode?.agingTime}分钟</div>
-                </div>
-              ) : (
-                !!names?.length && <Tag>处理中</Tag>
-              )}
-            </div>
-          </div>
-        </Popover> */}
 
       </>
     );
   });
-
+console.log(newColumns)
   return (
     // <PageContainer>
     <ProTable<TableListItem, TableListPagination>

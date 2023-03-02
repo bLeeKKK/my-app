@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,Fragment } from 'react';
 // import { PageContainer } from '@ant-design/pro-layout';
 // import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -29,11 +29,11 @@ const getDeepObj = (obj, path = '') => {
 function intoChild(arr, render) {
   const newArr = arr.map((res) => {
     // 不处理字段
-    if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left' };
+    if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left' ,width:'65px'};
     if (res.dataIndex.includes('.currentCode1')) {
       return {
         ...res,
-        width: '90px',
+        width: '65px',
         render: (_, record) => {
           return getDeepObj(record, res.dataIndex);
         },
@@ -47,6 +47,7 @@ function intoChild(arr, render) {
       res.children = intoChild(res.children, render);
       return {
         ...res,
+        width: '65px',
       };
     }
 
@@ -54,10 +55,9 @@ function intoChild(arr, render) {
     return {
       ...res,
       render,
-      width: '115px',
+      width: '65px',
     };
   });
-
   return newArr;
 }
 
@@ -83,18 +83,35 @@ const TableList: React.FC = () => {
         <Popover
           content={
             <>
-              <div>开始时间：{moment(smallNode.startDate).format('YYYY-MM-DD HH:mm:ss')}</div>
-              <div style={{ color: smallNode.endDate ? '' : 'red' }}>
+             { smallNode.smallNodeList&&smallNode.smallNodeList.map((res, index) => {
+                return (
+                  <Fragment key={index}>
+                    <div style={{ fontSize: '12px' }}>
+                   {res.smallNodeName + '  【 开始时间：' + moment(res.samllNodeStartDate).format('YYYY-MM-DD HH:mm:ss') } <span style={{ color: res.smallNodeEndDate ? '' : 'red' }}>
                 结束时间：
-                {smallNode.endDate
-                  ? moment(smallNode.endDate || now).format('YYYY-MM-DD HH:mm:ss')
-                  : '处理中'}
-              </div>
+                { res.smallNodeEndDate
+                  ? moment( res.smallNodeEndDate|| now).format('YYYY-MM-DD HH:mm:ss')
+                  : '处理中'} 】
+                    </span> 
+                    </div>
+                  </Fragment>
+                );
+              })}
             </>
+            // <>
+            
+            //   <div>开始时间：{moment(smallNode.startDate).format('YYYY-MM-DD HH:mm:ss')}</div>
+            //   <div style={{ color: smallNode.endDate ? '' : 'red' }}>
+            //     结束时间：
+            //     {smallNode.endDate
+            //       ? moment(smallNode.endDate || now).format('YYYY-MM-DD HH:mm:ss')
+            //       : '处理中'}
+            //   </div>
+            // </>
           }
         >
-          <div>{timeDiff(smallNode.startDate, smallNode.endDate || now)}</div>
-          <div>待办：{smallNode.agendaCause || '-'}</div>
+          <div>{timeDiff(smallNode.startDate, smallNode.endDate || now ,true)}</div>
+          {/* <div>待办：{smallNode.agendaCause || '-'}</div> */}
           <Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>
         </Popover>
       </>
@@ -139,8 +156,10 @@ const TableList: React.FC = () => {
         </Button>,
       ]}
       sticky
+      // style={{backgroundColor:'red'}}
+      className='contolTable'
       bordered
-      scroll={{ x: 5000 }}
+      scroll={{ x: 100 }}
       formRef={ref}
       request={async (params, sort) => {
         searchData = params;

@@ -66,7 +66,7 @@ export async function findByPage(data, sort) {
 export async function zonghe(data, sort) {
   const search = getSearchData(data, sort);
 
-  return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/zonghe`, {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/zonghe3`, {
     method: 'post',
     ...search,
   });
