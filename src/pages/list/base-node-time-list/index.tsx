@@ -83,7 +83,7 @@ const TableList: React.FC = () => {
         <Popover
           content={
             <>
-              {smallNode.smallNode.map((res, index) => {
+              {smallNode.smallNode?.map((res, index) => {
                 return (
                   <Fragment key={index}>
                     <Row style={{ fontSize: '12px', width: '450px' }}>
@@ -97,7 +97,7 @@ const TableList: React.FC = () => {
           }
         >
           <div>
-            {names.length ? (
+            {smallNode?.agingTime? (
               <>
                 <div>总: {smallNode?.agingTime}分钟</div>
               </>
