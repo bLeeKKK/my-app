@@ -5,7 +5,7 @@ import ProTable from '@ant-design/pro-table';
 import { getAgingReport } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
-import { Tag, Popover } from 'antd';
+import { Tag, Popover, Row, Col } from 'antd';
 import styles from './styles.less';
 import Trend from '@/components/Trend';
 
@@ -80,16 +80,16 @@ const TableList: React.FC = () => {
     // const times = smallNode?.smallNodeTime || [];
     return (
       <>
-     
         <Popover
           content={
             <>
               {smallNode.smallNode.map((res, index) => {
                 return (
                   <Fragment key={index}>
-                    <div style={{ fontSize: '12px' }}>
-                   {res.nodeName + '  【 开始时间：' + res.startDate +'      结束时间：' + res.endDate +' 】'} 
-                    </div>
+                    <Row style={{ fontSize: '12px', width: '450px' }}>
+                      <Col span={10}>{res.nodeName}</Col>
+                      <Col span={14}>{'  【 ' + res.startDate + ' - ' + res.endDate + ' 】'}</Col>
+                    </Row>
                   </Fragment>
                 );
               })}
@@ -97,30 +97,28 @@ const TableList: React.FC = () => {
           }
         >
           <div>
-              {names.length ? (
-                <>
-                 <div>总: {smallNode?.agingTime}分钟</div>
-                </>
-              ) : (
-                '--'
-              )}
-            </div>
-            <div>
-              {smallNode?.aging ? (
-                <div style={{ whiteSpace: 'nowrap' }}>
-                  <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
-                  
-                </div>
-              ) : (
-                !!names?.length && <Tag>处理中</Tag>
-              )}
-            </div>
+            {names.length ? (
+              <>
+                <div>总: {smallNode?.agingTime}分钟</div>
+              </>
+            ) : (
+              '--'
+            )}
+          </div>
+          <div>
+            {smallNode?.aging ? (
+              <div style={{ whiteSpace: 'nowrap' }}>
+                <Tag color={getColor(smallNode?.aging)}>{smallNode?.aging}</Tag>
+              </div>
+            ) : (
+              !!names?.length && <Tag>处理中</Tag>
+            )}
+          </div>
         </Popover>
-
       </>
     );
   });
-console.log(newColumns)
+  console.log(newColumns);
   return (
     // <PageContainer>
     <ProTable<TableListItem, TableListPagination>

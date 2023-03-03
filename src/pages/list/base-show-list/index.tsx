@@ -1,4 +1,4 @@
-import React, { useRef, useState,Fragment } from 'react';
+import React, { useRef, useState, Fragment } from 'react';
 // import { PageContainer } from '@ant-design/pro-layout';
 // import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -6,12 +6,12 @@ import { zonghe, interfaceCallRecordExport } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
 import moment from 'moment';
-import { Button, Modal, message, Popover } from 'antd';
+import { Button, Modal, message, Popover, Row, Col } from 'antd';
 import { download } from '@/utils';
 import { Tag } from 'antd';
 import { useRafInterval } from 'ahooks';
 import { timeDiff } from '@/utils';
-import  './style.less';
+import './style.less';
 
 let searchData = {};
 
@@ -29,7 +29,7 @@ const getDeepObj = (obj, path = '') => {
 function intoChild(arr, render) {
   const newArr = arr.map((res) => {
     // 不处理字段
-    if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left' ,width:'65px'};
+    if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left', width: '65px' };
     if (res.dataIndex.includes('.currentCode1')) {
       return {
         ...res,
@@ -75,7 +75,13 @@ const TableList: React.FC = () => {
   }, 1000);
 
   const newColumns = intoChild(nodeColumns, (smallNode) => {
+    console.log(smallNode);
+
     if (smallNode === '-') {
+      return smallNode;
+    }
+    const t = typeof smallNode;
+    if (t === 'string' || t === 'number') {
       return smallNode;
     }
     return (
@@ -83,23 +89,29 @@ const TableList: React.FC = () => {
         <Popover
           content={
             <>
-             { smallNode.smallNodeList&&smallNode.smallNodeList.map((res, index) => {
-                return (
-                  <Fragment key={index}>
-                    <div style={{ fontSize: '12px' }}>
-                   {res.smallNodeName + '  【 开始时间：' + moment(res.samllNodeStartDate).format('YYYY-MM-DD HH:mm:ss') } <span style={{ color: res.smallNodeEndDate ? '' : 'red' }}>
-                结束时间：
-                { res.smallNodeEndDate
-                  ? moment( res.smallNodeEndDate|| now).format('YYYY-MM-DD HH:mm:ss')
-                  : '处理中'} 】
-                    </span> 
-                    </div>
-                  </Fragment>
-                );
-              })}
+              {smallNode.smallNodeList &&
+                smallNode.smallNodeList.map((res, index) => {
+                  return (
+                    <Fragment key={index}>
+                      <Row style={{ fontSize: '12px', width: '450px' }}>
+                        <Col span={10}>{res.smallNodeName}</Col>
+                        <Col span={14}>
+                          {' 【' + moment(res.smallNodeStartDate).format('YYYY-MM-DD HH:mm:ss')}{' '}
+                          <span style={{ color: res.smallNodeEndDate ? '' : 'red' }}>
+                            -{' '}
+                            {res.smallNodeEndDate
+                              ? moment(res.smallNodeEndDate || now).format('YYYY-MM-DD HH:mm:ss')
+                              : '处理中'}{' '}
+                            】
+                          </span>
+                        </Col>
+                      </Row>
+                    </Fragment>
+                  );
+                })}
             </>
             // <>
-            
+
             //   <div>开始时间：{moment(smallNode.startDate).format('YYYY-MM-DD HH:mm:ss')}</div>
             //   <div style={{ color: smallNode.endDate ? '' : 'red' }}>
             //     结束时间：
@@ -110,7 +122,7 @@ const TableList: React.FC = () => {
             // </>
           }
         >
-          <div>{timeDiff(smallNode.startDate, smallNode.endDate || now ,true)}</div>
+          <div>{timeDiff(smallNode.startDate, smallNode.endDate || now, true)}</div>
           {/* <div>待办：{smallNode.agendaCause || '-'}</div> */}
           <Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>
         </Popover>
@@ -157,7 +169,7 @@ const TableList: React.FC = () => {
       ]}
       sticky
       // style={{backgroundColor:'red'}}
-      className='contolTable'
+      className="contolTable"
       bordered
       scroll={{ x: 100 }}
       formRef={ref}
