@@ -100,7 +100,7 @@ const TableList: React.FC = () => {
           <div>
             {smallNode?.agingTime ? (
               <>
-                <div>总: {smallNode?.agingTime}分钟</div>
+                <div> {smallNode?.agingTime}分钟</div>
               </>
             ) : (
               '--'
