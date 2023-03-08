@@ -29,11 +29,11 @@ const getDeepObj = (obj, path = '') => {
 function intoChild(arr, render) {
   const newArr = arr.map((res) => {
     // 不处理字段
-    if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left', width: '65px' };
+    if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left', width: '100px' };
     if (res.dataIndex.includes('.currentCode1')) {
       return {
         ...res,
-        width: '65px',
+        width: '100px',
         render: (_, record) => {
           return getDeepObj(record, res.dataIndex);
         },
@@ -47,7 +47,7 @@ function intoChild(arr, render) {
       res.children = intoChild(res.children, render);
       return {
         ...res,
-        width: '65px',
+        width: '100px',
       };
     }
 
@@ -55,7 +55,7 @@ function intoChild(arr, render) {
     return {
       ...res,
       render,
-      width: '65px',
+      width: '100px',
     };
   });
   return newArr;

@@ -15,7 +15,7 @@ const arrExtar = ['sourceCode'];
 function intoChild(arr, render) {
   const newArr = arr.map((res) => {
     // 不处理字段
-    if (arrExtar.includes(res.dataIndex)) return { ...res, fixed: 'left' };
+    if (arrExtar.includes(res.dataIndex)) return { ...res, fixed: 'left', width: '100px' };
 
     res.dataIndex = Array.isArray(res?.dataIndex)
       ? res.dataIndex
@@ -24,6 +24,7 @@ function intoChild(arr, render) {
       res.children = intoChild(res.children, render);
       return {
         ...res,
+        width: '100px',
       };
     }
 
@@ -97,7 +98,7 @@ const TableList: React.FC = () => {
           }
         >
           <div>
-            {smallNode?.agingTime? (
+            {smallNode?.agingTime ? (
               <>
                 <div>总: {smallNode?.agingTime}分钟</div>
               </>
