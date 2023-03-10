@@ -122,7 +122,9 @@ const TableList: React.FC = () => {
             // </>
           }
         >
-          <div>{timeDiff(smallNode.startDate, smallNode.endDate || now, true)}</div>
+          <div>
+            {smallNode.startDate && timeDiff(smallNode.startDate, smallNode.endDate || now, true)}
+          </div>
           {/* <div>待办：{smallNode.agendaCause || '-'}</div> */}
           <Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>
         </Popover>
