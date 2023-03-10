@@ -39,7 +39,33 @@ function intoChild(arr, render) {
         },
       };
     }
-
+    if (
+      res.dataIndex === 'MOFC_Order_B105' ||
+      res.dataIndex === 'logistics_order_no' ||
+      res.dataIndex === 'product_source_type'
+    ) {
+      return {
+        ...res,
+        width: '100px',
+        render: (e, record) => {
+          return e.remark ? e.remark : '-';
+        },
+      };
+    }
+    if (
+      res.dataIndex === 'logistics_order_no' ||
+      res.dataIndex === 'MOFC_Order_B100' ||
+      res.dataIndex === 'MOFC_Order_B101' ||
+      res.dataIndex === 'MOFC_Order_B104'
+    ) {
+      return {
+        ...res,
+        width: '100px',
+        render: (e, record) => {
+          return e.remark ? moment(e.remark).format('YYYY-MM-DD HH:mm:ss') : '-';
+        },
+      };
+    }
     res.dataIndex = Array.isArray(res?.dataIndex)
       ? res.dataIndex
       : res?.dataIndex?.split?.('.') || res.dataIndex;
@@ -75,8 +101,6 @@ const TableList: React.FC = () => {
   }, 1000);
 
   const newColumns = intoChild(nodeColumns, (smallNode) => {
-    console.log(smallNode);
-
     if (smallNode === '-') {
       return smallNode;
     }
