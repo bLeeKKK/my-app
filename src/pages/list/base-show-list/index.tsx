@@ -40,20 +40,39 @@ function intoChild(arr, render) {
       };
     }
     if (
-      res.dataIndex === 'MOFC_Order_B105' ||
-      res.dataIndex === 'logistics_order_no' ||
+      res.dataIndex === 'MOFC_Order_B105'
+    ) {
+      return {
+        ...res,
+        width: '100px',
+        render: (e, record) => {
+          //现货|期货
+          return e.remark ? e.remark : '-';
+        },
+      };
+    }
+    if (
       res.dataIndex === 'product_source_type'
     ) {
       return {
         ...res,
         width: '100px',
         render: (e, record) => {
-          return e.remark ? e.remark : '-';
+          //现货|C+3|计划
+          if (e.sourceType === 0) {
+            return '现货';
+          } else if (e.sourceType === 1) {
+            return 'C+3';
+          }else if (e.sourceType === 2) {
+            return '计划';
+          } else {
+            return '-'
+          }
+          // return e.remark ? e.remark : '-';
         },
       };
     }
     if (
-      res.dataIndex === 'logistics_order_no' ||
       res.dataIndex === 'MOFC_Order_B100' ||
       res.dataIndex === 'MOFC_Order_B101' ||
       res.dataIndex === 'MOFC_Order_B104'
