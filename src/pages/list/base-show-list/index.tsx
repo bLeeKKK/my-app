@@ -166,7 +166,10 @@ const TableList: React.FC = () => {
           }
         >
           <div>
-            {smallNode.startDate && timeDiff(smallNode.startDate, smallNode.endDate || now, true)}
+            {smallNode.startDate &&
+            timeDiff(smallNode.startDate, smallNode.endDate || now, true) === '0时0分'
+              ? '0时1分'
+              : timeDiff(smallNode.startDate, smallNode.endDate || now, true)}
           </div>
           {/* <div>待办：{smallNode.agendaCause || '-'}</div> */}
           <Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>
