@@ -52,31 +52,11 @@ export async function findByPage(data, sort) {
   });
 }
 
-// // 分页查询
-// export async function zonghe(data, sort) {
-//   const search = getSearchData(data, sort);
-
-//   return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/zonghe`, {
-//     method: 'post',
-//     ...search,
-//   });
-// }
-
 // 分页查询
 export async function zonghe(data, sort) {
   const search = getSearchData(data, sort);
 
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/zonghe3`, {
-    method: 'post',
-    ...search,
-  });
-}
-
-// 分页查询
-export async function getAllFullLinkRecordVo(data, sort) {
-  const search = getSearchData(data, sort);
-
-  return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/getAllFullLinkRecordVo`, {
     method: 'post',
     ...search,
   });
