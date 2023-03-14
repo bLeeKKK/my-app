@@ -40,7 +40,8 @@ function intoChild(arr, render) {
       };
     }
     if (
-      res.dataIndex === 'MOFC_Order_B105'
+      res.dataIndex === 'MOFC_Order_B105' ||
+      res.dataIndex === 'MOFC_Order_B106'
     ) {
       return {
         ...res,
