@@ -40,7 +40,8 @@ function intoChild(arr, render) {
       };
     }
     if (
-      res.dataIndex === 'MOFC_Order_B105'
+      res.dataIndex === 'MOFC_Order_B105' ||
+      res.dataIndex === 'MOFC_Order_B106'
     ) {
       return {
         ...res,
@@ -120,8 +121,8 @@ const TableList: React.FC = () => {
   }, 1000);
 
   const newColumns = intoChild(nodeColumns, (smallNode) => {
-    if (smallNode === '-') {
-      return smallNode;
+    if (smallNode === '-' || !smallNode) {
+      return '';
     }
     const t = typeof smallNode;
     if (t === 'string' || t === 'number') {
