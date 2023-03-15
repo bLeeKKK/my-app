@@ -39,10 +39,7 @@ function intoChild(arr, render) {
         },
       };
     }
-    if (
-      res.dataIndex === 'MOFC_Order_B105' ||
-      res.dataIndex === 'MOFC_Order_B106'
-    ) {
+    if (res.dataIndex === 'MOFC_Order_B105' || res.dataIndex === 'MOFC_Order_B106') {
       return {
         ...res,
         width: '100px',
@@ -52,9 +49,7 @@ function intoChild(arr, render) {
         },
       };
     }
-    if (
-      res.dataIndex === 'product_source_type'
-    ) {
+    if (res.dataIndex === 'product_source_type') {
       return {
         ...res,
         width: '100px',
@@ -64,10 +59,10 @@ function intoChild(arr, render) {
             return '现货';
           } else if (e.sourceType === 1) {
             return 'C+3';
-          }else if (e.sourceType === 2) {
+          } else if (e.sourceType === 2) {
             return '计划';
           } else {
-            return '-'
+            return '-';
           }
           // return e.remark ? e.remark : '-';
         },
@@ -121,8 +116,8 @@ const TableList: React.FC = () => {
   }, 1000);
 
   const newColumns = intoChild(nodeColumns, (smallNode) => {
-    if (smallNode === '-' || !smallNode) {
-      return '';
+    if (smallNode === '-') {
+      return smallNode;
     }
     const t = typeof smallNode;
     if (t === 'string' || t === 'number') {
@@ -168,8 +163,10 @@ const TableList: React.FC = () => {
         >
           <div>
             {smallNode.startDate &&
-            timeDiff(smallNode.startDate, smallNode.endDate || now, true) === '0时0分'
+            timeDiff(smallNode.startDate, smallNode.endDate || now, false) < '0时1分0秒'
               ? '0时1分'
+              : timeDiff(smallNode.startDate, smallNode.endDate || now, true) === '0时0分'
+              ? ''
               : timeDiff(smallNode.startDate, smallNode.endDate || now, true)}
           </div>
           {/* <div>待办：{smallNode.agendaCause || '-'}</div> */}
