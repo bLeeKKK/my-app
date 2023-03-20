@@ -149,16 +149,6 @@ const TableList: React.FC = () => {
                   );
                 })}
             </>
-            // <>
-
-            //   <div>开始时间：{moment(smallNode.startDate).format('YYYY-MM-DD HH:mm:ss')}</div>
-            //   <div style={{ color: smallNode.endDate ? '' : 'red' }}>
-            //     结束时间：
-            //     {smallNode.endDate
-            //       ? moment(smallNode.endDate || now).format('YYYY-MM-DD HH:mm:ss')
-            //       : '处理中'}
-            //   </div>
-            // </>
           }
         >
           <div>
@@ -175,7 +165,40 @@ const TableList: React.FC = () => {
       </>
     );
   });
-
+  const formatData=(data)=>{
+    console.log(data);
+    
+    let temp = []
+    data.forEach(element => {
+      if(element.title === '完成状态'){
+        element.valueEnum = {true:{text:'完成'},false:{text:'未完成'}}
+        temp.push(element)
+      }else if(element.title === '大节点代码'){
+        let t= {}
+        element.children.forEach(e=>{
+          t[typeof e.dataIndex === 'string'?e.dataIndex:e.dataIndex[0]] = {text:e.title}
+        })
+        element.valueEnum =t
+        temp.push(element)
+      }else if(element.title === '预警等级'){
+        let t= {}
+        element.children.forEach(e=>{
+          t[e.dataIndex] = {text:e.title}
+        })
+        element.valueEnum =t
+        temp.push(element)
+      }else if(element.title === '开始时间'){
+        element.valueType = 'dateTimeRange'
+        element.fieldProps={onChange:()=>{console.log(111)}}
+        temp.push(element)
+      }
+      else{
+        temp.push(element)
+      }
+    });
+    
+    return temp
+}
   return (
     // <PageContainer>
     <ProTable<TableListItem, TableListPagination>
@@ -221,7 +244,12 @@ const TableList: React.FC = () => {
       formRef={ref}
       request={async (params, sort) => {
         searchData = params;
+        if(params.createdDates){
+          params.createdDates[0] = moment(params.createdDates[0]).format("YYYY-MM-DDTHH:mm:ss")
+          params.createdDates[1] = moment(params.createdDates[1]).format("YYYY-MM-DDTHH:mm:ss")
+        }
         const { success, data } = await zonghe(params, sort);
+        data.headerData = formatData(data.headerData)
         setNodeColumns(data?.headerData || []);
         return {
           success: success,
