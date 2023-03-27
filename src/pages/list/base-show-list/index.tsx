@@ -162,7 +162,7 @@ const TableList: React.FC = () => {
           </div>
           {smallNode.overTimeRemark&&<Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>}
           </div>
-         
+
         </Popover>
       </>
     );
@@ -196,16 +196,14 @@ const TableList: React.FC = () => {
         temp.push(element)
       }
     });
-    
+
     return temp
 }
 const formatRecord =(data)=>{
   let classKey = 1
   let findKey = false
  data.forEach(e=>{
-  if(e.product_source_type?.nodeName) e.product_source_type.nodeName = ''
-  if(e.occupy_success_time?.nodeName) e.occupy_success_time.nodeName = ''
-  
+
   e.children&& e.children.forEach(ee=>{
     e.classKey = classKey
     ee.classKey = classKey
