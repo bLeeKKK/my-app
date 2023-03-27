@@ -273,9 +273,11 @@ return data
       formRef={ref}
       request={async (params, sort) => {
         searchData = params;
-        if(params.createdDates){
+        if(params.createdDates && typeof params.createdDates != 'string'){
           params.createdDates[0] = moment(params.createdDates[0]).format("YYYY-MM-DDTHH:mm:ss")
           params.createdDates[1] = moment(params.createdDates[1]).format("YYYY-MM-DDTHH:mm:ss")
+        }else if(typeof params.createdDates === 'string'){
+          params.createdDates=['2022-11-01T00:00:00',moment().format("YYYY-MM-DDTHH:mm:ss")]
         }
         const { success, data } = await zonghe(params, sort);
         data.headerData = formatData(data.headerData)
