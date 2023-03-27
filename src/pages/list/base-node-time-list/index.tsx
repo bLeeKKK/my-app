@@ -8,6 +8,7 @@ import { useSelector } from 'umi';
 import { Tag, Popover, Row, Col } from 'antd';
 import styles from './styles.less';
 import Trend from '@/components/Trend';
+import moment from 'moment';
 
 // 不需要处理小节点的
 const arrExtar = ['sourceCode'];
@@ -74,7 +75,6 @@ const TableList: React.FC = () => {
     if (t === 'string' || t === 'number') {
       return smallNode;
     }
-
     const names = smallNode?.smallNodeName || [];
     const times = smallNode?.smallNodeTime || [];
     // const names = smallNode?.smallNodeName || [];
@@ -119,52 +119,66 @@ const TableList: React.FC = () => {
       </>
     );
   });
-  console.log(newColumns);
+  const formatData=(data)=>{
+    
+    let temp = []
+    data.forEach(element => {
+      if(element.title === '完成状态'){
+        element.valueEnum = {true:{text:'完成'},false:{text:'未完成'}}
+        temp.push(element)
+      }else if(element.title === '大节点代码'){
+        let t= {}
+        element.children.forEach(e=>{
+          t[typeof e.dataIndex === 'string'?e.dataIndex:e.dataIndex[0]] = {text:e.title}
+        })
+        element.valueEnum =t
+        temp.push(element)
+      }else if(element.title === '预警等级'){
+        let t= {}
+        element.children.forEach(e=>{
+          t[e.dataIndex] = {text:e.title}
+        })
+        element.valueEnum =t
+        temp.push(element)
+      }else if(element.title === '开始时间'){
+        element.valueType = 'dateTimeRange'
+        temp.push(element)
+      }
+      else{
+        
+        element.hideInSearch=true
+        temp.push(element)
+      }
+    });
+    return temp
+}
   return (
     // <PageContainer>
     <ProTable<TableListItem, TableListPagination>
       // search={{ labelWidth: 120 }}
-      search={false}
       tableClassName={styles['base-node-time-list']}
       headerTitle="查询表格"
       actionRef={actionRef}
       rowKey="sourceCode"
-      // expandable={{
-      //   expandedRowRender,
-      // }}
-      // toolBarRender={() => [
-      //   <Button
-      //     key="export"
-      //     onClick={() => {
-      //       Modal.confirm({
-      //         title: '提示',
-      //         content: '确定要导出数据吗？',
-      //         onOk: () => {
-      //           // const data = ref.current?.getFieldsValue();
-      //           interfaceCallRecordExport(searchData)
-      //             .then((res) => {
-      //               const blob = new Blob([res], {
-      //                 type: 'application/vnd.ms-excel,charset=utf-8',
-      //               });
-      //               const fileName = `记录池数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
-      //               download(blob, fileName);
-      //             })
-      //             .catch((err) => {
-      //               message.error(err.message);
-      //             });
-      //         },
-      //       });
-      //     }}
-      //   >
-      //     导出报表
-      //   </Button>,
-      // ]}
       bordered
       sticky
       scroll={{ x: '100px' }}
       formRef={ref}
       request={async (params, sort) => {
+        if(params.createdDates){
+          params.createdDates[0] = moment(params.createdDates[0]).format("YYYY-MM-DDTHH:mm:ss")
+          params.createdDates[1] = moment(params.createdDates[1]).format("YYYY-MM-DDTHH:mm:ss")
+        }
         const { data, success } = await getAgingReport(params, sort);
+        data.headerData = formatData(data.headerData)
+        console.log(data.headerData);
+        data.records.forEach((e,i)=>{
+          if(e.finish ==='未完成'){
+            data.records[i].finish = 'false' 
+          }
+        })
+        console.log(data);
+        
         setNodeColumns(data?.headerData || []);
         return {
           success: success,
