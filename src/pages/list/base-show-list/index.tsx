@@ -115,7 +115,7 @@ const TableList: React.FC = () => {
     setNow(new Date());
   }, 1000);
 
-  const newColumns = intoChild(nodeColumns, (smallNode) => {
+  const newColumns = intoChild(nodeColumns, (smallNode,row) => {
     if (smallNode === '-') {
       return smallNode;
     }
@@ -151,7 +151,8 @@ const TableList: React.FC = () => {
             </>
           }
         >
-          <div>
+          <div className={(row.lastNode&&row.lastNode === smallNode?.nodeName)?'tdC':''}>
+             <div style={{textAlign:'center'}}>
             {smallNode.startDate &&
             timeDiff(smallNode.startDate, smallNode.endDate || now, false) < '0时1分0秒'
               ? '0时1分'
@@ -159,15 +160,14 @@ const TableList: React.FC = () => {
               ? ''
               : timeDiff(smallNode.startDate, smallNode.endDate || now, true)}
           </div>
-          {/* <div>待办：{smallNode.agendaCause || '-'}</div> */}
-          <Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>
+          {smallNode.overTimeRemark&&<Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>}
+          </div>
+         
         </Popover>
       </>
     );
   });
   const formatData=(data)=>{
-    console.log(data);
-    
     let temp = []
     data.forEach(element => {
       if(element.title === '完成状态'){
@@ -198,6 +198,25 @@ const TableList: React.FC = () => {
     });
     
     return temp
+}
+const formatRecord =(data)=>{
+  let classKey = 1
+  let findKey = false
+ data.forEach(e=>{
+  if(e.product_source_type?.nodeName) e.product_source_type.nodeName = ''
+  if(e.occupy_success_time?.nodeName) e.occupy_success_time.nodeName = ''
+  
+  e.children&& e.children.forEach(ee=>{
+    e.classKey = classKey
+    ee.classKey = classKey
+    findKey = true
+  })
+  if(findKey){
+    classKey === 2? classKey = 1: classKey++
+    findKey = false
+  }
+ })
+return data
 }
   return (
     // <PageContainer>
@@ -239,6 +258,16 @@ const TableList: React.FC = () => {
       sticky
       // style={{backgroundColor:'red'}}
       className="contolTable"
+      rowClassName={(record) =>{
+        if(record.classKey){
+          if(record.classKey ===1){
+            return 'clumStyle1'
+          }else if(record.classKey ===2){
+            return 'clumStyle2'
+          }
+          return ''
+        }
+       }  }
       bordered
       scroll={{ x: 100 }}
       formRef={ref}
@@ -250,6 +279,7 @@ const TableList: React.FC = () => {
         }
         const { success, data } = await zonghe(params, sort);
         data.headerData = formatData(data.headerData)
+        data.records = formatRecord(data.records)
         setNodeColumns(data?.headerData || []);
         return {
           success: success,
