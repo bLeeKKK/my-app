@@ -179,6 +179,9 @@ const TableList: React.FC = () => {
           t[typeof e.dataIndex === 'string'?e.dataIndex:e.dataIndex[0]] = {text:e.title}
         })
         element.valueEnum =t
+        element.fieldProps={
+          mode: 'multiple',
+        }
         temp.push(element)
       }else if(element.title === '预警等级'){
         let t= {}
