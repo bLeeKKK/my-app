@@ -12,6 +12,7 @@ import { Tag } from 'antd';
 import { useRafInterval } from 'ahooks';
 import { timeDiff } from '@/utils';
 import './style.less';
+import XLSX,{utils,writeFileXLSX } from 'xlsx';
 
 let searchData = {};
 
@@ -114,14 +115,22 @@ function intoChild(arr, render) {
 const TableList: React.FC = () => {
   const { actionRef } = useSelector((state) => state.baseShowList);
   const [nodeColumns, setNodeColumns] = useState([]);
+  const [nodeRecords, setNodeRecords] = useState([]);
   const ref = useRef();
   const [now, setNow] = useState(new Date());
 
-  useRafInterval(() => {
-    setNow(new Date());
-  }, 1000);
+  // useRafInterval(() => {
+  //   setNow(new Date());
+  // }, 1000);
 
   const newColumns = intoChild(nodeColumns, (smallNode,row) => {
+   if (typeof smallNode.startDate === 'string' ){
+      smallNode.startDate = moment(parseInt( smallNode.startDate)).format('YYYY-MM-DD HH:mm:ss')
+    }
+    if (typeof smallNode.endDate === 'string' ){
+      smallNode.endDate = moment(parseInt( smallNode.endDate)).format('YYYY-MM-DD HH:mm:ss')
+    }
+    
     if (smallNode === '-') {
       return smallNode;
     }
@@ -159,6 +168,8 @@ const TableList: React.FC = () => {
         >
           <div className={(row.lastNode&&row.lastNode === smallNode?.nodeName)?'tdC':''}>
              <div style={{textAlign:'center'}}>
+              {/* {console.log( timeDiff(smallNode.startDate, smallNode.endDate || now, true))} */}
+              {console.log(typeof smallNode.startDate)}
             {smallNode.startDate &&
             timeDiff(smallNode.startDate, smallNode.endDate || now, false) < '0时1分0秒'
               ? '0时1分'
@@ -211,6 +222,79 @@ const TableList: React.FC = () => {
 
     return temp
 }
+  const exportFuc=()=>{
+
+    function flatten(obj, key = '') {
+      let result = {};
+      for (let k in obj) {
+        let newKey = key ? `${k}` : k;
+        if (typeof obj[k] === 'object') {
+          Object.assign(result, flatten(obj[k], newKey));
+        } else {
+          result[newKey] = obj[k];
+        }
+      }
+      return result;
+    }
+    
+
+
+    console.log(nodeRecords);
+    let tempC = []
+    nodeColumns.forEach(e=>{
+      if(!e.hideInTable){
+       if(e.children){
+        e.children.forEach(ee=>{
+          tempC.push({title:`${e.title}-${ee.title}`,dataIndex:typeof ee.dataIndex === 'string' ? ee.dataIndex : ee.dataIndex[0]})
+        })
+      }else{
+        tempC.push({title:e.title,dataIndex:typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]})
+      }
+      }
+      
+    }) 
+    let tempR = []
+    nodeRecords.forEach(e=>{
+      tempR.push(flatten(e))
+    })
+    console.log(tempR);
+    
+  //   return
+  //  let  columns=[
+  //     {
+  //       title: '姓名',
+  //       dataIndex: 'name',
+  //     },
+  //     {
+  //       title: '性别',
+  //       dataIndex: 'sex',
+  //     },
+  //   ]
+  //  let jsonData=[
+  //     {
+  //       name: 'test',
+  //       sex: 'male',
+  //     },
+  //     {
+  //       name: 'test2',
+  //       sex: 'female',
+  //     },
+  //   ]
+    // 将数据转换成一个二维数组，每个子数组代表一行
+const dataArr = [tempC.map(col => col.title), ...tempR.map(item => tempC.map(col => col.formatter ? col.formatter(item[col.dataIndex], item) : item[col.dataIndex]))];
+
+// 创建一个工作簿
+const wb = utils.book_new();
+
+// 创建一个工作表
+const ws = utils.aoa_to_sheet(dataArr);
+
+// 将工作表添加到工作簿中
+utils.book_append_sheet(wb, ws, 'Sheet1');
+
+// 导出Excel文件
+writeFileXLSX (wb, 'data.xlsx');
+  }
 const formatRecord =(data)=>{
   let classKey = 1
   let findKey = false
@@ -239,33 +323,22 @@ return data
       // expandable={{
       //   expandedRowRender,
       // }}
-      toolBarRender={() => [
-        <Button
-          key="export"
-          onClick={() => {
-            Modal.confirm({
-              title: '提示',
-              content: '确定要导出数据吗？',
-              onOk: () => {
-                // const data = ref.current?.getFieldsValue();
-                interfaceCallRecordExport(searchData)
-                  .then((res) => {
-                    const blob = new Blob([res], {
-                      type: 'application/vnd.ms-excel,charset=utf-8',
-                    });
-                    const fileName = `记录池数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
-                    download(blob, fileName);
-                  })
-                  .catch((err) => {
-                    message.error(err.message);
-                  });
-              },
-            });
-          }}
-        >
-          导出报表
-        </Button>,
-      ]}
+      // toolBarRender={() => [
+      //   <Button
+      //     key="export"
+      //     onClick={() => {
+      //       Modal.confirm({
+      //         title: '提示',
+      //         content: '确定要导出数据吗？',
+      //         onOk: () => {
+      //          exportFuc()
+      //         },
+      //       });
+      //     }}
+      //   >
+      //     导出报表
+      //   </Button>,
+      // ]}
       sticky
       // style={{backgroundColor:'red'}}
       className="contolTable"
@@ -294,6 +367,7 @@ return data
         data.headerData = formatData(data.headerData)
         data.records = formatRecord(data.records)
         setNodeColumns(data?.headerData || []);
+        setNodeRecords(data?.records || [])
         return {
           success: success,
           data: data.records,
