@@ -210,6 +210,7 @@ const formatRecord =(data)=>{
  data.forEach(e=>{
 
   e.children&& e.children.forEach(ee=>{
+    if(e.orderNo === ee.orderNo) ee.orderNo = ''
     e.classKey = classKey
     ee.classKey = classKey
     findKey = true
