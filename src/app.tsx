@@ -149,7 +149,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
 };
 
 export const request: RequestConfig = {
-  timeout: 10 * 1000, // 接口响应时间限制 10秒
+  timeout: 300 * 1000, // 接口响应时间限制 10秒
   middlewares: [],
   requestInterceptors: [
     (url, options) => {
