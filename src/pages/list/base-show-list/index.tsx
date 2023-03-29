@@ -71,7 +71,9 @@ function intoChild(arr, render) {
     if (
       res.dataIndex === 'MOFC_Order_B100' ||
       res.dataIndex === 'MOFC_Order_B101' ||
-      res.dataIndex === 'MOFC_Order_B104'
+      res.dataIndex === 'MOFC_Order_B104' ||
+      res.dataIndex === 'LRP_Dispatch_B162' ||
+      res.dataIndex === 'LRP_Dispatch_B172'
     ) {
       return {
         ...res,
