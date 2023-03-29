@@ -191,6 +191,9 @@ const TableList: React.FC = () => {
           t[e.dataIndex] = {text:e.title}
         })
         element.valueEnum =t
+        element.fieldProps={
+          mode: 'multiple',
+        }
         temp.push(element)
       }else if(element.title === '开始时间'){
         element.valueType = 'dateTimeRange'
