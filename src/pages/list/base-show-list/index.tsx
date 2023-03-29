@@ -39,7 +39,11 @@ function intoChild(arr, render) {
         },
       };
     }
-    if (res.dataIndex === 'MOFC_Order_B105' || res.dataIndex === 'MOFC_Order_B106') {
+    if (res.dataIndex === 'MOFC_Order_B105' ||
+      res.dataIndex === 'MOFC_Order_B106' ||
+      res.dataIndex === 'LRP_Dispatch_B162' ||
+      res.dataIndex === 'LRP_Dispatch_B172'
+    ) {
       return {
         ...res,
         width: '100px',
@@ -58,9 +62,9 @@ function intoChild(arr, render) {
           if (e.sourceType === 0) {
             return '现货';
           } else if (e.sourceType === 1) {
-            return 'C+3';
+            return '期货';
           } else if (e.sourceType === 2) {
-            return '计划';
+            return 'C+3';
           } else {
             return '-';
           }
@@ -72,8 +76,8 @@ function intoChild(arr, render) {
       res.dataIndex === 'MOFC_Order_B100' ||
       res.dataIndex === 'MOFC_Order_B101' ||
       res.dataIndex === 'MOFC_Order_B104' ||
-      res.dataIndex === 'LRP_Dispatch_B162' ||
-      res.dataIndex === 'LRP_Dispatch_B172'
+      res.dataIndex === 'LRP_Dispatch_B112' ||
+      res.dataIndex === 'LRP_Dispatch_B122'
     ) {
       return {
         ...res,
@@ -191,6 +195,9 @@ const TableList: React.FC = () => {
           t[e.dataIndex] = {text:e.title}
         })
         element.valueEnum =t
+        element.fieldProps={
+          mode: 'multiple',
+        }
         temp.push(element)
       }else if(element.title === '开始时间'){
         element.valueType = 'dateTimeRange'
