@@ -12,7 +12,6 @@ import { Tag } from 'antd';
 import { useRafInterval } from 'ahooks';
 import { timeDiff } from '@/utils';
 import './style.less';
-import XLSX,{utils,writeFileXLSX } from 'xlsx';
 
 let searchData = {};
 
@@ -123,14 +122,14 @@ const TableList: React.FC = () => {
   //   setNow(new Date());
   // }, 1000);
 
-  const newColumns = intoChild(nodeColumns, (smallNode,row) => {
-   if (typeof smallNode.startDate === 'string' ){
-      smallNode.startDate = moment(parseInt( smallNode.startDate)).format('YYYY-MM-DD HH:mm:ss')
+  const newColumns = intoChild(nodeColumns, (smallNode, row) => {
+    if (typeof smallNode.startDate === 'string') {
+      smallNode.startDate = moment(parseInt(smallNode.startDate)).format('YYYY-MM-DD HH:mm:ss')
     }
-    if (typeof smallNode.endDate === 'string' ){
-      smallNode.endDate = moment(parseInt( smallNode.endDate)).format('YYYY-MM-DD HH:mm:ss')
+    if (typeof smallNode.endDate === 'string') {
+      smallNode.endDate = moment(parseInt(smallNode.endDate)).format('YYYY-MM-DD HH:mm:ss')
     }
-    
+
     if (smallNode === '-') {
       return smallNode;
     }
@@ -166,153 +165,153 @@ const TableList: React.FC = () => {
             </>
           }
         >
-          <div className={(row.lastNode&&row.lastNode === smallNode?.nodeName)?'tdC':''}>
-             <div style={{textAlign:'center'}}>
+          <div className={(row.lastNode && row.lastNode === smallNode?.nodeName) ? 'tdC' : ''}>
+            <div style={{ textAlign: 'center' }}>
               {/* {console.log( timeDiff(smallNode.startDate, smallNode.endDate || now, true))} */}
               {console.log(typeof smallNode.startDate)}
-            {smallNode.startDate &&
-            timeDiff(smallNode.startDate, smallNode.endDate || now, false) < '0时1分0秒'
-              ? '0时1分'
-              : timeDiff(smallNode.startDate, smallNode.endDate || now, true) === '0时0分'
-              ? ''
-              : timeDiff(smallNode.startDate, smallNode.endDate || now, true)}
-          </div>
-          {smallNode.overTimeRemark&&<Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>}
+              {smallNode.startDate &&
+                timeDiff(smallNode.startDate, smallNode.endDate || now, false) < '0时1分0秒'
+                ? '0时1分'
+                : timeDiff(smallNode.startDate, smallNode.endDate || now, true) === '0时0分'
+                  ? ''
+                  : timeDiff(smallNode.startDate, smallNode.endDate || now, true)}
+            </div>
+            {smallNode.overTimeRemark && <Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>}
           </div>
 
         </Popover>
       </>
     );
   });
-  const formatData=(data)=>{
+  const formatData = (data) => {
     let temp = []
     data.forEach(element => {
-      if(element.title === '完成状态'){
-        element.valueEnum = {true:{text:'完成'},false:{text:'未完成'}}
+      if (element.title === '完成状态') {
+        element.valueEnum = { true: { text: '完成' }, false: { text: '未完成' } }
         temp.push(element)
-      }else if(element.title === '大节点代码'){
-        let t= {}
-        element.children.forEach(e=>{
-          t[typeof e.dataIndex === 'string'?e.dataIndex:e.dataIndex[0]] = {text:e.title}
+      } else if (element.title === '大节点代码') {
+        let t = {}
+        element.children.forEach(e => {
+          t[typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]] = { text: e.title }
         })
-        element.valueEnum =t
-        element.fieldProps={
+        element.valueEnum = t
+        element.fieldProps = {
           mode: 'multiple',
         }
         temp.push(element)
-      }else if(element.title === '预警等级'){
-        let t= {}
-        element.children.forEach(e=>{
-          t[e.dataIndex] = {text:e.title}
+      } else if (element.title === '预警等级') {
+        let t = {}
+        element.children.forEach(e => {
+          t[e.dataIndex] = { text: e.title }
         })
-        element.valueEnum =t
-        element.fieldProps={
+        element.valueEnum = t
+        element.fieldProps = {
           mode: 'multiple',
         }
         temp.push(element)
-      }else if(element.title === '开始时间'){
+      } else if (element.title === '开始时间') {
         element.valueType = 'dateTimeRange'
-        element.fieldProps={onChange:()=>{console.log(111)}}
+        element.fieldProps = { onChange: () => { console.log(111) } }
         temp.push(element)
       }
-      else{
+      else {
         temp.push(element)
       }
     });
 
     return temp
-}
-  const exportFuc=()=>{
+  }
+  //   const exportFuc=()=>{
 
-    function flatten(obj, key = '') {
-      let result = {};
-      for (let k in obj) {
-        let newKey = key ? `${k}` : k;
-        if (typeof obj[k] === 'object') {
-          Object.assign(result, flatten(obj[k], newKey));
-        } else {
-          result[newKey] = obj[k];
-        }
-      }
-      return result;
-    }
-    
+  //     function flatten(obj, key = '') {
+  //       let result = {};
+  //       for (let k in obj) {
+  //         let newKey = key ? `${k}` : k;
+  //         if (typeof obj[k] === 'object') {
+  //           Object.assign(result, flatten(obj[k], newKey));
+  //         } else {
+  //           result[newKey] = obj[k];
+  //         }
+  //       }
+  //       return result;
+  //     }
 
 
-    console.log(nodeRecords);
-    let tempC = []
-    nodeColumns.forEach(e=>{
-      if(!e.hideInTable){
-       if(e.children){
-        e.children.forEach(ee=>{
-          tempC.push({title:`${e.title}-${ee.title}`,dataIndex:typeof ee.dataIndex === 'string' ? ee.dataIndex : ee.dataIndex[0]})
-        })
-      }else{
-        tempC.push({title:e.title,dataIndex:typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]})
+
+  //     console.log(nodeRecords);
+  //     let tempC = []
+  //     nodeColumns.forEach(e=>{
+  //       if(!e.hideInTable){
+  //        if(e.children){
+  //         e.children.forEach(ee=>{
+  //           tempC.push({title:`${e.title}-${ee.title}`,dataIndex:typeof ee.dataIndex === 'string' ? ee.dataIndex : ee.dataIndex[0]})
+  //         })
+  //       }else{
+  //         tempC.push({title:e.title,dataIndex:typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]})
+  //       }
+  //       }
+
+  //     }) 
+  //     let tempR = []
+  //     nodeRecords.forEach(e=>{
+  //       tempR.push(flatten(e))
+  //     })
+  //     console.log(tempR);
+
+  //   //   return
+  //   //  let  columns=[
+  //   //     {
+  //   //       title: '姓名',
+  //   //       dataIndex: 'name',
+  //   //     },
+  //   //     {
+  //   //       title: '性别',
+  //   //       dataIndex: 'sex',
+  //   //     },
+  //   //   ]
+  //   //  let jsonData=[
+  //   //     {
+  //   //       name: 'test',
+  //   //       sex: 'male',
+  //   //     },
+  //   //     {
+  //   //       name: 'test2',
+  //   //       sex: 'female',
+  //   //     },
+  //   //   ]
+  //     // 将数据转换成一个二维数组，每个子数组代表一行
+  // const dataArr = [tempC.map(col => col.title), ...tempR.map(item => tempC.map(col => col.formatter ? col.formatter(item[col.dataIndex], item) : item[col.dataIndex]))];
+
+  // // 创建一个工作簿
+  // const wb = utils.book_new();
+
+  // // 创建一个工作表
+  // const ws = utils.aoa_to_sheet(dataArr);
+
+  // // 将工作表添加到工作簿中
+  // utils.book_append_sheet(wb, ws, 'Sheet1');
+
+  // // 导出Excel文件
+  // writeFileXLSX (wb, 'data.xlsx');
+  //   }
+  const formatRecord = (data) => {
+    let classKey = 1
+    let findKey = false
+    data.forEach(e => {
+
+      e.children && e.children.forEach(ee => {
+        if (e.orderNo === ee.orderNo) ee.orderNo = ''
+        e.classKey = classKey
+        ee.classKey = classKey
+        findKey = true
+      })
+      if (findKey) {
+        classKey === 2 ? classKey = 1 : classKey++
+        findKey = false
       }
-      }
-      
-    }) 
-    let tempR = []
-    nodeRecords.forEach(e=>{
-      tempR.push(flatten(e))
     })
-    console.log(tempR);
-    
-  //   return
-  //  let  columns=[
-  //     {
-  //       title: '姓名',
-  //       dataIndex: 'name',
-  //     },
-  //     {
-  //       title: '性别',
-  //       dataIndex: 'sex',
-  //     },
-  //   ]
-  //  let jsonData=[
-  //     {
-  //       name: 'test',
-  //       sex: 'male',
-  //     },
-  //     {
-  //       name: 'test2',
-  //       sex: 'female',
-  //     },
-  //   ]
-    // 将数据转换成一个二维数组，每个子数组代表一行
-const dataArr = [tempC.map(col => col.title), ...tempR.map(item => tempC.map(col => col.formatter ? col.formatter(item[col.dataIndex], item) : item[col.dataIndex]))];
-
-// 创建一个工作簿
-const wb = utils.book_new();
-
-// 创建一个工作表
-const ws = utils.aoa_to_sheet(dataArr);
-
-// 将工作表添加到工作簿中
-utils.book_append_sheet(wb, ws, 'Sheet1');
-
-// 导出Excel文件
-writeFileXLSX (wb, 'data.xlsx');
+    return data
   }
-const formatRecord =(data)=>{
-  let classKey = 1
-  let findKey = false
- data.forEach(e=>{
-
-  e.children&& e.children.forEach(ee=>{
-    if(e.orderNo === ee.orderNo) ee.orderNo = ''
-    e.classKey = classKey
-    ee.classKey = classKey
-    findKey = true
-  })
-  if(findKey){
-    classKey === 2? classKey = 1: classKey++
-    findKey = false
-  }
- })
-return data
-}
   return (
     // <PageContainer>
     <ProTable<TableListItem, TableListPagination>
@@ -342,26 +341,26 @@ return data
       sticky
       // style={{backgroundColor:'red'}}
       className="contolTable"
-      rowClassName={(record) =>{
-        if(record.classKey){
-          if(record.classKey ===1){
+      rowClassName={(record) => {
+        if (record.classKey) {
+          if (record.classKey === 1) {
             return 'clumStyle1'
-          }else if(record.classKey ===2){
+          } else if (record.classKey === 2) {
             return 'clumStyle2'
           }
           return ''
         }
-       }  }
+      }}
       bordered
       scroll={{ x: 100 }}
       formRef={ref}
       request={async (params, sort) => {
         searchData = params;
-        if(params.createdDates && typeof params.createdDates != 'string'){
+        if (params.createdDates && typeof params.createdDates != 'string') {
           params.createdDates[0] = moment(params.createdDates[0]).format("YYYY-MM-DDTHH:mm:ss")
           params.createdDates[1] = moment(params.createdDates[1]).format("YYYY-MM-DDTHH:mm:ss")
-        }else if(typeof params.createdDates === 'string'){
-          params.createdDates=['2022-11-01T00:00:00',moment().format("YYYY-MM-DDTHH:mm:ss")]
+        } else if (typeof params.createdDates === 'string') {
+          params.createdDates = ['2022-11-01T00:00:00', moment().format("YYYY-MM-DDTHH:mm:ss")]
         }
         const { success, data } = await zonghe(params, sort);
         data.headerData = formatData(data.headerData)
