@@ -25,15 +25,6 @@ export default function BaseShow() {
       }}
       tabList={[
         {
-          key: '1',
-          tab: '链路数据',
-          children: (
-            <div style={{ minHeight: '800px' }}>
-              <MicroApp name="bizlog-web" sourceCode={sourceCode} sourceSys={sourceSys} />
-            </div>
-          ),
-        },
-        {
           key: '2',
           tab: '基础展示',
           children: (
@@ -43,6 +34,15 @@ export default function BaseShow() {
               ) : (
                 <Empty />
               )}
+            </div>
+          ),
+        },
+        {
+          key: '1',
+          tab: '链路数据',
+          children: (
+            <div style={{ minHeight: '800px' }}>
+              <MicroApp name="bizlog-web" sourceCode={sourceCode} sourceSys={sourceSys} />
             </div>
           ),
         },
