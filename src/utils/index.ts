@@ -51,8 +51,23 @@ export const timeDiff = (startTime, endTime,needSeconds) => {
   const end = moment(endTime, 'YYYY-MM-DD HH:mm:ss');
   const diff = end.diff(start);
   const duration = moment.duration(diff);
+  const days = duration.days();
   const hours = duration.hours();
   const minutes = duration.minutes();
   const seconds = duration.seconds();
-  return !needSeconds? `${hours || 0}时${minutes || 0}分${seconds || 0}秒` :  `${hours || 0}时${minutes || 0}分`;
+  if(!needSeconds){
+    if(typeof days === 'number' && days != 0 && JSON.stringify(days) != 'null'){
+      
+      return `${days}天${hours || 0}时${minutes || 0}分${seconds || 0}秒` 
+    }else{
+      return `${hours || 0}时${minutes || 0}分${seconds || 0}秒` 
+    }
+  }else{
+    if(typeof days === 'number' && days != 0 && JSON.stringify(days) != 'null'){
+      return  `${days}天${hours || 0}时${minutes || 0}分`
+    }
+    else{
+      return  `${hours || 0}时${minutes || 0}分`
+    }
+  }
 };
