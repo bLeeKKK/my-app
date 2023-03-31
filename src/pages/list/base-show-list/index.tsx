@@ -167,8 +167,6 @@ const TableList: React.FC = () => {
         >
           <div className={(row.lastNode && row.lastNode === smallNode?.nodeName) ? 'tdC' : ''}>
             <div style={{ textAlign: 'center' }}>
-              {/* {console.log( timeDiff(smallNode.startDate, smallNode.endDate || now, true))} */}
-              {console.log(typeof smallNode.startDate)}
               {smallNode.startDate &&
                 timeDiff(smallNode.startDate, smallNode.endDate || now, false) < '0时1分0秒'
                 ? '0时1分'
@@ -219,6 +217,24 @@ const TableList: React.FC = () => {
       }
     });
 
+    temp.forEach((e, i) => {
+      if (e.title === '业务节点') {
+        e.children.forEach((ee, ii) => {
+          if (ee.title === '订单号') {
+            temp[i].children[ii].fixed = true
+            let temp2 = JSON.parse(JSON.stringify(temp[i].children[ii]))
+            temp[i].children.splice(ii, 1)
+            temp.splice(1, 0, temp2)
+
+
+          }
+        })
+
+      } else if (e.title === '运输方式') {
+        temp[i].fixed = true
+      }
+    })
+    console.log(temp);
     return temp
   }
   //   const exportFuc=()=>{
@@ -315,9 +331,9 @@ const TableList: React.FC = () => {
   return (
     // <PageContainer>
     <ProTable<TableListItem, TableListPagination>
-      headerTitle="查询表格"
       actionRef={actionRef}
       rowKey="sourceCode"
+      scroll={{ y: 240 }}
       search={{ labelWidth: 120 }}
       // expandable={{
       //   expandedRowRender,
