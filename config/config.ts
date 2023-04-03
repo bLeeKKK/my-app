@@ -94,7 +94,7 @@ export default defineConfig({
           // entry: 'https://decmp.changhong.com/bizlog-web/index.html', // html entry // ?sourceOrderkey=82135509&sourceSys=SCMC&userName=MOFC-管理员
           entry:
             process.env.NODE_ENV === 'development'
-              ? 'localhost:8001'
+              ? 'http://localhost:8001'
               : 'https://ecmp.changhong.com/bizlog-web/index.html',
         },
       ],
