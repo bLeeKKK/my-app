@@ -74,7 +74,7 @@ function intoChild(arr, render) {
     }
     if (
       res.dataIndex === 'MOFC_Order_B100' ||
-      res.dataIndex === 'MOFC_Order_B101' ||
+      // res.dataIndex === 'MOFC_Order_B101' ||
       res.dataIndex === 'MOFC_Order_B104' ||
       res.dataIndex === 'LRP_Dispatch_B112' ||
       res.dataIndex === 'LRP_Dispatch_B122'
@@ -84,6 +84,18 @@ function intoChild(arr, render) {
         width: '100px',
         render: (e, record) => {
           return e.remark ? moment(e.remark).format('YYYY-MM-DD HH:mm:ss') : '-';
+        },
+      };
+    }
+    if (
+      res.dataIndex === 'MOFC_Order_B102' ||
+      res.dataIndex === 'MOFC_Order_B101' 
+    ) {
+      return {
+        ...res,
+        width: '100px',
+        render: (e, record) => {
+          return e.remark ? moment(e.remark).format('YYYY-MM-DD') : '-';
         },
       };
     }
