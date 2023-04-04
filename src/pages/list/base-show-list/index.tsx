@@ -88,6 +88,18 @@ function intoChild(arr, render) {
       };
     }
     if (
+      res.dataIndex === 'LRP_Dispatch_B113' 
+    ) {
+      
+      return {
+        ...res,
+        width: '100px',
+        render: (e, record) => {
+          return (e.remark && e.LRP_Dispatch_B114) ? moment(e.remark).format('YYYY-MM-DD HH:mm:ss') : '-';
+        },
+      };
+    }
+    if (
       res.dataIndex === 'MOFC_Order_B102' ||
       res.dataIndex === 'MOFC_Order_B101' 
     ) {
