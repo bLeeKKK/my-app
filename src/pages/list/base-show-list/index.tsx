@@ -147,11 +147,15 @@ const TableList: React.FC = () => {
   // }, 1000);
 
   const newColumns = intoChild(nodeColumns, (smallNode, row) => {
-    if (typeof smallNode.startDate === 'string') {
+    if (typeof smallNode.startDate === 'string' && smallNode.startDate != 'null') {
       smallNode.startDate = moment(parseInt(smallNode.startDate)).format('YYYY-MM-DD HH:mm:ss')
     }
     if (typeof smallNode.endDate === 'string') {
+      if(smallNode.startDate != 'null' && smallNode.endDate ==='null'){
+        smallNode.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
+      }else{
       smallNode.endDate = moment(parseInt(smallNode.endDate)).format('YYYY-MM-DD HH:mm:ss')
+      }
     }
 
     if (smallNode === '-') {
