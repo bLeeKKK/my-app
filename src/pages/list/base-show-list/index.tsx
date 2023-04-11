@@ -236,6 +236,7 @@ const TableList: React.FC = () => {
         }
         temp.push(element)
       } else if (element.title === '开始时间') {
+        element.dataIndex =  'startDates'
         element.valueType = 'dateTimeRange'
         element.fieldProps = { onChange: () => { console.log(111) } }
         temp.push(element)
@@ -265,7 +266,7 @@ const TableList: React.FC = () => {
     temp.push(
       {
         "title": "订单类型集合",
-        "dataIndex": "orderType",
+        "dataIndex": "orderTypes",
         "hideInTable": true,
         "valueEnum": {
           "1": {
