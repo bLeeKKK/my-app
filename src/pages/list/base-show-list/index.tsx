@@ -88,6 +88,18 @@ function intoChild(arr, render) {
       };
     }
     if (
+      res.dataIndex === 'LRP_Dispatch_B113' 
+    ) {
+      
+      return {
+        ...res,
+        width: '100px',
+        render: (e, record) => {
+          return (e.remark && e.LRP_Dispatch_B114) ? moment(e.remark).format('YYYY-MM-DD HH:mm:ss') : '-';
+        },
+      };
+    }
+    if (
       res.dataIndex === 'MOFC_Order_B102' ||
       res.dataIndex === 'MOFC_Order_B101' 
     ) {
@@ -135,11 +147,15 @@ const TableList: React.FC = () => {
   // }, 1000);
 
   const newColumns = intoChild(nodeColumns, (smallNode, row) => {
-    if (typeof smallNode.startDate === 'string') {
+    if (typeof smallNode.startDate === 'string' && smallNode.startDate != 'null') {
       smallNode.startDate = moment(parseInt(smallNode.startDate)).format('YYYY-MM-DD HH:mm:ss')
     }
     if (typeof smallNode.endDate === 'string') {
+      if(smallNode.startDate != 'null' && smallNode.endDate ==='null'){
+        smallNode.endDate = moment().format('YYYY-MM-DD HH:mm:ss')
+      }else{
       smallNode.endDate = moment(parseInt(smallNode.endDate)).format('YYYY-MM-DD HH:mm:ss')
+      }
     }
 
     if (smallNode === '-') {
@@ -220,6 +236,7 @@ const TableList: React.FC = () => {
         }
         temp.push(element)
       } else if (element.title === '开始时间') {
+        element.dataIndex =  'startDates'
         element.valueType = 'dateTimeRange'
         element.fieldProps = { onChange: () => { console.log(111) } }
         temp.push(element)
@@ -246,7 +263,54 @@ const TableList: React.FC = () => {
         temp[i].fixed = true
       }
     })
-    console.log(temp);
+    temp.push(
+      {
+        "title": "订单类型集合",
+        "dataIndex": "orderTypes",
+        "hideInTable": true,
+        "valueEnum": {
+          "1": {
+            "text": "标准订单"
+          },
+          "2": {
+            "text": "工程订单"
+          },
+          "3": {
+            "text": "样机售出订单"
+          },
+          "4": {
+            "text": "样机发出订单"
+          },
+          "5": {
+            "text": "样机取回订单"
+          },
+          "6": {
+            "text": "寄售售出订单"
+          },
+          "7": {
+            "text": "寄售发出订单"
+          },
+          "8": {
+            "text": "寄售取回订单"
+          },
+          "9": {
+            "text": "退货订单"
+          },
+          "10": {
+            "text": "贷项订单"
+          },
+          "11": {
+            "text": "买断样机订单"
+          },
+          "12": {
+            "text": "售中机销售订单"
+          }
+        },
+        "fieldProps": {
+          "mode": "multiple"
+        }
+      }
+      )
     return temp
   }
   //   const exportFuc=()=>{
@@ -384,12 +448,16 @@ const TableList: React.FC = () => {
       formRef={ref}
       request={async (params, sort) => {
         searchData = params;
-        if (params.createdDates && typeof params.createdDates != 'string') {
-          params.createdDates[0] = moment(params.createdDates[0]).format("YYYY-MM-DDTHH:mm:ss")
-          params.createdDates[1] = moment(params.createdDates[1]).format("YYYY-MM-DDTHH:mm:ss")
-        } else if (typeof params.createdDates === 'string') {
-          params.createdDates = ['2022-11-01T00:00:00', moment().format("YYYY-MM-DDTHH:mm:ss")]
+        if(params.startDates){
+          if(typeof params.startDates  === 'string'){
+            delete params.startDates
+          }else{
+            params.startDates = [moment(params.startDates[0]).format("YYYY-MM-DDTHH:mm:ss"),moment(params.startDates[1]).format("YYYY-MM-DDTHH:mm:ss")]
+          }
         }
+        
+          params.createdDates = ['2022-11-01T00:00:00', moment().format("YYYY-MM-DDTHH:mm:ss")]
+        
         const { success, data } = await zonghe(params, sort);
         data.headerData = formatData(data.headerData)
         data.records = formatRecord(data.records)
