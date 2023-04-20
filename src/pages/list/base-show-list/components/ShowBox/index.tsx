@@ -17,18 +17,22 @@ export default function ShowBox({ data }) {
   return (
     <div className={styles.warper}>
       <ul className={styles['ul-box']}>
-        {sourceSysList?.map((res) => (
-          <li key={res.sourceSys}>
-            <div className={styles['big-node']}>{res.sourceSys}</div>
-            <div className={styles['det-time']}>{timeDiff(res.startDate, res.endDate || now)}</div>
+        {sourceSysList?.map((res1) => (
+          <li key={res1.sourceSys}>
+            <div className={styles['big-node']}>{res1.sourceSys}</div>
+            <div className={styles['det-time']}>{timeDiff(res1.startDate, res1.endDate || now)}</div>
             <div className={styles['small-nodes']}>
-              {res?.fullLinkRecordNodeVoList?.length ? (
-                res?.fullLinkRecordNodeVoList?.map((res) => {
+              {res1?.fullLinkRecordNodeVoList?.length ? (
+                res1?.fullLinkRecordNodeVoList?.map((res) => {
+                  let checkHideKey = false
+                  if(res1.sourceSys === 'MOFC' && data.ifFutures === false){
+                   checkHideKey = true
+                  }
                   return (
                     <div className={styles['small-nodes-title']} key={res.nodeName}>
                       <div>{res.nodeName}</div>
                       {res?.fullLinkRecordVoList?.map((res) => (
-                        <ShowBoxItem res={res} now={now} key={res.smallNodeCode} />
+                        <ShowBoxItem checkHideKey={checkHideKey} data={data} res={res} now={now} key={res.smallNodeCode} />
                       ))}
                     </div>
                   );
