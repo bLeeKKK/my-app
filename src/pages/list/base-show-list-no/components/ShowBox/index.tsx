@@ -35,14 +35,14 @@ export default function ShowBox({ data }) {
               {res1?.fullLinkRecordNodeVoList?.length ? (
                 res1?.fullLinkRecordNodeVoList?.map((res) => {
                   let checkHideKey = false
-                  if(res1.sourceSys === 'MOFC' && res1.ifFutures === false){
+                  if(res1.sourceSys === 'MOFC' && data.ifFutures === false){
                    checkHideKey = true
                   }
                   return (
                     <div className={styles['small-nodes-title']} key={res.nodeName}>
                       <div>{res.nodeName}</div>
                       {res?.fullLinkRecordVoList?.map((res) => {
-                        if(checkHideKey && res1.hiddenNodeCodes.includes(res.nodeCode) ){
+                        if(checkHideKey &&  data.hiddenNodeCodes.includes(res.nodeCode)){
                               return ''
                         }else{
                           //根据节点名字控制渲染方式
