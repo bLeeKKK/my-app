@@ -1,4 +1,4 @@
-import { useState } from 'react';
+ import { useState } from 'react';
 import { Empty, Tag, Popover } from 'antd';
 import styles from './styles.less';
 import moment from 'moment';
@@ -27,20 +27,25 @@ export default function ShowBox({ data }) {
   return (
     <div className={styles.warper}>
       <ul className={styles['ul-box']}>
-        {sourceSysList?.map((res) => (
-          <li key={res.sourceSys}>
-            <div className={styles['big-node']}>{res.sourceSys}</div>
-            <div className={styles['det-time']}>{timeDiff(res.startDate, res.endDate || now)}</div>
+        {sourceSysList?.map((res1) => (
+          <li key={res1.sourceSys}>
+            <div className={styles['big-node']}>{res1.sourceSys}</div>
+            <div className={styles['det-time']}>{timeDiff(res1.startDate, res1.endDate || now)}</div>
             <div className={styles['small-nodes']}>
-              {res?.fullLinkRecordNodeVoList?.length ? (
-                res?.fullLinkRecordNodeVoList?.map((res) => {
+              {res1?.fullLinkRecordNodeVoList?.length ? (
+                res1?.fullLinkRecordNodeVoList?.map((res) => {
+                  let checkHideKey = false
+                  if(res1.sourceSys === 'MOFC' && res1.ifFutures === false){
+                   checkHideKey = true
+                  }
                   return (
                     <div className={styles['small-nodes-title']} key={res.nodeName}>
                       <div>{res.nodeName}</div>
                       {res?.fullLinkRecordVoList?.map((res) => {
-
-                        //根据节点名字控制渲染方式
-                        console.log(res);
+                        if(checkHideKey && res1.hiddenNodeCodes.includes(res.nodeCode) ){
+                              return ''
+                        }else{
+                          //根据节点名字控制渲染方式
                         if (res.nodeCode === 'MOFC_Order_B105' ||
                           res.nodeCode === 'MOFC_Order_B106' ||
                           res.nodeCode === 'LRP_Dispatch_B162' ||
@@ -83,28 +88,14 @@ export default function ShowBox({ data }) {
                                     ? moment(res.endDate || now).format('YYYY-MM-DD HH:mm:ss')
                                     : '处理中'}
                                 </div>
-                                {/* <Popover
-          content={
-            <>
-              <div>
-                开始时间：{moment(res.startDate).format('YYYY-MM-DD HH:mm:ss')}
-              </div>
-              <div>
-                结束时间：
-                {res.endDate
-                  ? moment(res.endDate).format('YYYY-MM-DD HH:mm:ss')
-                  : '处理中'}
-              </div>
-            </>
-          }
-        > */}
                                 <div>{timeDiff(res.startDate, res.endDate || now)}</div>
-                                {/* </Popover> */}
                               </div>
                             </div>
                           )
                         }
 
+                        }
+                        
                       })}
                     </div>
                   );
