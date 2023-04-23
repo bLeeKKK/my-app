@@ -76,7 +76,8 @@ const TableList: React.FC = () => {
     },
     { title: '流程编号', dataIndex: 'busFlowCode', width: 200 },
     { title: '流程描述', dataIndex: 'busFlowName', width: 150 },
-    { title: '流程系统', dataIndex: 'sourceSys', search: false },
+    { title: '流程系统', dataIndex: 'sourceSys', search: false, width: 150 },
+    { title: '流程类型', dataIndex: 'flowType', search: false },
   ];
 
   return (

@@ -12,6 +12,10 @@ export const FREEZE_OPTIONS = [
   { value: false, label: '正常' },
   { value: true, label: '冻结' },
 ];
+export const flowType = [
+  { value: 0, label: '正向' },
+  { value: 1, label: '逆向' },
+];
 
 const handleAdd = async (data: ParamsType) => {
   const hide = message.loading('正在添加');
@@ -134,6 +138,14 @@ export default function AddModalForm() {
           width="md"
           name="freeze"
           options={FREEZE_OPTIONS}
+        />
+        <ProFormRadio.Group
+          rules={[{ required: true, message: '请选择流程类型' }]}
+          // initialValue={0}
+          label="流程类型"
+          width="md"
+          name="flowType"
+          options={flowType}
         />
       </ModalForm>
     </>
