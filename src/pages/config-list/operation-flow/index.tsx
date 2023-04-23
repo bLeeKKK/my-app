@@ -95,6 +95,13 @@ const TableList: React.FC = () => {
       // }}
       request={async (params) => {
         const { success, data } = await findByPage(params);
+        data.records.forEach(e=>{
+          if(e.flowType === 0){
+            e.flowType = '正向'
+          }else{
+            e.flowType = '逆向'
+          }
+        })
         return {
           success: success,
           data: data.records,
