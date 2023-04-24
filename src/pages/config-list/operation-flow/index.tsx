@@ -59,7 +59,8 @@ const TableList: React.FC = () => {
         </Popconfirm>,
         <IconBox
           onClick={() => {
-            history.push('/config-list/operation-flow/flow-map' + '?id=' + (record?.id || ''));
+            let temp = record.flowType === '正向'?0:1
+            history.push('/config-list/operation-flow/flow-map' + '?id=' + (record?.id || '') + '&flowType=' +temp);
           }}
           icon={GroupOutlined}
           text="配置流程"

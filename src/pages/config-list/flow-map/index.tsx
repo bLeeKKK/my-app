@@ -12,10 +12,11 @@ import { update } from './sercice';
 import { message } from 'antd';
 import './index.less';
 
-const handleUpdate = async (data) => {
+const handleUpdate = async (data,flowType) => {
   const { edges = [], nodes = [], flowData = {} } = data;
   const newData = { ...flowData };
   const hide = message.loading('正在修改');
+  
   try {
     const objNext = {};
     const objUp = {};
@@ -30,6 +31,10 @@ const handleUpdate = async (data) => {
       node.nodeName = node._nodeName;
       node.nextNodeId = objNext[node.id];
       node.upNodeId = objUp[node.id];
+      node.flowType = parseInt(flowType)
+      node.childNodeList.forEach(e=>{
+        e.flowType = parseInt(flowType)
+      })
       return node;
     });
     const newEdges = edges.map((res) => {
@@ -66,13 +71,13 @@ const FlowMap = () => {
   const history = useHistory();
   const ref = useRef();
   const id = query?.id;
-
+  const flowType = query?.flowType;
   const save = async (val) => {
     const app = ref.current?.app;
     const flowData = ref.current?.flowData;
     const nodes = await app.getAllNodes();
     const edges = await app.getAllEdges();
-    const data = handleUpdate({ edges, nodes, flowData });
+    const data = handleUpdate({ edges, nodes, flowData },flowType);
   };
 
   return (
