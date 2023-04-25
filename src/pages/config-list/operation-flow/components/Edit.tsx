@@ -12,9 +12,9 @@ export const FREEZE_OPTIONS = [
   { value: false, label: '正常' },
   { value: true, label: '冻结' },
 ];
-export const flowType = [
-  { value: 0, label: '正向' },
-  { value: 1, label: '逆向' },
+export const FLOW_TYPE = [
+  { value: '正向', label: '正向' },
+  { value: '逆向', label: '逆向' },
 ];
 
 const handleAdd = async (data: ParamsType) => {
@@ -95,6 +95,7 @@ export default function AddModalForm() {
           if (!flag) closeModal();
         }}
         onFinish={async (value) => {
+          value.flowType= value.flowType === '正向'? 0 : 1
           let flag = false;
           if (edit?.id) {
             flag = await handleUpdate({ ...edit, ...value });
@@ -132,21 +133,22 @@ export default function AddModalForm() {
           }}
         />
         <ProFormRadio.Group
-          rules={[{ required: true, message: '请选择状态' }]}
-          initialValue={0}
-          label="状态"
-          width="md"
-          name="freeze"
-          options={FREEZE_OPTIONS}
-        />
-        <ProFormRadio.Group
           rules={[{ required: true, message: '请选择流程类型' }]}
           // initialValue={0}
           label="流程类型"
           width="md"
           name="flowType"
-          options={flowType}
+          options={FLOW_TYPE}
         />
+        <ProFormRadio.Group
+          rules={[{ required: true, message: '请选择状态' }]}
+          // initialValue={0}
+          label="状态"
+          width="md"
+          name="freeze"
+          options={FREEZE_OPTIONS}
+        />
+        
       </ModalForm>
     </>
   );
