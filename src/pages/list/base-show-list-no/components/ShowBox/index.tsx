@@ -49,6 +49,8 @@ export default function ShowBox({ data }) {
                         if (res.nodeCode === 'MOFC_Order_B105' ||
                           res.nodeCode === 'MOFC_Order_B106' ||
                           res.nodeCode === 'LRP_Dispatch_B162' ||
+                          res.nodeCode === 'LRP_New_B102' ||
+                          res.nodeCode === 'MOFC_Order_B107' ||
                           res.nodeCode === 'LRP_Dispatch_B172') {
                           return res.remark
                         } else if (res.nodeCode === 'product_source_type') {
