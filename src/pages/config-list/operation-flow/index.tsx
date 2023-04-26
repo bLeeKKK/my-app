@@ -59,7 +59,8 @@ const TableList: React.FC = () => {
         </Popconfirm>,
         <IconBox
           onClick={() => {
-            history.push('/config-list/operation-flow/flow-map' + '?id=' + (record?.id || ''));
+            let temp = record.flowType === '正向'?0:1
+            history.push('/config-list/operation-flow/flow-map' + '?id=' + (record?.id || '') + '&flowType=' +temp);
           }}
           icon={GroupOutlined}
           text="配置流程"
@@ -76,7 +77,8 @@ const TableList: React.FC = () => {
     },
     { title: '流程编号', dataIndex: 'busFlowCode', width: 200 },
     { title: '流程描述', dataIndex: 'busFlowName', width: 150 },
-    { title: '流程系统', dataIndex: 'sourceSys', search: false },
+    { title: '流程系统', dataIndex: 'sourceSys', search: false, width: 150 },
+    { title: '流程类型', dataIndex: 'flowType', search: false },
   ];
 
   return (
@@ -94,6 +96,13 @@ const TableList: React.FC = () => {
       // }}
       request={async (params) => {
         const { success, data } = await findByPage(params);
+        data.records.forEach(e=>{
+          if(e.flowType === 0){
+            e.flowType = '正向'
+          }else{
+            e.flowType = '逆向'
+          }
+        })
         return {
           success: success,
           data: data.records,
