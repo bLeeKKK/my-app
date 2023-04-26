@@ -6,6 +6,10 @@ import { timeDiff } from '@/utils';
 export default function ShowBoxItem({ res, now, data, checkHideKey }) {
   if (checkHideKey && data.hiddenNodeCodes.includes(res.nodeCode)) {
     return ''
+  } else if (res.smallNodeCode === 'S_NODE_61' || res.smallNodeCode === 'S_NODE_54') {
+    return res.remark
+  } else if (res.show === false) {
+
   } else {
     return (
       <>
