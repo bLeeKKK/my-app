@@ -1,4 +1,4 @@
-import { useLocation, MicroApp } from 'umi';
+import { useLocation, MicroApp, MicroAppWithMemoHistory } from 'umi';
 import { findSourceCode } from './service';
 import { useRequest } from 'ahooks';
 import ShowBox from '../base-show-list/components/ShowBox';
@@ -26,7 +26,7 @@ export default function BaseShow() {
       tabList={[
         {
           key: '2',
-          tab: '基础展示',
+          tab: '全链路时效',
           children: (
             <div style={{ minHeight: '800px' }}>
               {showArr.length ? (
@@ -39,10 +39,23 @@ export default function BaseShow() {
         },
         {
           key: '1',
-          tab: '链路数据',
+          tab: '全链路跟踪',
           children: (
             <div style={{ minHeight: '800px' }}>
               <MicroApp name="bizlog-web" sourceCode={sourceCode} sourceSys={sourceSys} />
+            </div>
+          ),
+        },
+        {
+          key: '3',
+          tab: '全链路数据表',
+          children: (
+            <div style={{ minHeight: '800px' }}>
+              {/* <MicroApp name="bizlog-web-2" sourceCode={sourceCode} sourceSys={sourceSys} history="hash" /> */}
+              <MicroAppWithMemoHistory
+              name="bizlog-web"
+              url={`/LineShowCopy?sourceOrderkey=${sourceCode}&sourceSys=${sourceSys}`}
+              />
             </div>
           ),
         },
