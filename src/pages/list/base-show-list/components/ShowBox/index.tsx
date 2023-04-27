@@ -13,7 +13,7 @@ export default function ShowBox({ data }) {
   useRafInterval(() => {
     setNow(new Date());
   }, 1000);
-sourceSysList.forEach(e=>{
+  sourceSysList&&sourceSysList.forEach(e=>{
   
 let lastIndex = undefined
 let tempKey = 0
