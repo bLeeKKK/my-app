@@ -53,8 +53,8 @@ export default function BaseShow() {
             <div style={{ minHeight: '800px' }}>
               {/* <MicroApp name="bizlog-web-2" sourceCode={sourceCode} sourceSys={sourceSys} history="hash" /> */}
               <MicroAppWithMemoHistory
-              name="bizlog-web"
-              url={`/LineShowCopy?sourceOrderkey=${sourceCode}&sourceSys=${sourceSys}`}
+                name="bizlog-web"
+                url={`/LineShowCopy?sourceOrderkey=${sourceCode}&sourceSys=${sourceSys}`}
               />
             </div>
           ),
