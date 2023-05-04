@@ -18,9 +18,14 @@ export default function BaseShow() {
     <PageContainer
       // fixedHeader
       // ghost
-      style={{ height: '100%', marginTop: '45px' }}
+      // style={{ height: '100%', marginTop: '45px' }}
       header={{
-        title: '',
+        title: (
+          <div style={{ display: 'flex', marginLeft: '8px' }}>
+            <h4 style={{ marginRight: '20px' }}>原始单号：{sourceCode}</h4>
+            <h4>来源系统：{sourceSys}</h4>
+          </div>
+        ),
         breadcrumb: {},
       }}
       tabList={[
@@ -28,7 +33,7 @@ export default function BaseShow() {
           key: '2',
           tab: '全链路时效',
           children: (
-            <div style={{ minHeight: '800px' }}>
+            <div>
               {showArr.length ? (
                 showArr.map((item, index) => <ShowBox data={item} key={index} />)
               ) : (
@@ -41,7 +46,7 @@ export default function BaseShow() {
           key: '1',
           tab: '全链路跟踪',
           children: (
-            <div style={{ minHeight: '800px' }}>
+            <div>
               <MicroApp name="bizlog-web" sourceCode={sourceCode} sourceSys={sourceSys} />
             </div>
           ),
@@ -50,7 +55,7 @@ export default function BaseShow() {
           key: '3',
           tab: '全链路数据表',
           children: (
-            <div style={{ minHeight: '800px' }}>
+            <div>
               {/* <MicroApp name="bizlog-web-2" sourceCode={sourceCode} sourceSys={sourceSys} history="hash" /> */}
               <MicroAppWithMemoHistory
                 name="bizlog-web"
