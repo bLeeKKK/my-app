@@ -19,6 +19,7 @@ export default function BaseShow() {
       // fixedHeader
       // ghost
       // style={{ height: '100%', marginTop: '45px' }}
+      tabProps={{}}
       header={{
         title: (
           <div style={{ display: 'flex', marginLeft: '8px' }}>
@@ -46,8 +47,13 @@ export default function BaseShow() {
           key: '1',
           tab: '全链路跟踪',
           children: (
-            <div style={{ margin: '8px', padding: '8px', border: '1px solid #ddd' }}>
-              <MicroApp name="bizlog-web" sourceCode={sourceCode} sourceSys={sourceSys} />
+            <div>
+              <MicroApp
+                autoSetLoading
+                name="bizlog-web"
+                sourceCode={sourceCode}
+                sourceSys={sourceSys}
+              />
             </div>
           ),
         },
@@ -58,6 +64,7 @@ export default function BaseShow() {
             <div>
               {/* <MicroApp name="bizlog-web-2" sourceCode={sourceCode} sourceSys={sourceSys} history="hash" /> */}
               <MicroAppWithMemoHistory
+                autoSetLoading
                 name="bizlog-web"
                 url={`/LineShowCopy?sourceOrderkey=${sourceCode}&sourceSys=${sourceSys}`}
               />
