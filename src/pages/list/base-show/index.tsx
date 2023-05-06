@@ -46,7 +46,7 @@ export default function BaseShow() {
           key: '1',
           tab: '全链路跟踪',
           children: (
-            <div>
+            <div style={{ margin: '8px', padding: '8px', border: '1px solid #ddd' }}>
               <MicroApp name="bizlog-web" sourceCode={sourceCode} sourceSys={sourceSys} />
             </div>
           ),
