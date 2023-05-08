@@ -120,45 +120,42 @@ const TableList: React.FC = () => {
     );
   });
   const formatData = (data) => {
-
-    let temp = []
-    data.forEach(element => {
+    const temp = [];
+    data.forEach((element) => {
       if (element.title === '完成状态') {
-        element.valueEnum = { true: { text: '完成' }, false: { text: '未完成' } }
-        temp.push(element)
+        element.valueEnum = { true: { text: '完成' }, false: { text: '未完成' } };
+        temp.push(element);
       } else if (element.title === '大节点代码') {
-        let t = {}
-        element.children.forEach(e => {
-          t[typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]] = { text: e.title }
-        })
-        element.valueEnum = t
-        temp.push(element)
+        const t = {};
+        element.children.forEach((e) => {
+          t[typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]] = { text: e.title };
+        });
+        element.valueEnum = t;
+        temp.push(element);
       } else if (element.title === '预警等级') {
-        let t = {}
-        element.children.forEach(e => {
-          t[e.dataIndex] = { text: e.title }
-        })
-        element.valueEnum = t
-        temp.push(element)
+        const t = {};
+        element.children.forEach((e) => {
+          t[e.dataIndex] = { text: e.title };
+        });
+        element.valueEnum = t;
+        temp.push(element);
       } else if (element.title === '开始时间') {
-        element.valueType = 'dateTimeRange'
-        temp.push(element)
-      }
-      else {
-
-        element.hideInSearch = true
-        temp.push(element)
+        element.valueType = 'dateTimeRange';
+        temp.push(element);
+      } else {
+        element.hideInSearch = true;
+        temp.push(element);
       }
     });
 
     temp.forEach((e, i) => {
       if (e.title === 'uso单号') {
-        temp[i].fixed = true
+        temp[i].fixed = true;
       }
-    })
+    });
     console.log(temp);
-    return temp
-  }
+    return temp;
+  };
   return (
     // <PageContainer>
     <ProTable<TableListItem, TableListPagination>
@@ -172,20 +169,21 @@ const TableList: React.FC = () => {
       scroll={{ x: '100px' }}
       formRef={ref}
       request={async (params, sort) => {
-        if (params.createdDates) {
-          params.createdDates[0] = moment(params.createdDates[0]).format("YYYY-MM-DDTHH:mm:ss")
-          params.createdDates[1] = moment(params.createdDates[1]).format("YYYY-MM-DDTHH:mm:ss")
+        if (params.createdDates && params.createdDates?.[0] && params.createdDates?.[1]) {
+          params.createdDates = [
+            moment(params.createdDates[0]).format('YYYY-MM-DDTHH:mm:ss'),
+            moment(params.createdDates[1]).format('YYYY-MM-DDTHH:mm:ss'),
+          ];
+        } else {
+          delete params.createdDates;
         }
         const { data, success } = await getAgingReport(params, sort);
-        data.headerData = formatData(data.headerData)
-        console.log(data.headerData);
+        data.headerData = formatData(data.headerData);
         data.records.forEach((e, i) => {
           if (e.finish === '未完成') {
-            data.records[i].finish = 'false'
+            data.records[i].finish = 'false';
           }
-        })
-        console.log(data);
-
+        });
         setNodeColumns(data?.headerData || []);
         return {
           success: success,
