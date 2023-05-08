@@ -94,6 +94,12 @@
         wrappers: ['@/wrappers/withKeepLive'],
       },
       {
+        path: '/list/base-show-list-b',
+        name: 'base-show-list-b',
+        component: './list/base-show-list-b',
+        wrappers: ['@/wrappers/withKeepLive'],
+      },
+      {
         path: '/list/base-show-list-no',
         name: 'base-show-list-no',
         component: './list/base-show-list-no',
