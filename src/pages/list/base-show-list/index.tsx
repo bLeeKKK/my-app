@@ -11,7 +11,7 @@ import { download } from '@/utils';
 import { Tag } from 'antd';
 import { useRafInterval } from 'ahooks';
 import { timeDiff } from '@/utils';
-import './style.less';
+// import './style.less';
 
 let searchData = {};
 
