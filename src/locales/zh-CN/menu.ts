@@ -40,4 +40,7 @@ export default {
   'menu.monitor.interface-list': '接口配置',
   'menu.monitor.base-list': '记录池数据',
   'menu.monitor.table-list': '数据图表',
+
+  'menu.others.base-show-list': '综合报表（c端）',
+  'menu.others.base-show-list-b': '综合报表（b端）',
 };
