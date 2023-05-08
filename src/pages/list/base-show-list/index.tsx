@@ -6,12 +6,10 @@ import { zonghe, interfaceCallRecordExport } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
 import moment from 'moment';
-import { Button, Modal, message, Popover, Row, Col } from 'antd';
+import { Tag, Popover, Row, Col } from 'antd';
 import { download } from '@/utils';
-import { Tag } from 'antd';
 import { useRafInterval } from 'ahooks';
 import { timeDiff } from '@/utils';
-// import './style.less';
 
 let searchData = {};
 
@@ -190,7 +188,13 @@ const TableList: React.FC = () => {
             </>
           }
         >
-          <div className={row.lastNode && row.lastNode === smallNode?.nodeName ? 'tdC' : ''}>
+          <div
+            style={
+              row.lastNode && row.lastNode === smallNode?.nodeName
+                ? { border: '2px solid rgb(245, 61, 113)', textAlign: 'center' }
+                : { textAlign: 'center' }
+            }
+          >
             <div style={{ textAlign: 'center' }}>
               {smallNode.startDate &&
                 timeDiff(smallNode.startDate, smallNode.endDate || now, false) < '0时1分0秒'
@@ -200,7 +204,9 @@ const TableList: React.FC = () => {
                   : timeDiff(smallNode.startDate, smallNode.endDate || now, true)}
             </div>
             {smallNode.overTimeRemark && (
-              <Tag color={smallNode.signColor}>{smallNode.overTimeRemark}</Tag>
+              <Tag style={{ marginBottom: '2px' }} color={smallNode.signColor}>
+                {smallNode.overTimeRemark}
+              </Tag>
             )}
           </div>
         </Popover>
@@ -405,6 +411,7 @@ const TableList: React.FC = () => {
       rowKey="sourceCode"
       scroll={{ y: 240 }}
       search={{ labelWidth: 120 }}
+      defaultSize="small"
       // expandable={{
       //   expandedRowRender,
       // }}
