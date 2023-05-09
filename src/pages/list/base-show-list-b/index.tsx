@@ -4,7 +4,7 @@ import React, { useRef, useState, Fragment } from 'react';
 import ProTable from '@ant-design/pro-table';
 import { zonghe, interfaceCallRecordExport } from './service';
 import type { TableListItem, TableListPagination } from './data';
-import { useSelector } from 'umi';
+import { useSelector, useLocation } from 'umi';
 import moment from 'moment';
 import { Tag, Popover, Row, Col } from 'antd';
 import { download } from '@/utils';
@@ -136,6 +136,7 @@ const TableList: React.FC = () => {
   const [nodeRecords, setNodeRecords] = useState([]);
   const ref = useRef();
   const [now, setNow] = useState(new Date());
+  const { query } = useLocation();
 
   // useRafInterval(() => {
   //   setNow(new Date());
@@ -315,77 +316,7 @@ const TableList: React.FC = () => {
     });
     return temp;
   };
-  //   const exportFuc=()=>{
 
-  //     function flatten(obj, key = '') {
-  //       let result = {};
-  //       for (let k in obj) {
-  //         let newKey = key ? `${k}` : k;
-  //         if (typeof obj[k] === 'object') {
-  //           Object.assign(result, flatten(obj[k], newKey));
-  //         } else {
-  //           result[newKey] = obj[k];
-  //         }
-  //       }
-  //       return result;
-  //     }
-
-  //     console.log(nodeRecords);
-  //     let tempC = []
-  //     nodeColumns.forEach(e=>{
-  //       if(!e.hideInTable){
-  //        if(e.children){
-  //         e.children.forEach(ee=>{
-  //           tempC.push({title:`${e.title}-${ee.title}`,dataIndex:typeof ee.dataIndex === 'string' ? ee.dataIndex : ee.dataIndex[0]})
-  //         })
-  //       }else{
-  //         tempC.push({title:e.title,dataIndex:typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]})
-  //       }
-  //       }
-
-  //     })
-  //     let tempR = []
-  //     nodeRecords.forEach(e=>{
-  //       tempR.push(flatten(e))
-  //     })
-  //     console.log(tempR);
-
-  //   //   return
-  //   //  let  columns=[
-  //   //     {
-  //   //       title: '姓名',
-  //   //       dataIndex: 'name',
-  //   //     },
-  //   //     {
-  //   //       title: '性别',
-  //   //       dataIndex: 'sex',
-  //   //     },
-  //   //   ]
-  //   //  let jsonData=[
-  //   //     {
-  //   //       name: 'test',
-  //   //       sex: 'male',
-  //   //     },
-  //   //     {
-  //   //       name: 'test2',
-  //   //       sex: 'female',
-  //   //     },
-  //   //   ]
-  //     // 将数据转换成一个二维数组，每个子数组代表一行
-  // const dataArr = [tempC.map(col => col.title), ...tempR.map(item => tempC.map(col => col.formatter ? col.formatter(item[col.dataIndex], item) : item[col.dataIndex]))];
-
-  // // 创建一个工作簿
-  // const wb = utils.book_new();
-
-  // // 创建一个工作表
-  // const ws = utils.aoa_to_sheet(dataArr);
-
-  // // 将工作表添加到工作簿中
-  // utils.book_append_sheet(wb, ws, 'Sheet1');
-
-  // // 导出Excel文件
-  // writeFileXLSX (wb, 'data.xlsx');
-  //   }
   const formatRecord = (data) => {
     let classKey = 1;
     let findKey = false;
@@ -409,30 +340,9 @@ const TableList: React.FC = () => {
     <ProTable<TableListItem, TableListPagination>
       actionRef={actionRef}
       rowKey="sourceCode"
-      scroll={{ y: 240 }}
-      search={{ labelWidth: 120 }}
+      search={query.search === 'false' ? false : { labelWidth: 120 }}
       defaultSize="small"
-      // expandable={{
-      //   expandedRowRender,
-      // }}
-      // toolBarRender={() => [
-      //   <Button
-      //     key="export"
-      //     onClick={() => {
-      //       Modal.confirm({
-      //         title: '提示',
-      //         content: '确定要导出数据吗？',
-      //         onOk: () => {
-      //          exportFuc()
-      //         },
-      //       });
-      //     }}
-      //   >
-      //     导出报表
-      //   </Button>,
-      // ]}
       sticky
-      // style={{backgroundColor:'red'}}
       className="contolTable"
       rowClassName={(record) => {
         if (record.classKey) {
@@ -459,6 +369,7 @@ const TableList: React.FC = () => {
         }
 
         params.createdDates = ['2022-11-01T00:00:00', moment().format('YYYY-MM-DDTHH:mm:ss')];
+        if (query.filiale) params.filialeList = query.filiale.split(',');
 
         const { success, data } = await zonghe(params, sort);
         data.headerData = formatData(data.headerData);

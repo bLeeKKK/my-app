@@ -184,9 +184,9 @@
     // icon: 'smile',
     routes: [
       {
-        path: '/others/base-show-list',
-        name: 'base-show-list',
-        component: './list/base-show-list',
+        path: '/others/base-show-list-b',
+        name: 'base-show-list-b',
+        component: './list/base-show-list-b',
       },
     ],
   },
