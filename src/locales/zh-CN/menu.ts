@@ -23,7 +23,8 @@ export default {
   // 'menu.list.table-list': '数据列表',
   // 'menu.list.base-list': '记录池数据',
   'menu.list.base-time-list': '全链路时效数据池',
-  'menu.list.base-show-list': '综合报表',
+  'menu.list.base-show-list': '综合报表（c端）',
+  'menu.list.base-show-list-b': '综合报表（b端）',
   'menu.list.base-show-list-no': '全链路数据列表(单号)',
   'menu.list.base-report-forms': '业务管理报表',
   'menu.list.base-node-time-list': '节点时效报表',
@@ -39,4 +40,7 @@ export default {
   'menu.monitor.interface-list': '接口配置',
   'menu.monitor.base-list': '记录池数据',
   'menu.monitor.table-list': '数据图表',
+
+  'menu.others.base-show-list': '综合报表（c端）',
+  'menu.others.base-show-list-b': '综合报表（b端）',
 };

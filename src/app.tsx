@@ -16,7 +16,7 @@ import { getMenuData, getPageTitle } from '@ant-design/pro-components';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
-const authArr = ['/list/base-show/']; // 不需要鉴权页面
+const authArr = ['/list/base-show/', '/others/base-show-list-b/']; // 不需要鉴权页面
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -97,15 +97,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     links: isDev
       ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-          <Link to="/~docs" key="docs">
-            <BookOutlined />
-            <span>业务组件文档</span>
-          </Link>,
-        ]
+        <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
+          <LinkOutlined />
+          <span>OpenAPI 文档</span>
+        </Link>,
+        <Link to="/~docs" key="docs">
+          <BookOutlined />
+          <span>业务组件文档</span>
+        </Link>,
+      ]
       : [],
     // headerContentRender: () => <ProBreadcrumb />,
     menuHeaderRender: undefined,

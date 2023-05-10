@@ -71,16 +71,6 @@
     name: 'list',
     icon: 'table',
     routes: [
-      // {
-      //   path: '/list/table-list',
-      //   name: 'table-list',
-      //   component: './list/table-list',
-      // },
-      // {
-      //   path: '/list/base-list',
-      //   name: 'base-list',
-      //   component: './list/base-list',
-      // },
       {
         path: '/list/base-time-list',
         name: 'base-time-list',
@@ -91,6 +81,12 @@
         path: '/list/base-show-list',
         name: 'base-show-list',
         component: './list/base-show-list',
+        wrappers: ['@/wrappers/withKeepLive'],
+      },
+      {
+        path: '/list/base-show-list-b',
+        name: 'base-show-list-b',
+        component: './list/base-show-list-b',
         wrappers: ['@/wrappers/withKeepLive'],
       },
       {
@@ -177,6 +173,20 @@
         name: 'table-list',
         component: './monitor/table-list',
         wrappers: ['@/wrappers/withKeepLive'],
+      },
+    ],
+  },
+  {
+    path: 'others',
+    name: 'others',
+    layout: false,
+    hideInMenu: true,
+    // icon: 'smile',
+    routes: [
+      {
+        path: '/others/base-show-list-b',
+        name: 'base-show-list-b',
+        component: './list/base-show-list-b',
       },
     ],
   },
