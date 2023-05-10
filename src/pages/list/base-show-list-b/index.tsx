@@ -359,7 +359,7 @@ const TableList: React.FC = () => {
       formRef={ref}
       request={async (params, sort) => {
         searchData = params;
-        if (params.startDates && params.startDates?.[0] && params.startDates?.[1]) {
+        if (params.startDates && params.startDates?.[0] && params.startDates?.[1] && Array.isArray(params.startDate)) {
           params.startDates = [
             moment(params.startDates[0]).format('YYYY-MM-DDTHH:mm:ss'),
             moment(params.startDates[1]).format('YYYY-MM-DDTHH:mm:ss'),
