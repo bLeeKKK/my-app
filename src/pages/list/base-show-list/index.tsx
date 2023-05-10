@@ -12,6 +12,7 @@ import { useRafInterval } from 'ahooks';
 import { timeDiff } from '@/utils';
 
 let searchData = {};
+const regTimec = /^\d{10,13}$/
 
 // 不需要处理小节点的
 const arrExtar = ['sourceCode', 'currentCode'];
@@ -142,16 +143,13 @@ const TableList: React.FC = () => {
   // }, 1000);
 
   const newColumns = intoChild(nodeColumns, (smallNode, row) => {
-    if (typeof smallNode.startDate === 'string' && smallNode.startDate != 'null') {
+    if (regTimec.test(smallNode.startDate)) {
       smallNode.startDate = moment(parseInt(smallNode.startDate)).format('YYYY-MM-DD HH:mm:ss');
     }
-    if (typeof smallNode.endDate === 'string') {
-      if (smallNode.startDate != 'null' && smallNode.endDate === 'null') {
-        smallNode.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
-      } else {
-        smallNode.endDate = moment(parseInt(smallNode.endDate)).format('YYYY-MM-DD HH:mm:ss');
-      }
+    if (regTimec.test(smallNode.endDate)) {
+      smallNode.endDate = moment(parseInt(smallNode.endDate)).format('YYYY-MM-DD HH:mm:ss');
     }
+
 
     if (smallNode === '-') {
       return smallNode;
@@ -160,7 +158,7 @@ const TableList: React.FC = () => {
     if (t === 'string' || t === 'number') {
       return smallNode;
     }
-    console.log(smallNode, timeDiff(smallNode.startDate, smallNode.endDate || now, false))
+
     return (
       <>
         <Popover
@@ -450,7 +448,12 @@ const TableList: React.FC = () => {
       formRef={ref}
       request={async (params, sort) => {
         searchData = params;
-        if (params.startDates && params.startDates?.[0] && params.startDates?.[1] && Array.isArray(params.startDate)) {
+        if (
+          params.startDates &&
+          params.startDates?.[0] &&
+          params.startDates?.[1] &&
+          Array.isArray(params.startDate)
+        ) {
           params.startDates = [
             moment(params.startDates[0]).format('YYYY-MM-DDTHH:mm:ss'),
             moment(params.startDates[1]).format('YYYY-MM-DDTHH:mm:ss'),

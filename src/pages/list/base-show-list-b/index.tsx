@@ -12,6 +12,7 @@ import { useRafInterval } from 'ahooks';
 import { timeDiff } from '@/utils';
 
 let searchData = {};
+const regTimec = /^\d{10,13}$/
 
 // 不需要处理小节点的
 const arrExtar = ['sourceCode', 'currentCode'];
@@ -143,15 +144,11 @@ const TableList: React.FC = () => {
   // }, 1000);
 
   const newColumns = intoChild(nodeColumns, (smallNode, row) => {
-    if (typeof smallNode.startDate === 'string' && smallNode.startDate != 'null') {
+    if (regTimec.test(smallNode.startDate)) {
       smallNode.startDate = moment(parseInt(smallNode.startDate)).format('YYYY-MM-DD HH:mm:ss');
     }
-    if (typeof smallNode.endDate === 'string') {
-      if (smallNode.startDate != 'null' && smallNode.endDate === 'null') {
-        smallNode.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
-      } else {
-        smallNode.endDate = moment(parseInt(smallNode.endDate)).format('YYYY-MM-DD HH:mm:ss');
-      }
+    if (regTimec.test(smallNode.endDate)) {
+      smallNode.endDate = moment(parseInt(smallNode.endDate)).format('YYYY-MM-DD HH:mm:ss');
     }
 
     if (smallNode === '-') {
@@ -161,7 +158,7 @@ const TableList: React.FC = () => {
     if (t === 'string' || t === 'number') {
       return smallNode;
     }
-    console.log(smallNode, timeDiff(smallNode.startDate, smallNode.endDate || now, false));
+
     return (
       <>
         <Popover
