@@ -409,7 +409,7 @@ const TableList: React.FC = () => {
     <ProTable<TableListItem, TableListPagination>
       actionRef={actionRef}
       rowKey="sourceCode"
-      scroll={{ y: 240 }}
+      // scroll={{ y: 240 }}
       search={{ labelWidth: 120 }}
       defaultSize="small"
       // expandable={{
