@@ -77,12 +77,12 @@
         component: './list/base-time-list',
         wrappers: ['@/wrappers/withKeepLive'],
       },
-      {
-        path: '/list/base-show-list',
-        name: 'base-show-list',
-        component: './list/base-show-list',
-        wrappers: ['@/wrappers/withKeepLive'],
-      },
+      // {
+      //   path: '/list/base-show-list',
+      //   name: 'base-show-list',
+      //   component: './list/base-show-list',
+      //   wrappers: ['@/wrappers/withKeepLive'],
+      // },
       {
         path: '/list/base-show-list-b',
         name: 'base-show-list-b',
