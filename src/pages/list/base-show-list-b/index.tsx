@@ -6,13 +6,14 @@ import { zonghe, interfaceCallRecordExport } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector, useLocation } from 'umi';
 import moment from 'moment';
-import { Tag, Popover, Row, Col } from 'antd';
+import { Tag, Popover, Row, Table, Col, Descriptions } from 'antd';
 import { download } from '@/utils';
 import { useRafInterval } from 'ahooks';
 import { timeDiff } from '@/utils';
+import styles from './style.less';
 
 let searchData = {};
-const regTimec = /^\d{10,13}$/
+const regTimec = /^\d{10,13}$/;
 
 // 不需要处理小节点的
 const arrExtar = ['sourceCode', 'currentCode'];
@@ -168,19 +169,50 @@ const TableList: React.FC = () => {
                 smallNode.smallNodeList.map((res, index) => {
                   return (
                     <Fragment key={index}>
-                      <Row style={{ fontSize: '12px', width: '450px' }}>
-                        <Col span={10}>{res.smallNodeName}</Col>
-                        <Col span={14}>
-                          {' 【' + moment(res.smallNodeStartDate).format('YYYY-MM-DD HH:mm:ss')}{' '}
-                          <span style={{ color: res.smallNodeEndDate ? '' : 'red' }}>
-                            -{' '}
-                            {res.smallNodeEndDate
-                              ? moment(res.smallNodeEndDate || now).format('YYYY-MM-DD HH:mm:ss')
-                              : '处理中'}{' '}
-                            】
-                          </span>
-                        </Col>
-                      </Row>
+                      <Descriptions style={{ width: '420px', fontSize: '12px' }} size="small">
+                        <Descriptions.Item
+                          style={{ paddingBottom: res?.nodeMessage?.length ? '8px' : '0' }}
+                          label={res.smallNodeName}
+                          span={24}
+                        >
+                          {moment(res.smallNodeStartDate).format('YYYY-MM-DD HH:mm:ss')}-
+                          {res.smallNodeEndDate ? (
+                            moment(res.smallNodeEndDate || now).format('YYYY-MM-DD HH:mm:ss')
+                          ) : (
+                            <>
+                              <span style={{ color: res.smallNodeEndDate ? '' : 'red' }}>
+                                处理中
+                              </span>
+                            </>
+                          )}
+                        </Descriptions.Item>
+                        {res?.nodeMessage?.length ? (
+                          <Descriptions.Item
+                            span={24}
+                            style={{ paddingBottom: '0px' }}
+                            label={'消息'}
+                          >
+                            <Table
+                              pagination={false}
+                              className={styles.smallTable}
+                              columns={[
+                                {
+                                  title: '用户',
+                                  width: '70px',
+                                  dataIndex: 'creatorAcount',
+                                },
+                                {
+                                  title: '消息',
+                                  dataIndex: 'message',
+                                },
+                              ]}
+                              dataSource={res.nodeMessage}
+                              bordered
+                              size="small"
+                            />
+                          </Descriptions.Item>
+                        ) : null}
+                      </Descriptions>
                     </Fragment>
                   );
                 })}
