@@ -84,10 +84,22 @@ const RightManagement: React.FC = () => {
       request={async () => {
         // const { success, data } = await treeselect();
         const { success, data } = await findByPage();
+        const objFather = {};
+        const listData = [];
+        for (const i of data) {
+          if (i.parentId === 0) listData.push(i);
+          else {
+            // 利用传址对数据进行处理
+            objFather[i.parentId] = objFather[i.parentId] || [];
+            objFather[i.parentId].push(i);
+          }
+          objFather[i.menuId] = objFather[i.menuId] || [];
+          i.children = objFather[i.menuId];
+        }
 
         return {
           success,
-          data,
+          data: listData,
         };
       }}
       columns={columns}

@@ -82,7 +82,7 @@ export default function AddModalForm() {
         <PlusOutlined /> 新建
       </Button>
       <ModalForm
-        title={`${getModel(editType)}用户`}
+        title={`${getModel(editType)}权限`}
         width="800px"
         visible={visible}
         // formRef={formRef}

@@ -1,7 +1,7 @@
 import { useLocation, MicroApp, MicroAppWithMemoHistory } from 'umi';
 import { findSourceCode } from './service';
 import { useRequest } from 'ahooks';
-import ShowBox from '../base-show-list/components/ShowBox';
+import ShowBox from '../base-show-list-no/components/ShowBox';
 import { PageContainer } from '@ant-design/pro-components';
 import { Empty } from 'antd';
 
