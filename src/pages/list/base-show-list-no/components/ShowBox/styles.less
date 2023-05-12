@@ -2,19 +2,19 @@
 
 .warper {
   width: 100%;
+  padding: 8px 0;
   overflow: auto;
   background-color: #fff;
-  padding: 8px 0;
 
   .ul-box {
     white-space: nowrap;
 
-    li {
+    .li-box {
       // flex-basis: 500px;
       display: inline-block;
-      vertical-align: top;
       min-width: 200px;
       text-align: center;
+      vertical-align: top;
       border: @table-border;
       border-right: 0;
 
@@ -29,28 +29,28 @@
       }
 
       .det-time {
-        font-size: 12px;
-        border-bottom: @table-border;
-        background-color: #eefadf;
         color: #73b502;
+        font-size: 12px;
+        background-color: #eefadf;
+        border-bottom: @table-border;
       }
 
       .small-nodes {
-        height: 300px;
         min-width: 200px;
+        height: 300px;
 
-        &>.small-nodes-title {
-          border-right: @table-border;
+        & > .small-nodes-title {
+          display: inline-block;
+          min-width: 120px;
           height: 100%;
+
+          padding: 8px;
+          vertical-align: top;
+          border-right: @table-border;
 
           &:last-child {
             border-right: 0;
           }
-
-          padding: 8px;
-          vertical-align: top;
-          display: inline-block;
-          min-width: 120px;
 
           .small-node-show {
             display: flex;
@@ -58,16 +58,17 @@
 
             .show-left,
             .show-right {
+              min-width: 100px;
               line-height: 22px;
               text-align: left;
-              min-width: 100px;
             }
 
             .show-left {
-              border-right: 1px solid #cbcbcb;
               margin-right: 4px;
+              border-right: 1px solid #cbcbcb;
 
-              .show-left-name {}
+              .show-left-name {
+              }
             }
           }
         }

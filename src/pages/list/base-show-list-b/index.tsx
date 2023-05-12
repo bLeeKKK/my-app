@@ -6,10 +6,11 @@ import { zonghe, interfaceCallRecordExport } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector, useLocation } from 'umi';
 import moment from 'moment';
-import { Tag, Popover, Row, Table, Col, Descriptions } from 'antd';
+import { Tag, Popover, Badge, Descriptions } from 'antd';
 import { download } from '@/utils';
 import { useRafInterval } from 'ahooks';
 import { timeDiff } from '@/utils';
+import TableShowMessage from '@/components/TableShowMessage';
 import styles from './style.less';
 
 let searchData = {};
@@ -186,33 +187,10 @@ const TableList: React.FC = () => {
                             </>
                           )}
                         </Descriptions.Item>
-                        {res?.nodeMessage?.length ? (
-                          <Descriptions.Item
-                            span={24}
-                            style={{ paddingBottom: '0px' }}
-                            label={'消息'}
-                          >
-                            <Table
-                              pagination={false}
-                              className={styles.smallTable}
-                              columns={[
-                                {
-                                  title: '用户',
-                                  width: '70px',
-                                  dataIndex: 'creatorAcount',
-                                },
-                                {
-                                  title: '消息',
-                                  dataIndex: 'message',
-                                },
-                              ]}
-                              dataSource={res.nodeMessage}
-                              bordered
-                              size="small"
-                            />
-                          </Descriptions.Item>
-                        ) : null}
                       </Descriptions>
+                      {res?.nodeMessageList?.length ? (
+                        <TableShowMessage dataSource={res.nodeMessageList} />
+                      ) : null}
                     </Fragment>
                   );
                 })}
@@ -226,19 +204,29 @@ const TableList: React.FC = () => {
                 : { textAlign: 'center' }
             }
           >
-            <div style={{ textAlign: 'center' }}>
-              {smallNode.startDate &&
-                timeDiff(smallNode.startDate, smallNode.endDate || now, false) < '0时1分0秒'
-                ? '0时1分'
-                : timeDiff(smallNode.startDate, smallNode.endDate || now, true) === '0时0分'
-                  ? ''
-                  : timeDiff(smallNode.startDate, smallNode.endDate || now, true)}
-            </div>
-            {smallNode.overTimeRemark && (
-              <Tag style={{ marginBottom: '2px' }} color={smallNode.signColor}>
-                {smallNode.overTimeRemark}
-              </Tag>
-            )}
+            <Badge
+              count={
+                smallNode.smallNodeList?.reduce(
+                  (pre: any[], item) => pre.concat(item.nodeMessageList || []),
+                  [],
+                ).length
+              }
+              size='small'
+            >
+              <div style={{ textAlign: 'center' }}>
+                {smallNode.startDate &&
+                  timeDiff(smallNode.startDate, smallNode.endDate || now, false) < '0时1分0秒'
+                  ? '0时1分'
+                  : timeDiff(smallNode.startDate, smallNode.endDate || now, true) === '0时0分'
+                    ? ''
+                    : timeDiff(smallNode.startDate, smallNode.endDate || now, true)}
+              </div>
+              {smallNode.overTimeRemark && (
+                <Tag style={{ marginBottom: '2px' }} color={smallNode.signColor}>
+                  {smallNode.overTimeRemark}
+                </Tag>
+              )}
+            </Badge>
           </div>
         </Popover>
       </>
