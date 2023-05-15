@@ -51,3 +51,10 @@ export async function deleteById(id) {
     method: 'DELETE',
   });
 }
+
+// 获取详情
+export async function findById({ id }) {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/sysMenu/${id}`, {
+    method: 'GET',
+  });
+}

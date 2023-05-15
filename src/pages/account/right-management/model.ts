@@ -1,4 +1,6 @@
 import React from 'react';
+import { message } from 'antd';
+import { findById } from './service';
 
 const rightManagement = {
   namespace: 'rightManagement',
@@ -22,10 +24,28 @@ const rightManagement = {
     },
   },
   effects: {
-    *GetProductGroupTree() {},
+    *GetEditById({ payload }, { put, call }) {
+      console.log(payload);
+      const { id } = payload;
+      const hide = message.loading('正在查询...');
+      const { success, data, msg } = yield call(findById, { id });
+      hide()
+      if (success) {
+        yield put({
+          type: 'setEdit',
+          payload: {
+            edit: data,
+            visible: true,
+            editType: 2,
+          },
+        });
+      } else {
+        message.error(msg);
+      }
+    },
   },
   subscriptions: {
-    setupHistory() {},
+    setupHistory() { },
   },
 };
 

@@ -17,8 +17,8 @@ import { useAsyncEffect } from 'ahooks';
 import { getModel } from '@/utils';
 
 export const STATUS_OPTIONS = [
-  { value: false, label: '正常' },
-  { value: true, label: '停用' },
+  { value: true, label: '正常' },
+  { value: false, label: '停用' },
 ];
 
 const handleAdd = async (data: ParamsType) => {
@@ -154,7 +154,7 @@ export default function AddModalForm() {
 
         <ProForm.Group>
           <ProFormRadio.Group
-            initialValue={0}
+            initialValue={true}
             label="状态"
             width="md"
             name="status"

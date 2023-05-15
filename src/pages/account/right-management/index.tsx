@@ -33,11 +33,9 @@ const RightManagement: React.FC = () => {
           key="edit"
           onClick={() => {
             dispatch({
-              type: 'rightManagement/setEdit',
+              type: 'rightManagement/GetEditById',
               payload: {
-                edit: record,
-                visible: true,
-                editType: 2,
+                id: record.menuId,
               },
             });
           }}

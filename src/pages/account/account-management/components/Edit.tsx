@@ -139,12 +139,14 @@ export default function AddModalForm() {
             width="sm"
             rules={[{ required: true, message: '必须用户名称' }]}
           />
-          <ProFormText.Password
-            name="password"
-            label="密码"
-            width="sm"
-            rules={[{ required: true, message: '必须密码' }]}
-          />
+          {editType === 1 && (
+            <ProFormText.Password
+              name="password"
+              label="密码"
+              width="sm"
+              rules={[{ required: true, message: '必须密码' }]}
+            />
+          )}
         </ProForm.Group>
 
         <ProForm.Group>
