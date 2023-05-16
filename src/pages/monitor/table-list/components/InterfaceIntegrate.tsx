@@ -325,7 +325,7 @@ const InterfaceIntegrate: FC = () => {
     <Card
       className={styles['standard-list']}
       bordered={false}
-      style={{ marginTop: 24 }}
+      // style={{ marginTop: 24 }}
       bodyStyle={{ padding: '0 32px 40px 32px' }}
       tabList={tabListNoTitle}
       activeTabKey={activeTabKey}

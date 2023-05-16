@@ -216,7 +216,7 @@ const PrescriptionIntegrate: FC = () => {
       className={styles['standard-list']}
       bordered={false}
       title="基本列表"
-      style={{ marginTop: 24 }}
+      // style={{ marginTop: 24 }}
       bodyStyle={{ padding: '0 32px 40px 32px' }}
       extra={extraContent}
     >
