@@ -3,6 +3,25 @@
 import { request } from 'umi';
 import { BIZLOG_CORE, SERVER_PATH, MOCKER_API } from '@/services/constants';
 
+export async function getInfo() {
+  return request<{
+    success: boolean;
+    data: API.CurrentUser;
+  }>(`${SERVER_PATH}/${BIZLOG_CORE}/sysUser/getInfo`, {
+    method: 'GET',
+  });
+}
+
+/** 根据角色获取 */
+export async function roleGetPerm({ id }: { id: string }) {
+  return request<{
+    success: boolean;
+    data: API.CurrentUser;
+  }>(`${SERVER_PATH}/${BIZLOG_CORE}/sysRole/${id}`, {
+    method: 'GET',
+  });
+}
+
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{

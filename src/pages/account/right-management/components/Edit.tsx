@@ -13,10 +13,11 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
 import { useUpdateEffect } from 'ahooks';
 import { getModel } from '@/utils';
+import { useWatch } from 'antd/lib/form/Form';
 
 export const STATUS_OPTIONS = [
-  { value: true, label: '正常' },
-  { value: false, label: '停用' },
+  { value: false, label: '正常' },
+  { value: true, label: '停用' },
 ];
 
 const handleAdd = async (data: ParamsType) => {
@@ -33,24 +34,12 @@ const handleAdd = async (data: ParamsType) => {
   }
 };
 
-// const handleUpdate = async (data: ParamsType) => {
-//   const hide = message.loading('正在添加');
-//   try {
-//     await update(data);
-//     hide();
-//     message.success('添加成功');
-//     return true;
-//   } catch (error) {
-//     hide();
-//     message.warn('添加失败请重试！');
-//     return false;
-//   }
-// };
-
 export default function AddModalForm() {
   const { actionRef, visible, editType, edit } = useSelector((state) => state.rightManagement);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const menuType = useWatch('menuType', form);
+
   const closeModal = () => {
     dispatch({
       type: 'rightManagement/setEdit',
@@ -154,6 +143,7 @@ export default function AddModalForm() {
               },
             ]}
           />
+          {menuType === 'F' || <ProFormText name="icon" label="菜单图标" width="sm" />}
         </ProForm.Group>
         <ProForm.Group>
           <ProFormText
@@ -162,70 +152,91 @@ export default function AddModalForm() {
             width="sm"
             rules={[{ required: true, message: '必须名称' }]}
           />
-          <ProFormText
-            name="perms"
-            label="权限标识"
-            width="sm"
-            rules={[{ required: true, message: '必须权限标识' }]}
-          />
-          <ProFormText
-            tooltip="访问的路由地址，如：`user`，如外网地址需内链访问则以`http(s)://`开头"
-            name="path"
-            label="路由地址"
-            width="sm"
-            rules={[{ required: true, message: '必须路由地址' }]}
-          />
-        </ProForm.Group>
-        <ProForm.Group>
-          <ProFormDigit
-            // rules={[{ required: true, message: '必须排序' }]}
+          {/* <ProFormDigit
+            rules={[{ required: true, message: '必须排序' }]}
             label="显示排序"
             name="orderNum"
             width="sm"
             min={1}
-          />
+          /> */}
+          {menuType === 'F' || (
+            <ProFormText
+              tooltip="访问的路由地址，如：`user`，如外网地址需内链访问则以`http(s)://`开头"
+              name="path"
+              label="路由地址"
+              width="sm"
+              rules={[{ required: true, message: '必须路由地址' }]}
+            />
+          )}
         </ProForm.Group>
         <ProForm.Group>
-          <ProFormRadio.Group
-            tooltip="选择是外链则路由地址需要以`http(s)://`开头"
-            name="isFrame"
-            initialValue={false}
-            label="是否外链"
+          <ProFormText
+            tooltip="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasPermi('system:user:list')`)"
+            name="perms"
+            label="权限标识"
             width="sm"
-            options={[
-              {
-                label: '是',
-                value: true,
-              },
-              {
-                label: '否',
-                value: false,
-              },
-            ]}
           />
-
-          <ProFormRadio.Group
-            tooltip="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问"
-            name="visible"
-            initialValue={true}
-            label="显示状态"
-            width="sm"
-            options={[
-              {
-                label: '显示',
-                value: true,
-              },
-              {
-                label: '隐藏',
-                value: false,
-              },
-            ]}
-          />
+          {menuType === 'C' && (
+            <ProFormText
+              tooltip="访问的组件路径，如：`system/user/index`，默认在`views`目录下"
+              name="component"
+              label="组件路径"
+              width="sm"
+            />
+          )}
+          {menuType === 'C' && (
+            <ProFormText
+              tooltip='访问路由的默认传递参数，如：`{"id": 1, "name": "ry"}`'
+              name="query"
+              label="路由参数"
+              width="sm"
+            />
+          )}
+        </ProForm.Group>
+        <ProForm.Group>
+          {menuType === 'F' || (
+            <ProFormRadio.Group
+              tooltip="选择是外链则路由地址需要以`http(s)://`开头"
+              name="isFrame"
+              initialValue={true}
+              label="是否外链"
+              width="sm"
+              options={[
+                {
+                  label: '是',
+                  value: false,
+                },
+                {
+                  label: '否',
+                  value: true,
+                },
+              ]}
+            />
+          )}
+          {menuType === 'F' || (
+            <ProFormRadio.Group
+              tooltip="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问"
+              name="visible"
+              initialValue={false}
+              label="显示状态"
+              width="sm"
+              options={[
+                {
+                  label: '显示',
+                  value: false,
+                },
+                {
+                  label: '隐藏',
+                  value: true,
+                },
+              ]}
+            />
+          )}
           <ProFormRadio.Group
             tooltip="选择停用则路由将不会出现在侧边栏，也不能被访问"
             name="status"
-            initialValue={true}
-            label="菜单状态"
+            initialValue={false}
+            label="功能状态"
             width="sm"
             options={STATUS_OPTIONS}
           />

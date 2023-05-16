@@ -11,7 +11,7 @@ import {
 } from '@ant-design/pro-components';
 import { history, Link } from 'umi';
 import defaultSettings from '../config/defaultSettings';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { getInfo as queryCurrentUser } from './services/ant-design-pro/api';
 import { getMenuData, getPageTitle } from '@ant-design/pro-components';
 
 const isDev = process.env.NODE_ENV === 'development';
