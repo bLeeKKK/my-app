@@ -25,6 +25,7 @@ export default {
   'menu.list.base-time-list': '全链路时效数据池',
   'menu.list.base-show-list': '综合报表（c端）',
   'menu.list.base-show-list-b': '综合报表（b端）',
+  'menu.list.base-show-list-r-b': '综合报表-逆向（b端）',
   'menu.list.base-show-list-no': '全链路数据列表（单号）',
   'menu.list.base-report-forms': '业务管理报表',
   'menu.list.base-node-time-list': '节点时效报表',

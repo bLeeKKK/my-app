@@ -107,6 +107,13 @@
         wrappers: ['@/wrappers/withKeepLive'],
       },
       {
+        path: '/list/base-show-list-r-b',
+        name: 'base-show-list-r-b',
+        component: './list/base-show-list-r-b',
+        access: 'list:base-show-list-r-b',
+        wrappers: ['@/wrappers/withKeepLive'],
+      },
+      {
         path: '/list/base-show-list-no',
         name: 'base-show-list-no',
         component: './list/base-show-list-no',
