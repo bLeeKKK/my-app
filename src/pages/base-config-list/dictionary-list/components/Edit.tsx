@@ -4,6 +4,7 @@ import { sysDictSave, sysDictUpdate } from '../service';
 import type { ParamsType } from '../service';
 import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
+import MyAccess from '@/components/MyAccess';
 import { useUpdateEffect } from 'ahooks';
 import { getModel } from '@/utils';
 
@@ -65,22 +66,24 @@ export default function AddModalForm() {
 
   return (
     <>
-      <Button
-        type="link"
-        key="primary"
-        onClick={() => {
-          dispatch({
-            type: 'dictionaryList/setEdit',
-            payload: {
-              edit: undefined,
-              visible: true,
-              editType: 1,
-            },
-          });
-        }}
-      >
-        <PlusOutlined /> 新建
-      </Button>
+      <MyAccess aKey="basic:dictionary:add-dir">
+        <Button
+          type="link"
+          key="primary"
+          onClick={() => {
+            dispatch({
+              type: 'dictionaryList/setEdit',
+              payload: {
+                edit: undefined,
+                visible: true,
+                editType: 1,
+              },
+            });
+          }}
+        >
+          <PlusOutlined /> 新建
+        </Button>
+      </MyAccess>
       <ModalForm
         title={`${getModel(editType)}字典目录`}
         width="400px"

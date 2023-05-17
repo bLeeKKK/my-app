@@ -1,4 +1,4 @@
-import { message, Form, Button } from 'antd';
+import { message, Form, Button, TreeSelect } from 'antd';
 import {
   ModalForm,
   ProFormTextArea,
@@ -17,8 +17,8 @@ import { useAsyncEffect } from 'ahooks';
 import { getModel } from '@/utils';
 
 export const STATUS_OPTIONS = [
-  { value: true, label: '正常' },
-  { value: false, label: '停用' },
+  { value: false, label: '正常' },
+  { value: true, label: '停用' },
 ];
 
 const handleAdd = async (data: ParamsType) => {
@@ -100,6 +100,7 @@ export default function AddModalForm() {
           if (!flag) closeModal();
         }}
         onFinish={async (value) => {
+          if (value.menuIds) value.menuIds = value.menuIds.map((item: any) => item?.value || item);
           let flag = false;
           if (edit?.roleId) {
             flag = await handleAdd({ ...edit, ...value });
@@ -115,10 +116,15 @@ export default function AddModalForm() {
         <ProFormTreeSelect
           name="menuIds"
           label="权限配置"
-          width="sm"
+          width="xl"
           placeholder={'请选择权限配置'}
           fieldProps={{
+            onChange: (val) => console.log(val),
             treeCheckable: true,
+            treeCheckStrictly: true,
+            treeDefaultExpandAll: true,
+            // labelInValue: false,
+            showCheckedStrategy: TreeSelect.SHOW_ALL,
             fieldNames: {
               value: 'id',
               label: 'label',

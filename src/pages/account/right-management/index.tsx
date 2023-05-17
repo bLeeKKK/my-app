@@ -1,19 +1,31 @@
 import React from 'react';
 import { message, Popconfirm } from 'antd';
-import { PageContainer } from '@ant-design/pro-layout';
+// import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { deleteById, findByPage, treeselect } from './service';
+import { deleteById, findByPage } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import Edit, { STATUS_OPTIONS } from './components/Edit';
 import { useDispatch, useSelector } from 'umi';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import IconBox from '@/components/IconBox';
 
 const handleDelete = async (id: string) => {
   const { success, message: msg } = await deleteById(id);
   if (success) message.success(msg);
   return success;
+};
+
+const delNullArr = (tree) => {
+  for (const i of tree) {
+    if (i.children?.length) {
+      i.children = delNullArr(i.children);
+    } else {
+      i.children = undefined;
+    }
+  }
+
+  return tree;
 };
 
 const RightManagement: React.FC = () => {
@@ -27,7 +39,7 @@ const RightManagement: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       fixed: true,
-      width: 120,
+      width: 150,
       render: (_, record) => [
         <IconBox
           key="edit"
@@ -54,10 +66,26 @@ const RightManagement: React.FC = () => {
         >
           <IconBox icon={DeleteOutlined} text="删除" />
         </Popconfirm>,
+        <IconBox
+          key="plus"
+          onClick={() => {
+            dispatch({
+              type: 'rightManagement/setEditAndParent',
+              payload: {
+                parent: record,
+                edit: undefined,
+                visible: true,
+                editType: 1,
+              },
+            });
+          }}
+          icon={PlusOutlined}
+          text="添加子项"
+        />,
       ],
     },
     { title: '功能项', dataIndex: 'menuName', search: false, width: 140 },
-    { title: '权限标识', dataIndex: 'perms', search: false, width: 140 },
+    { title: '权限标识', dataIndex: 'perms', search: false, width: 180 },
     { title: '路径', dataIndex: 'path', search: false, width: 150 },
     {
       title: '状态',
@@ -97,7 +125,7 @@ const RightManagement: React.FC = () => {
 
         return {
           success,
-          data: listData,
+          data: delNullArr(listData),
         };
       }}
       columns={columns}

@@ -46,7 +46,7 @@ export const download = (blob: Blob, fileName: string) => {
 };
 
 // 两个时间差 时分秒
-export const timeDiff = (startTime, endTime,needSeconds) => {
+export const timeDiff = (startTime, endTime, needSeconds) => {
   const start = moment(startTime, 'YYYY-MM-DD HH:mm:ss');
   const end = moment(endTime, 'YYYY-MM-DD HH:mm:ss');
   const diff = end.diff(start);
@@ -55,19 +55,21 @@ export const timeDiff = (startTime, endTime,needSeconds) => {
   const hours = duration.hours();
   const minutes = duration.minutes();
   const seconds = duration.seconds();
-  if(!needSeconds){
-    if(typeof days === 'number' && days != 0 && JSON.stringify(days) != 'null'){
-      
-      return `${days}天${hours || 0}时${minutes || 0}分${seconds || 0}秒` 
-    }else{
-      return `${hours || 0}时${minutes || 0}分${seconds || 0}秒` 
+  if (!needSeconds) {
+    if (typeof days === 'number' && days != 0 && JSON.stringify(days) != 'null') {
+
+      return `${days}天${hours || 0}时${minutes || 0}分${seconds || 0}秒`
+    } else {
+      return `${hours || 0}时${minutes || 0}分${seconds || 0}秒`
     }
-  }else{
-    if(typeof days === 'number' && days != 0 && JSON.stringify(days) != 'null'){
-      return  `${days}天${hours || 0}时${minutes || 0}分`
+  } else {
+    if (typeof days === 'number' && days != 0 && JSON.stringify(days) != 'null') {
+      return `${days}天${hours || 0}时${minutes || 0}分`
     }
-    else{
-      return  `${hours || 0}时${minutes || 0}分`
+    else {
+      return `${hours || 0}时${minutes || 0}分`
     }
   }
 };
+
+

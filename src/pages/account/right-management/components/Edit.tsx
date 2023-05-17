@@ -35,7 +35,9 @@ const handleAdd = async (data: ParamsType) => {
 };
 
 export default function AddModalForm() {
-  const { actionRef, visible, editType, edit } = useSelector((state) => state.rightManagement);
+  const { actionRef, visible, editType, edit, parent } = useSelector(
+    (state) => state.rightManagement,
+  );
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const menuType = useWatch('menuType', form);
@@ -58,6 +60,10 @@ export default function AddModalForm() {
       form.resetFields();
     }
   }, [visible, editType, edit]);
+  useUpdateEffect(() => {
+    if (parent) form.setFieldsValue({ parentId: parent.menuId });
+    else form.setFieldsValue({ parentId: 0 });
+  }, [parent]);
 
   return (
     <>
@@ -105,6 +111,7 @@ export default function AddModalForm() {
             label="上级权限"
             width="sm"
             initialValue={0}
+            disabled={parent}
             fieldProps={{
               fieldNames: {
                 value: 'id',

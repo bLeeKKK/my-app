@@ -1,17 +1,26 @@
+import route from '../config/routes';
 /**
  * @see https://umijs.org/zh-CN/plugins/plugin-access
  * */
 export default function access(initialState: { currentUser?: any } | undefined) {
   const { currentUser } = initialState ?? {};
   const permissions = currentUser?.permissions || [];
-  if (permissions[0] === '*:*:*') {
-    return {}
-  }
-  const accessObj = {
-    login: true,
+  if (permissions.includes('*:*:*')) return { '*:*:*': true }
+
+  const accessObj = { login: true };
+  const tree = (data) => {
+    return (data || []).map((item) => {
+      const { routes = [], access } = item;
+      accessObj[access] = false;
+      tree(routes);
+    });
   };
-  for (const i of permissions) {
-    Object.assign(accessObj, { [i]: true });
+  tree(route);
+
+  for (const item of permissions) {
+    Object.assign(accessObj, { [item]: true })
   }
-  return {};
+
+  console.log('accessObj', accessObj);
+  return accessObj;
 }
