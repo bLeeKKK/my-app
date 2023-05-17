@@ -8,6 +8,7 @@ import React, { useCallback } from 'react';
 import { history, useModel } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
+import { useAliveController } from 'react-activation';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -34,18 +35,20 @@ const loginOut = async () => {
 
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
+  const { clear } = useAliveController();
 
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
       const { key } = event;
       if (key === 'logout') {
+        clear();
         setInitialState((s) => ({ ...s, currentUser: undefined }));
         loginOut();
         return;
       }
       history.push(`/account/${key}`);
     },
-    [setInitialState],
+    [setInitialState, clear],
   );
 
   const loading = (

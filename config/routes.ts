@@ -14,6 +14,12 @@
     ],
   },
   {
+    path: '/welcome',
+    name: 'welcome',
+    // icon: 'smile',
+    component: './Welcome',
+  },
+  {
     path: 'base-config-list',
     name: 'base-config-list',
     icon: 'book',
@@ -215,7 +221,7 @@
   },
   {
     path: '/',
-    redirect: '/base-config-list/dictionary-list',
+    redirect: '/welcome',
   },
   {
     component: './404',
