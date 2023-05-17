@@ -12,6 +12,7 @@ export async function save(data) {
 export async function findByPage(data) {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/sysUser/list`, {
     method: 'post',
+    params: data,
     data,
   });
 }
