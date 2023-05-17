@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'umi';
 import ProTable from '@ant-design/pro-table';
 import { useControllableValue } from 'ahooks';
 import { message } from 'antd';
+import MyAccess from '@/components/MyAccess';
 
 const IconText = ({ icon, text, ...props }: any) => {
   const Icon = icon;
@@ -105,25 +106,29 @@ const Catalogue: React.FC = (props) => {
           actions: {
             cardActionProps: 'extra',
             render: (_, row) => [
-              <IconText
-                icon={EditOutlined}
-                text="编辑"
-                key="list-vertical-edit"
-                onClick={() => onEdit(row)}
-              />,
-              <Popconfirm
-                key="del"
-                placement="top"
-                title="确定删除？"
-                onConfirm={async () => {
-                  const flag = await handleDelete(row.id);
-                  if (flag && actionRef?.current) actionRef.current.reload();
-                }}
-                okText="是"
-                cancelText="否"
-              >
-                <IconText icon={DeleteOutlined} text="删除" key="list-vertical-del" />
-              </Popconfirm>,
+              <MyAccess aKey="base-config-list:dictionary-list:edit-dir" key="list-vertical-edit">
+                <IconText
+                  icon={EditOutlined}
+                  text="编辑"
+                  key="list-vertical-edit"
+                  onClick={() => onEdit(row)}
+                />
+              </MyAccess>,
+              <MyAccess aKey="base-config-list:dictionary-list:del-dir" key="list-vertical-edit">
+                <Popconfirm
+                  key="del"
+                  placement="top"
+                  title="确定删除？"
+                  onConfirm={async () => {
+                    const flag = await handleDelete(row.id);
+                    if (flag && actionRef?.current) actionRef.current.reload();
+                  }}
+                  okText="是"
+                  cancelText="否"
+                >
+                  <IconText icon={DeleteOutlined} text="删除" key="list-vertical-del" />
+                </Popconfirm>
+              </MyAccess>,
             ],
           },
         }}
@@ -185,25 +190,27 @@ const DictionaryList: React.FC = () => {
               valueType: 'option',
               width: 120,
               render: (_, row) => [
-                <IconText
-                  icon={EditOutlined}
-                  text="编辑"
+                <MyAccess
+                  aKey="base-config-list:dictionary-list:edit-item"
                   key="list-vertical-edit"
-                  onClick={() => onEdit(row)}
-                />,
-                <Popconfirm
-                  key="del"
-                  placement="top"
-                  title="确定删除？"
-                  onConfirm={async () => {
-                    const flag = await handleDeleteDetail(row.id);
-                    if (flag && actionRefDetails?.current) actionRefDetails.current.reload();
-                  }}
-                  okText="是"
-                  cancelText="否"
                 >
-                  <IconText icon={DeleteOutlined} text="删除" key="list-vertical-del" />
-                </Popconfirm>,
+                  <IconText icon={EditOutlined} text="编辑" onClick={() => onEdit(row)} />
+                </MyAccess>,
+                <MyAccess aKey="base-config-list:dictionary-list:del-item" key="list-vertical-edit">
+                  <Popconfirm
+                    key="del"
+                    placement="top"
+                    title="确定删除？"
+                    onConfirm={async () => {
+                      const flag = await handleDeleteDetail(row.id);
+                      if (flag && actionRefDetails?.current) actionRefDetails.current.reload();
+                    }}
+                    okText="是"
+                    cancelText="否"
+                  >
+                    <IconText icon={DeleteOutlined} text="删除" key="list-vertical-del" />
+                  </Popconfirm>
+                </MyAccess>,
               ],
             },
             { title: '名称', dataIndex: 'name' },

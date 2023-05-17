@@ -121,7 +121,7 @@ export default function AddModalForm() {
           fieldProps={{
             onChange: (val) => console.log(val),
             treeCheckable: true,
-            treeCheckStrictly: true,
+            // treeCheckStrictly: true,
             treeDefaultExpandAll: true,
             // labelInValue: false,
             showCheckedStrategy: TreeSelect.SHOW_ALL,

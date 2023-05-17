@@ -6,6 +6,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
 import { useUpdateEffect } from 'ahooks';
 import { getModel } from '@/utils';
+import MyAccess from '@/components/MyAccess';
 
 export const FREEZE_OPTIONS = [
   { value: 0, label: '正常' },
@@ -67,24 +68,26 @@ export default function AddModalForm({ dictCode }) {
 
   return (
     <>
-      {dictCode ? (
-        <Button
-          type="link"
-          key="primary"
-          onClick={() => {
-            dispatch({
-              type: 'dictionaryList/setEditDetails',
-              payload: {
-                editDetails: undefined,
-                visibleDetails: true,
-                editTypeDetails: 1,
-              },
-            });
-          }}
-        >
-          <PlusOutlined /> 新建
-        </Button>
-      ) : null}
+      <MyAccess aKey="base-config-list:dictionary-list:add-item" key="editDetails">
+        {dictCode ? (
+          <Button
+            type="link"
+            key="primary"
+            onClick={() => {
+              dispatch({
+                type: 'dictionaryList/setEditDetails',
+                payload: {
+                  editDetails: undefined,
+                  visibleDetails: true,
+                  editTypeDetails: 1,
+                },
+              });
+            }}
+          >
+            <PlusOutlined /> 新建
+          </Button>
+        ) : null}
+      </MyAccess>
       <ModalForm
         title={`${getModel(editTypeDetails)}字典详情`}
         width="400px"

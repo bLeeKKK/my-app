@@ -5,9 +5,9 @@ import route from '../config/routes';
 export default function access(initialState: { currentUser?: any } | undefined) {
   const { currentUser } = initialState ?? {};
   const permissions = currentUser?.permissions || [];
-  if (permissions.includes('*:*:*')) return { '*:*:*': true }
+  if (permissions.includes('*:*:*')) return { '*:*:*': true };
 
-  const accessObj = { login: true };
+  const accessObj = {};
   const tree = (data) => {
     return (data || []).map((item) => {
       const { routes = [], access } = item;
@@ -18,7 +18,11 @@ export default function access(initialState: { currentUser?: any } | undefined) 
   tree(route);
 
   for (const item of permissions) {
-    Object.assign(accessObj, { [item]: true })
+    item.split(':').reduce((prev, next, i) => {
+      const key = i === 0 ? next : `${prev}:${next}`;
+      accessObj[key] = true;
+      return key;
+    }, '');
   }
 
   console.log('accessObj', accessObj);

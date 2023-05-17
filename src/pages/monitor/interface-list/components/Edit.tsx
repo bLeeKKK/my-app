@@ -68,6 +68,8 @@ export default function AddModalForm() {
   useUpdateEffect(() => {
     if (visible && editType === 2 && edit) {
       form.setFieldsValue(edit);
+    } else {
+      form.resetFields();
     }
   }, [visible, editType, edit]);
 

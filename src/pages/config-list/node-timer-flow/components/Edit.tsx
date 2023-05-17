@@ -115,7 +115,7 @@ export default function AddModalForm() {
         <PlusOutlined /> 新建
       </Button>
       <ModalForm
-        title={`${getModel(editType)}业务流程配置`}
+        title={`${getModel(editType)}${parent?.id || edit?.parent ? '节点' : ''}时效配置`}
         width="800px"
         visible={visible}
         form={form}

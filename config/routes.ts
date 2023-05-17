@@ -17,12 +17,12 @@
     path: 'base-config-list',
     name: 'base-config-list',
     icon: 'book',
-    // access: 'base-config-list',
+    access: 'base-config-list',
     routes: [
       {
         path: '/base-config-list/dictionary-list',
         name: 'dictionary-list',
-        access: 'base-config-list:dictionary',
+        access: 'base-config-list:dictionary-list',
         component: './base-config-list/dictionary-list',
         lazyLoad: true,
         wrappers: ['@/wrappers/withKeepLive'],
@@ -33,7 +33,7 @@
     path: 'config-list',
     name: 'config-list',
     icon: 'form',
-    // access: 'config-list',
+    access: 'config-list',
     routes: [
       {
         path: '/config-list/over-time-level',
@@ -77,7 +77,7 @@
     path: '/list',
     name: 'list',
     icon: 'table',
-    // access: 'list',
+    access: 'list',
     routes: [
       {
         path: '/list/base-time-list',
@@ -137,16 +137,16 @@
         component: './list/base-show',
         // wrappers: ['@/wrappers/withKeepLive'],
       },
-      {
-        component: './404',
-      },
+      // {
+      //   component: './404',
+      // },
     ],
   },
   {
     path: '/account',
     name: 'account',
     icon: 'crown',
-    // access: 'account',
+    access: 'account',
     routes: [
       {
         path: '/account/account-management',
@@ -175,7 +175,7 @@
     path: '/monitor',
     name: 'monitor',
     icon: 'appstore',
-    // access: 'monitor',
+    access: 'monitor',
     routes: [
       {
         path: '/monitor/interface-list',

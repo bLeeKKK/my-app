@@ -66,7 +66,7 @@ export default function AddModalForm() {
 
   return (
     <>
-      <MyAccess aKey="basic:dictionary:add-dir">
+      <MyAccess aKey="base-config-list:dictionary-list:add-dir">
         <Button
           type="link"
           key="primary"
