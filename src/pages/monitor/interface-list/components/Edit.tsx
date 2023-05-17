@@ -13,6 +13,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
 import { useUpdateEffect } from 'ahooks';
 import { getModel } from '@/utils';
+import MyAccess from '@/components/MyAccess';
 
 const { useWatch } = Form;
 export const BASETYPE_OPTIONS = [
@@ -75,22 +76,24 @@ export default function AddModalForm() {
 
   return (
     <>
-      <Button
-        type="primary"
-        key="primary"
-        onClick={() => {
-          dispatch({
-            type: 'interfaceList/setEdit',
-            payload: {
-              edit: undefined,
-              visible: true,
-              editType: 1,
-            },
-          });
-        }}
-      >
-        <PlusOutlined /> 新建
-      </Button>
+      <MyAccess aKey="monitor:interface-list:add">
+        <Button
+          type="primary"
+          key="primary"
+          onClick={() => {
+            dispatch({
+              type: 'interfaceList/setEdit',
+              payload: {
+                edit: undefined,
+                visible: true,
+                editType: 1,
+              },
+            });
+          }}
+        >
+          <PlusOutlined /> 新建
+        </Button>
+      </MyAccess>
       <ModalForm
         title={`${getModel(editType)}接口配置`}
         width="800px"

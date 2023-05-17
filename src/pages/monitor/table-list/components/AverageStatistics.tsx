@@ -1,6 +1,18 @@
 import React, { useState, Fragment } from 'react';
 import type { FC } from 'react';
-import { Table, Card, Radio, DatePicker, Button, Modal, message, Empty, Row, Col } from 'antd';
+import {
+  Space,
+  Table,
+  Card,
+  Radio,
+  DatePicker,
+  Button,
+  Modal,
+  message,
+  Empty,
+  Row,
+  Col,
+} from 'antd';
 // import type { ColumnsType } from 'antd/es/table';
 import { useRequest } from 'umi';
 import {
@@ -14,6 +26,7 @@ import moment from 'moment';
 import type { Moment } from 'moment';
 import { download } from '@/utils';
 import ShowLine from './ShowLine';
+import MyAccess from '@/components/MyAccess';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -101,39 +114,43 @@ const AverageStatistics: FC = () => {
   // @ts-ignore
   const extraContent = (
     <div className={styles['extra-content']}>
-      <Button
-        onClick={() => {
-          Modal.confirm({
-            title: '提示',
-            content: '确定要导出数据吗？',
-            onOk: () => {
-              exportOverallDataAverage({ periodType: typeDate, stDate, endDate })
-                .then((res) => {
-                  console.log(res);
-                  const blob = new Blob([res], { type: 'application/vnd.ms-excel' });
-                  const fileName = `接口维度数据${moment().format('YYYYMMDDHHmmss')}.xls`;
-                  download(blob, fileName);
-                })
-                .catch((err) => {
-                  message.error(err.message);
-                });
-            },
-          });
-        }}
-      >
-        导出报表
-      </Button>
-      <RadioGroup value={typeDate} onChange={(val) => setTypeDate(val.target.value)}>
-        <RadioButton value="W">周</RadioButton>
-        <RadioButton value="M">月份</RadioButton>
-      </RadioGroup>
-      <RangePicker
-        className={styles.search}
-        ranges={ranges}
-        picker={picker}
-        value={date}
-        onChange={(val) => setDate(val)}
-      />
+      <Space>
+        <MyAccess aKey="monitor:table-list:export-average">
+          <Button
+            onClick={() => {
+              Modal.confirm({
+                title: '提示',
+                content: '确定要导出数据吗？',
+                onOk: () => {
+                  exportOverallDataAverage({ periodType: typeDate, stDate, endDate })
+                    .then((res) => {
+                      // console.log(res);
+                      const blob = new Blob([res], { type: 'application/vnd.ms-excel' });
+                      const fileName = `接口维度数据${moment().format('YYYYMMDDHHmmss')}.xls`;
+                      download(blob, fileName);
+                    })
+                    .catch((err) => {
+                      message.error(err.message);
+                    });
+                },
+              });
+            }}
+          >
+            导出报表
+          </Button>
+        </MyAccess>
+        <RadioGroup value={typeDate} onChange={(val) => setTypeDate(val.target.value)}>
+          <RadioButton value="W">周</RadioButton>
+          <RadioButton value="M">月份</RadioButton>
+        </RadioGroup>
+        <RangePicker
+          className={styles.search}
+          ranges={ranges}
+          picker={picker}
+          value={date}
+          onChange={(val) => setDate(val)}
+        />
+      </Space>
     </div>
   );
   // 图表数据
@@ -171,22 +188,24 @@ const AverageStatistics: FC = () => {
     list: extraContent,
     line: (
       <div className={styles['extra-content']}>
-        <RadioGroup value={typeDate} onChange={(val) => setTypeDate(val.target.value)}>
-          <RadioButton value="W">周</RadioButton>
-          <RadioButton value="M">月份</RadioButton>
-        </RadioGroup>
-        <RangePicker
-          className={styles.search}
-          ranges={ranges}
-          picker={picker}
-          value={date}
-          onChange={(val) => setDate(val)}
-        />
+        <Space>
+          <RadioGroup value={typeDate} onChange={(val) => setTypeDate(val.target.value)}>
+            <RadioButton value="W">周</RadioButton>
+            <RadioButton value="M">月份</RadioButton>
+          </RadioGroup>
+          <RangePicker
+            className={styles.search}
+            ranges={ranges}
+            picker={picker}
+            value={date}
+            onChange={(val) => setDate(val)}
+          />
+        </Space>
       </div>
     ),
   };
 
-  console.log(dataMap);
+  // console.log(dataMap);
   const contentListNoTitle = {
     line: (
       <>

@@ -8,6 +8,7 @@ import Edit, { FREEZE_OPTIONS, NORMAL_OPTIONS } from './components/Edit';
 import { useDispatch, useSelector } from 'umi';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import IconBox from '@/components/IconBox';
+import MyAccess from '@/components/MyAccess';
 
 const handleDelete = async (id: string) => {
   const { success, message: msg } = await overTimeLevelConfigDelete({ id });
@@ -28,34 +29,36 @@ const TableList: React.FC = () => {
       width: 120,
       render: (_, record) => [
         // <IconBox key="edit" icon={EditOutlined} text="编辑" />,
-        <IconBox
-          key="edit"
-          onClick={() => {
-            dispatch({
-              type: 'overTimeLevel/setEdit',
-              payload: {
-                edit: record,
-                visible: true,
-                editType: 2,
-              },
-            });
-          }}
-          icon={EditOutlined}
-          text="编辑"
-        />,
-        <Popconfirm
-          key="delete"
-          title="你确定删除？"
-          onConfirm={async () => {
-            const flag = await handleDelete(record.id);
-            if (flag && actionRef?.current) actionRef.current.reload();
-          }}
-          okText="确定"
-          cancelText="取消"
-        >
-          {/* <a href="#">删除</a> */}
-          <IconBox icon={DeleteOutlined} text="删除" />
-        </Popconfirm>,
+        <MyAccess aKey="config-list:over-time-level:edit" key="edit">
+          <IconBox
+            onClick={() => {
+              dispatch({
+                type: 'overTimeLevel/setEdit',
+                payload: {
+                  edit: record,
+                  visible: true,
+                  editType: 2,
+                },
+              });
+            }}
+            icon={EditOutlined}
+            text="编辑"
+          />
+        </MyAccess>,
+        <MyAccess aKey="config-list:over-time-level:del" key="del">
+          <Popconfirm
+            title="你确定删除？"
+            onConfirm={async () => {
+              const flag = await handleDelete(record.id);
+              if (flag && actionRef?.current) actionRef.current.reload();
+            }}
+            okText="确定"
+            cancelText="取消"
+          >
+            {/* <a href="#">删除</a> */}
+            <IconBox icon={DeleteOutlined} text="删除" />
+          </Popconfirm>
+        </MyAccess>,
       ],
     },
     {

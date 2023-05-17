@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'umi';
 import { useUpdateEffect } from 'ahooks';
 import { getModel } from '@/utils';
 import { findAllByDictCode } from '@/services/dictionary';
+import MyAccess from '@/components/MyAccess';
 
 export const FREEZE_OPTIONS = [
   { value: false, label: '正常' },
@@ -70,22 +71,24 @@ export default function AddModalForm() {
 
   return (
     <>
-      <Button
-        type="primary"
-        key="primary"
-        onClick={() => {
-          dispatch({
-            type: 'operationFlow/setEdit',
-            payload: {
-              edit: undefined,
-              visible: true,
-              editType: 1,
-            },
-          });
-        }}
-      >
-        <PlusOutlined /> 新建
-      </Button>
+      <MyAccess aKey="config-list:operation-flow:add">
+        <Button
+          type="primary"
+          key="primary"
+          onClick={() => {
+            dispatch({
+              type: 'operationFlow/setEdit',
+              payload: {
+                edit: undefined,
+                visible: true,
+                editType: 1,
+              },
+            });
+          }}
+        >
+          <PlusOutlined /> 新建
+        </Button>
+      </MyAccess>
       <ModalForm
         title={`${getModel(editType)}业务流程配置`}
         width="400px"
@@ -95,7 +98,7 @@ export default function AddModalForm() {
           if (!flag) closeModal();
         }}
         onFinish={async (value) => {
-          value.flowType= value.flowType === '正向'? 0 : 1
+          value.flowType = value.flowType === '正向' ? 0 : 1;
           let flag = false;
           if (edit?.id) {
             flag = await handleUpdate({ ...edit, ...value });
@@ -148,7 +151,6 @@ export default function AddModalForm() {
           name="freeze"
           options={FREEZE_OPTIONS}
         />
-        
       </ModalForm>
     </>
   );

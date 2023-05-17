@@ -8,6 +8,7 @@ import Edit, { FREEZE_OPTIONS } from './components/Edit';
 import { useDispatch, useSelector, useHistory } from 'umi';
 import { EditOutlined, DeleteOutlined, GroupOutlined } from '@ant-design/icons';
 import IconBox from '@/components/IconBox';
+import MyAccess from '@/components/MyAccess';
 
 const handleDelete = async (id: string) => {
   const { success, message: msg } = await businessFlowConfigDelete({ id });
@@ -28,44 +29,52 @@ const TableList: React.FC = () => {
       fixed: true,
       width: 120,
       render: (_, record) => [
-        // <IconBox key="edit" icon={EditOutlined} text="编辑" />,
-        <IconBox
-          key="edit"
-          onClick={() => {
-            dispatch({
-              type: 'operationFlow/setEdit',
-              payload: {
-                edit: record,
-                visible: true,
-                editType: 2,
-              },
-            });
-          }}
-          icon={EditOutlined}
-          text="编辑"
-        />,
-        <Popconfirm
-          key="delete"
-          title="你确定删除？"
-          onConfirm={async () => {
-            const flag = await handleDelete(record.id);
-            if (flag && actionRef?.current) actionRef.current.reload();
-          }}
-          okText="确定"
-          cancelText="取消"
-        >
-          {/* <a href="#">删除</a> */}
-          <IconBox icon={DeleteOutlined} text="删除" />
-        </Popconfirm>,
-        <IconBox
-          onClick={() => {
-            let temp = record.flowType === '正向'?0:1
-            history.push('/config-list/operation-flow/flow-map' + '?id=' + (record?.id || '') + '&flowType=' +temp);
-          }}
-          icon={GroupOutlined}
-          text="配置流程"
-          key="falow"
-        />,
+        <MyAccess aKey="config-list:operation-flow:edit" key="edit">
+          <IconBox
+            onClick={() => {
+              dispatch({
+                type: 'operationFlow/setEdit',
+                payload: {
+                  edit: record,
+                  visible: true,
+                  editType: 2,
+                },
+              });
+            }}
+            icon={EditOutlined}
+            text="编辑"
+          />
+        </MyAccess>,
+        <MyAccess aKey="config-list:operation-flow:del" key="del">
+          <Popconfirm
+            title="你确定删除？"
+            onConfirm={async () => {
+              const flag = await handleDelete(record.id);
+              if (flag && actionRef?.current) actionRef.current.reload();
+            }}
+            okText="确定"
+            cancelText="取消"
+          >
+            {/* <a href="#">删除</a> */}
+            <IconBox icon={DeleteOutlined} text="删除" />
+          </Popconfirm>
+        </MyAccess>,
+        <MyAccess aKey="config-list:operation-flow:process" key="falow">
+          <IconBox
+            onClick={() => {
+              const temp = record.flowType === '正向' ? 0 : 1;
+              history.push(
+                '/config-list/operation-flow/flow-map' +
+                '?id=' +
+                (record?.id || '') +
+                '&flowType=' +
+                temp,
+              );
+            }}
+            icon={GroupOutlined}
+            text="配置流程"
+          />
+        </MyAccess>,
       ],
     },
     {
@@ -96,13 +105,13 @@ const TableList: React.FC = () => {
       // }}
       request={async (params) => {
         const { success, data } = await findByPage(params);
-        data.records.forEach(e=>{
-          if(e.flowType === 0){
-            e.flowType = '正向'
-          }else{
-            e.flowType = '逆向'
+        data.records.forEach((e) => {
+          if (e.flowType === 0) {
+            e.flowType = '正向';
+          } else {
+            e.flowType = '逆向';
           }
-        })
+        });
         return {
           success: success,
           data: data.records,

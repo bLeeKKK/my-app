@@ -8,6 +8,7 @@ import Edit, { FREEZE_OPTIONS, ROLEIDS_OPTIONS } from './components/Edit';
 import { useDispatch, useSelector, useHistory } from 'umi';
 import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import IconBox from '@/components/IconBox';
+import MyAccess from '@/components/MyAccess';
 
 const handleDelete = async (id: string) => {
   const { success, message: msg } = await nodeValidityPeriodConfigDelete(id);
@@ -29,35 +30,37 @@ const TableList: React.FC = () => {
       width: 120,
       render: (_, record) => [
         // <IconBox key="edit" icon={EditOutlined} text="编辑" />,
-        <IconBox
-          key="edit"
-          onClick={() => {
-            dispatch({
-              type: 'nodeTimerFlow/setEdit',
-              payload: {
-                edit: record,
-                visible: true,
-                editType: 2,
-              },
-            });
-          }}
-          icon={EditOutlined}
-          text="编辑"
-        />,
-        <Popconfirm
-          key="delete"
-          title="你确定删除？"
-          onConfirm={async () => {
-            const flag = await handleDelete(record.id);
-            if (flag && actionRef?.current) actionRef.current.reload();
-          }}
-          okText="确定"
-          cancelText="取消"
-        >
-          {/* <a href="#">删除</a> */}
-          <IconBox icon={DeleteOutlined} text="删除" />
-        </Popconfirm>,
-        <>
+        <MyAccess key="edit" aKey="config-list:node-timer-flow:edit">
+          <IconBox
+            onClick={() => {
+              dispatch({
+                type: 'nodeTimerFlow/setEdit',
+                payload: {
+                  edit: record,
+                  visible: true,
+                  editType: 2,
+                },
+              });
+            }}
+            icon={EditOutlined}
+            text="编辑"
+          />
+        </MyAccess>,
+        <MyAccess key="del" aKey="config-list:node-timer-flow:del">
+          <Popconfirm
+            title="你确定删除？"
+            onConfirm={async () => {
+              const flag = await handleDelete(record.id);
+              if (flag && actionRef?.current) actionRef.current.reload();
+            }}
+            okText="确定"
+            cancelText="取消"
+          >
+            {/* <a href="#">删除</a> */}
+            <IconBox icon={DeleteOutlined} text="删除" />
+          </Popconfirm>
+        </MyAccess>,
+        <MyAccess key="falow" aKey="config-list:node-timer-flow:add-node">
           {!record?.parent ? (
             <IconBox
               onClick={() => {
@@ -72,10 +75,10 @@ const TableList: React.FC = () => {
               }}
               icon={PlusOutlined}
               text="配置节点"
-              key="falow"
+            // key="falow"
             />
           ) : null}
-        </>,
+        </MyAccess>,
       ],
     },
     {

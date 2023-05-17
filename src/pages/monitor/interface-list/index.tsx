@@ -1,20 +1,24 @@
 import React from 'react';
-import { message } from 'antd';
-import { PageContainer } from '@ant-design/pro-layout';
+// import { message } from 'antd';
+// import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { deleteConfig, findByPage } from './service';
+import {
+  // deleteConfig,
+  findByPage,
+} from './service';
 import type { TableListItem, TableListPagination } from './data';
 import Edit, { BASETYPE_OPTIONS } from './components/Edit';
 import { useDispatch, useSelector } from 'umi';
 import { EditOutlined } from '@ant-design/icons';
 import IconBox from '@/components/IconBox';
+import MyAccess from '@/components/MyAccess';
 
-const handleDelete = async (id: string) => {
-  const { success, message: msg } = await deleteConfig({ id });
-  if (success) message.success(msg);
-  return success;
-};
+// const handleDelete = async (id: string) => {
+//   const { success, message: msg } = await deleteConfig({ id });
+//   if (success) message.success(msg);
+//   return success;
+// };
 
 const TableList: React.FC = () => {
   const { actionRef } = useSelector((state) => state.interfaceList);
@@ -44,21 +48,22 @@ const TableList: React.FC = () => {
         // >
         //   编辑
         // </a>,
-        <IconBox
-          key="edit"
-          onClick={() => {
-            dispatch({
-              type: 'interfaceList/setEdit',
-              payload: {
-                edit: record,
-                visible: true,
-                editType: 2,
-              },
-            });
-          }}
-          icon={EditOutlined}
-          text="编辑"
-        />,
+        <MyAccess aKey="monitor:interface-list:edit" key="edit">
+          <IconBox
+            onClick={() => {
+              dispatch({
+                type: 'interfaceList/setEdit',
+                payload: {
+                  edit: record,
+                  visible: true,
+                  editType: 2,
+                },
+              });
+            }}
+            icon={EditOutlined}
+            text="编辑"
+          />
+        </MyAccess>,
         // <Popconfirm
         //   key="delete"
         //   title="你确定删除？"

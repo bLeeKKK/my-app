@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'umi';
 import { useUpdateEffect } from 'ahooks';
 import { getModel } from '@/utils';
 import { Colorpicker } from 'antd-colorpicker';
+import MyAccess from '@/components/MyAccess';
 
 export const FREEZE_OPTIONS = [
   { value: false, label: '正常' },
@@ -70,22 +71,24 @@ export default function AddModalForm() {
 
   return (
     <>
-      <Button
-        type="primary"
-        key="primary"
-        onClick={() => {
-          dispatch({
-            type: 'overTimeLevel/setEdit',
-            payload: {
-              edit: undefined,
-              visible: true,
-              editType: 1,
-            },
-          });
-        }}
-      >
-        <PlusOutlined /> 新建
-      </Button>
+      <MyAccess aKey="config-list:over-time-level:add">
+        <Button
+          type="primary"
+          key="primary"
+          onClick={() => {
+            dispatch({
+              type: 'overTimeLevel/setEdit',
+              payload: {
+                edit: undefined,
+                visible: true,
+                editType: 1,
+              },
+            });
+          }}
+        >
+          <PlusOutlined /> 新建
+        </Button>
+      </MyAccess>
       <ModalForm
         title={`${getModel(editType)}业务流程配置`}
         width="600px"

@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import type { ColumnsType } from 'antd/es/table';
 import type { TMoment, TBasicList, TBasicListItemDataType } from '../types.d';
 import { useState } from 'react';
-import { Table, Card, Radio, DatePicker, Button, Modal, message, Row, Col } from 'antd';
+import { Space, Table, Card, Radio, DatePicker, Button, Modal, message, Row, Col } from 'antd';
 import { useRequest } from 'umi';
 import {
   getInterfaceDimensionData,
@@ -16,6 +16,7 @@ import { useUpdateEffect } from 'ahooks';
 import moment from 'moment';
 import styles from '../style.less';
 import ShowLine from './ShowLine';
+import MyAccess from '@/components/MyAccess';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -193,38 +194,42 @@ const InterfaceIntegrate: FC = () => {
   // 功能按钮
   const extraContent = (
     <div className={styles['extra-content']}>
-      <Button
-        onClick={() => {
-          Modal.confirm({
-            title: '提示',
-            content: '确定要导出数据吗？',
-            onOk: () => {
-              exportInterfaceDimensionData({ periodType: typeDate, stDate, endDate })
-                .then((res) => {
-                  const blob = new Blob([res], { type: 'application/vnd.ms-excel' });
-                  const fileName = `接口维度数据${moment().format('YYYYMMDDHHmmss')}.xls`;
-                  download(blob, fileName);
-                })
-                .catch((err) => {
-                  message.error(err.message);
-                });
-            },
-          });
-        }}
-      >
-        导出报表
-      </Button>
-      <RadioGroup value={typeDate} onChange={(val) => setTypeDate(val.target.value)}>
-        <RadioButton value="W">周</RadioButton>
-        <RadioButton value="M">月份</RadioButton>
-      </RadioGroup>
-      <RangePicker
-        className={styles.search}
-        ranges={ranges}
-        picker={picker}
-        value={date}
-        onChange={(val: TMoment) => setDate(val)}
-      />
+      <Space>
+        <MyAccess aKey="monitor:table-list:export-interface">
+          <Button
+            onClick={() => {
+              Modal.confirm({
+                title: '提示',
+                content: '确定要导出数据吗？',
+                onOk: () => {
+                  exportInterfaceDimensionData({ periodType: typeDate, stDate, endDate })
+                    .then((res) => {
+                      const blob = new Blob([res], { type: 'application/vnd.ms-excel' });
+                      const fileName = `接口维度数据${moment().format('YYYYMMDDHHmmss')}.xls`;
+                      download(blob, fileName);
+                    })
+                    .catch((err) => {
+                      message.error(err.message);
+                    });
+                },
+              });
+            }}
+          >
+            导出报表
+          </Button>
+        </MyAccess>
+        <RadioGroup value={typeDate} onChange={(val) => setTypeDate(val.target.value)}>
+          <RadioButton value="W">周</RadioButton>
+          <RadioButton value="M">月份</RadioButton>
+        </RadioGroup>
+        <RangePicker
+          className={styles.search}
+          ranges={ranges}
+          picker={picker}
+          value={date}
+          onChange={(val: TMoment) => setDate(val)}
+        />
+      </Space>
     </div>
   );
 

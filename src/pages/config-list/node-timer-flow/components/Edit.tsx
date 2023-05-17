@@ -3,7 +3,7 @@ import {
   ModalForm,
   ProForm,
   ProFormText,
-  ProFormCheckbox,
+  // ProFormCheckbox,
   ProFormRadio,
   ProFormSelect,
   ProFormDigit,
@@ -14,6 +14,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
 import { useAsyncEffect, useUpdateEffect } from 'ahooks';
 import { getModel } from '@/utils';
+import MyAccess from '@/components/MyAccess';
 
 export const FREEZE_OPTIONS = [
   { value: false, label: '正常' },
@@ -98,22 +99,24 @@ export default function AddModalForm() {
 
   return (
     <>
-      <Button
-        type="primary"
-        key="primary"
-        onClick={() => {
-          dispatch({
-            type: 'nodeTimerFlow/setEdit',
-            payload: {
-              edit: undefined,
-              visible: true,
-              editType: 1,
-            },
-          });
-        }}
-      >
-        <PlusOutlined /> 新建
-      </Button>
+      <MyAccess aKey="config-list:node-timer-flow:add" key="del">
+        <Button
+          type="primary"
+          key="primary"
+          onClick={() => {
+            dispatch({
+              type: 'nodeTimerFlow/setEdit',
+              payload: {
+                edit: undefined,
+                visible: true,
+                editType: 1,
+              },
+            });
+          }}
+        >
+          <PlusOutlined /> 新建
+        </Button>
+      </MyAccess>
       <ModalForm
         title={`${getModel(editType)}${parent?.id || edit?.parent ? '节点' : ''}时效配置`}
         width="800px"

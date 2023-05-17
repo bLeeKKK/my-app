@@ -9,6 +9,7 @@ import moment from 'moment';
 import { Button, Modal, message } from 'antd';
 import { download } from '@/utils';
 import ShowBox from './components/ShowBox';
+import MyAccess from '@/components/MyAccess';
 
 const columns: ProColumns<TableListItem>[] = [{ title: '数据源代码', dataIndex: 'sourceCode' }];
 
@@ -40,31 +41,33 @@ const TableList: React.FC = () => {
         expandedRowRender,
       }}
       toolBarRender={() => [
-        <Button
-          key="export"
-          onClick={() => {
-            Modal.confirm({
-              title: '提示',
-              content: '确定要导出数据吗？',
-              onOk: () => {
-                // const data = ref.current?.getFieldsValue();
-                interfaceCallRecordExport(searchData)
-                  .then((res) => {
-                    const blob = new Blob([res], {
-                      type: 'application/vnd.ms-excel,charset=utf-8',
+        <MyAccess aKey="list:base-show-list-no:export" key="export">
+          <Button
+            key="export"
+            onClick={() => {
+              Modal.confirm({
+                title: '提示',
+                content: '确定要导出数据吗？',
+                onOk: () => {
+                  // const data = ref.current?.getFieldsValue();
+                  interfaceCallRecordExport(searchData)
+                    .then((res) => {
+                      const blob = new Blob([res], {
+                        type: 'application/vnd.ms-excel,charset=utf-8',
+                      });
+                      const fileName = `记录池数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                      download(blob, fileName);
+                    })
+                    .catch((err) => {
+                      message.error(err.message);
                     });
-                    const fileName = `记录池数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
-                    download(blob, fileName);
-                  })
-                  .catch((err) => {
-                    message.error(err.message);
-                  });
-              },
-            });
-          }}
-        >
-          导出报表
-        </Button>,
+                },
+              });
+            }}
+          >
+            导出报表
+          </Button>
+        </MyAccess>,
       ]}
       sticky
       formRef={ref}
