@@ -24,6 +24,7 @@ export default {
   // 'menu.list.base-list': '记录池数据',
   'menu.list.base-time-list': '全链路时效数据池',
   'menu.list.base-show-list': '综合报表（c端）',
+  'menu.list.base-show-list-r': '综合报表-逆向（c端）',
   'menu.list.base-show-list-b': '综合报表（b端）',
   'menu.list.base-show-list-r-b': '综合报表-逆向（b端）',
   'menu.list.base-show-list-no': '全链路数据列表（单号）',
