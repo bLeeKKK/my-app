@@ -115,11 +115,13 @@ export default function ShowBox({ data }) {
                   );
                 })
               ) : (
-                <div className={styles['small-nodes-title']}>————————————</div>
+                <div className={styles['small-nodes-title']}>
+                  <Empty />
+                </div>
               )}
             </div>
           </li>
-        )) || <Empty />}
+        ))}
       </ul>
     </div>
   );
