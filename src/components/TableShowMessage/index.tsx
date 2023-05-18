@@ -8,6 +8,7 @@ export default function TableShowMessage({ dataSource }) {
       style={{ textAlign: 'left' }}
       className="comment-list"
       // header={`${dataSource.length}条 消息答复`}
+      locale={{ emptyText: '无消息' }}
       itemLayout="horizontal"
       dataSource={dataSource}
       renderItem={(item) => (
