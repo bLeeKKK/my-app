@@ -16,7 +16,7 @@ import { getMenuData, getPageTitle } from '@ant-design/pro-components';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
-const authArr = ['/list/base-show/', '/others/base-show-list-b/']; // 不需要鉴权页面
+const authArr = ['/list/base-show/', '/others/base-show/', '/others/base-show-list-b/']; // 不需要鉴权页面
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {

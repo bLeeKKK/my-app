@@ -83,7 +83,7 @@
     path: '/list',
     name: 'list',
     icon: 'table',
-    access: 'list',
+    // access: 'list',
     routes: [
       {
         path: '/list/base-time-list',
@@ -153,13 +153,8 @@
         hideInMenu: true,
         path: '/list/base-show',
         name: 'base-show',
-        access: 'list:base-show',
         component: './list/base-show',
-        // wrappers: ['@/wrappers/withKeepLive'],
       },
-      // {
-      //   component: './404',
-      // },
     ],
   },
   {
@@ -230,6 +225,13 @@
         path: '/others/base-show-list-b',
         name: 'base-show-list-b',
         component: './list/base-show-list-b',
+      },
+      {
+        // layout: false,
+        // hideInMenu: true,
+        path: '/others/base-show',
+        name: 'base-show',
+        component: './list/base-show',
       },
     ],
   },
