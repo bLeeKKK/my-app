@@ -121,7 +121,7 @@ const Login: React.FC = () => {
             <LoginMessage
               content={intl.formatMessage({
                 id: 'pages.login.accountLogin.errorMessage',
-                defaultMessage: '账户或密码错误(admin/123456)',
+                defaultMessage: '账户或密码错误',
               })}
             />
           )}
