@@ -211,7 +211,7 @@ const TableList: React.FC = () => {
                   [],
                 ).length
               }
-              size="small"
+              size='small'
             >
               <div style={{ textAlign: 'center' }}>
                 {smallNode.startDate &&
@@ -358,7 +358,7 @@ const TableList: React.FC = () => {
     <ProTable<TableListItem, TableListPagination>
       actionRef={actionRef}
       rowKey="sourceCode"
-      search={{ labelWidth: 120 }}
+      search={query.search === 'false' ? false : { labelWidth: 120 }}
       defaultSize="small"
       sticky
       className="contolTable"
