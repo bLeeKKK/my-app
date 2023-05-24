@@ -33,6 +33,7 @@ type TConfigTableData = {
 export async function findByPage(data): Promise<TConfigTableData> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/sysRole/list`, {
     method: 'post',
+    params: data,
     data,
   });
 }
