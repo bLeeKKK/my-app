@@ -12,7 +12,7 @@ import { useRafInterval } from 'ahooks';
 import { timeDiff } from '@/utils';
 
 let searchData = {};
-const regTimec = /^\d{10,13}$/
+const regTimec = /^\d{10,13}$/;
 
 // 不需要处理小节点的
 const arrExtar = ['sourceCode', 'currentCode'];
@@ -29,7 +29,7 @@ function intoChild(arr, render) {
   const newArr = arr.map((res) => {
     // 不处理字段
     if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left', width: '100px' };
-    if (res.dataIndex.includes('.currentCode1')) {
+    if (res.dataIndex?.includes('.currentCode1')) {
       return {
         ...res,
         width: '100px',
@@ -149,7 +149,6 @@ const TableList: React.FC = () => {
     if (regTimec.test(smallNode.endDate)) {
       smallNode.endDate = moment(parseInt(smallNode.endDate)).format('YYYY-MM-DD HH:mm:ss');
     }
-
 
     if (smallNode === '-') {
       return smallNode;
