@@ -19,22 +19,22 @@
     // icon: 'smile',
     component: './Welcome',
   },
-  {
-    path: 'base-config-list',
-    name: 'base-config-list',
-    icon: 'book',
-    access: 'base-config-list',
-    routes: [
-      {
-        path: '/base-config-list/dictionary-list',
-        name: 'dictionary-list',
-        access: 'base-config-list:dictionary-list',
-        component: './base-config-list/dictionary-list',
-        lazyLoad: true,
-        wrappers: ['@/wrappers/withKeepLive'],
-      },
-    ],
-  },
+  // {
+  //   path: 'base-config-list',
+  //   name: 'base-config-list',
+  //   icon: 'book',
+  //   access: 'base-config-list',
+  //   routes: [
+  //     {
+  //       path: '/base-config-list/dictionary-list',
+  //       name: 'dictionary-list',
+  //       access: 'base-config-list:dictionary-list',
+  //       component: './base-config-list/dictionary-list',
+  //       lazyLoad: true,
+  //       wrappers: ['@/wrappers/withKeepLive'],
+  //     },
+  //   ],
+  // },
   {
     path: 'config-list',
     name: 'config-list',
