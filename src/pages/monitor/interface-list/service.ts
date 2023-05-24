@@ -49,6 +49,7 @@ export async function selectIntfTag(params): Promise<TConfigTableData> {
 export async function findByPage(data): Promise<TConfigTableData> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/interfaceAverageAgingConfig/findByPage`, {
     method: 'post',
+    params: data,
     data,
   });
 }
