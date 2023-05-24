@@ -5,6 +5,10 @@ import { SERVER_PATH, BIZLOG_REPORT_CORE } from '@/services/constants';
 export async function findByPage(data) {
   return request(`${SERVER_PATH}/${BIZLOG_REPORT_CORE}/deliverEbocLeftMofc/findAllByPage`, {
     method: 'post',
+    params: {
+      current: data.current,
+      size: data.size,
+    },
     data,
   });
 }
