@@ -32,7 +32,7 @@ export default function BaseShow() {
       tabList={[
         {
           key: '2',
-          tab: '全链路时效',
+          tab: '全链条时效',
           children: (
             <div>
               {showArr.length ? (
@@ -45,7 +45,7 @@ export default function BaseShow() {
         },
         {
           key: '1',
-          tab: '全链路跟踪',
+          tab: '全链条跟踪',
           children: (
             <div>
               <MicroApp
@@ -59,7 +59,7 @@ export default function BaseShow() {
         },
         {
           key: '3',
-          tab: '全链路数据表',
+          tab: '全链条数据表',
           children: (
             <div>
               {/* <MicroApp name="bizlog-web-2" sourceCode={sourceCode} sourceSys={sourceSys} history="hash" /> */}
