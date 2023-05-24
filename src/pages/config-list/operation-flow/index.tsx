@@ -61,6 +61,7 @@ const TableList: React.FC = () => {
         </MyAccess>,
         <MyAccess aKey="config-list:operation-flow:process" key="falow">
           <IconBox
+            timeOutClose={2000}
             onClick={() => {
               const temp = record.flowType === '正向' ? 0 : 1;
               history.push(
