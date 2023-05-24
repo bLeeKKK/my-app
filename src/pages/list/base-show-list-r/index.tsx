@@ -27,7 +27,7 @@ function intoChild(arr, render) {
   const newArr = arr.map((res) => {
     // 不处理字段
     if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left', width: '100px' };
-    if (res.dataIndex.includes('.currentCode1')) {
+    if (res.dataIndex?.includes('.currentCode1')) {
       return {
         ...res,
         width: '100px',
