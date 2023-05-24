@@ -127,13 +127,13 @@
         access: 'list:base-show-list-no',
         wrappers: ['@/wrappers/withKeepLive'],
       },
-      {
-        path: '/list/base-report-forms',
-        name: 'base-report-forms',
-        component: './list/base-report-forms',
-        access: 'list:base-report-forms',
-        wrappers: ['@/wrappers/withKeepLive'],
-      },
+      // {
+      //   path: '/list/base-report-forms',
+      //   name: 'base-report-forms',
+      //   component: './list/base-report-forms',
+      //   access: 'list:base-report-forms',
+      //   wrappers: ['@/wrappers/withKeepLive'],
+      // },
       {
         path: '/list/base-node-time-list',
         name: 'base-node-time-list',
@@ -141,13 +141,13 @@
         access: 'list:base-node-time-list',
         wrappers: ['@/wrappers/withKeepLive'],
       },
-      {
-        path: '/list/mofc-sure-list',
-        name: 'mofc-sure-list',
-        component: './list/mofc-sure-list',
-        access: 'list:mofc-sure-list',
-        wrappers: ['@/wrappers/withKeepLive'],
-      },
+      // {
+      //   path: '/list/mofc-sure-list',
+      //   name: 'mofc-sure-list',
+      //   component: './list/mofc-sure-list',
+      //   access: 'list:mofc-sure-list',
+      //   wrappers: ['@/wrappers/withKeepLive'],
+      // },
       {
         layout: false,
         hideInMenu: true,
