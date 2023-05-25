@@ -106,7 +106,7 @@ const CreateEntityModal = (props: Props) => {
           { label: '否', value: false },
         ]}
       />
-      <ProFormRadio.Group
+      {/*<ProFormRadio.Group
         initialValue={0}
         name="comprehensive"
         label="是否展示"
@@ -114,7 +114,7 @@ const CreateEntityModal = (props: Props) => {
           { label: '是', value: 1 },
           { label: '否', value: 0 },
         ]}
-      />
+      /> */}
     </ModalForm>
   );
 };
