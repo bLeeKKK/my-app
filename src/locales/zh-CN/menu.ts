@@ -32,6 +32,7 @@ export default {
   'menu.list.base-node-time-list': '节点时效报表',
   'menu.list.mofc-sure-list': 'MOFC缺失单据',
   'menu.list.base-show': '流程详情',
+  'menu.list.uso-mofc-dz-list':'uso-mofc对账',
 
   'menu.account': '用户权限管理',
   'menu.account.account-management': '用户管理',
