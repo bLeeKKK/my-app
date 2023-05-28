@@ -149,6 +149,15 @@
       //   wrappers: ['@/wrappers/withKeepLive'],
       // },
       {
+        path: '/list/uso-mofc-dz-list',
+        name: 'uso-mofc-dz-list',
+        component: './list/uso-mofc-dz-list',
+        access: 'list:uso-mofc-dz-list',
+        wrappers: ['@/wrappers/withKeepLive'],
+        hideInMenu: true,
+        layout: false,
+      },
+      {
         layout: false,
         hideInMenu: true,
         path: '/list/base-show',
