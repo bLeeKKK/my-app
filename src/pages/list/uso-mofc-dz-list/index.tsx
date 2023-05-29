@@ -41,6 +41,8 @@ const UsoMofcDzList: React.FC = () => {
       valueType: 'select',
     },
     {title: 'uso订单号', dataIndex: 'usoDdH', width: 100},
+    {title: '下游L单号', dataIndex: 'lrpId', width: 100},
+    {title: '下游L行项', dataIndex: 'lrpItemId', width: 100},
     {title: 'uso明细行号', dataIndex: 'usoDdMxh', width: 100},
     {title: 'uso订单数量', dataIndex: 'usoSl', width: 100},
     {title: '物流计划号', dataIndex: 'planOrderkey', width: 100},
