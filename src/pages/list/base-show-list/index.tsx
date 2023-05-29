@@ -265,52 +265,52 @@ const TableList: React.FC = () => {
         temp[i].fixed = true;
       }
     });
-    temp.push({
-      title: '订单类型集合',
-      dataIndex: 'orderTypes',
-      hideInTable: true,
-      valueEnum: {
-        '1': {
-          text: '标准订单',
-        },
-        '2': {
-          text: '工程订单',
-        },
-        '3': {
-          text: '样机售出订单',
-        },
-        '4': {
-          text: '样机发出订单',
-        },
-        '5': {
-          text: '样机取回订单',
-        },
-        '6': {
-          text: '寄售售出订单',
-        },
-        '7': {
-          text: '寄售发出订单',
-        },
-        '8': {
-          text: '寄售取回订单',
-        },
-        '9': {
-          text: '退货订单',
-        },
-        '10': {
-          text: '贷项订单',
-        },
-        '11': {
-          text: '买断样机订单',
-        },
-        '12': {
-          text: '售中机销售订单',
-        },
-      },
-      fieldProps: {
-        mode: 'multiple',
-      },
-    });
+    // temp.push({
+    //   title: '订单类型集合',
+    //   dataIndex: 'orderTypes',
+    //   hideInTable: true,
+    //   valueEnum: {
+    //     '1': {
+    //       text: '标准订单',
+    //     },
+    //     '2': {
+    //       text: '工程订单',
+    //     },
+    //     '3': {
+    //       text: '样机售出订单',
+    //     },
+    //     '4': {
+    //       text: '样机发出订单',
+    //     },
+    //     '5': {
+    //       text: '样机取回订单',
+    //     },
+    //     '6': {
+    //       text: '寄售售出订单',
+    //     },
+    //     '7': {
+    //       text: '寄售发出订单',
+    //     },
+    //     '8': {
+    //       text: '寄售取回订单',
+    //     },
+    //     '9': {
+    //       text: '退货订单',
+    //     },
+    //     '10': {
+    //       text: '贷项订单',
+    //     },
+    //     '11': {
+    //       text: '买断样机订单',
+    //     },
+    //     '12': {
+    //       text: '售中机销售订单',
+    //     },
+    //   },
+    //   fieldProps: {
+    //     mode: 'multiple',
+    //   },
+    // });
     return temp;
   };
   //   const exportFuc=()=>{
