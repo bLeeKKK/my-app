@@ -30,9 +30,7 @@ export default {
   'menu.list.base-show-list-no': '全链条数据列表（单号）',
   'menu.list.base-report-forms': '业务管理报表',
   'menu.list.base-node-time-list': '节点时效报表',
-  'menu.list.mofc-sure-list': 'MOFC缺失单据',
   'menu.list.base-show': '流程详情',
-  'menu.list.uso-mofc-dz-list':'USO-MOFC对账',
 
   'menu.account': '用户权限管理',
   'menu.account.account-management': '用户管理',
@@ -43,6 +41,10 @@ export default {
   'menu.monitor.interface-list': '接口配置',
   'menu.monitor.base-list': '记录池数据',
   'menu.monitor.table-list': '数据图表',
+
+  'menu.report': '报表管理',
+  'menu.report.mofc-sure-list': 'MOFC缺失单据',
+  'menu.report.uso-mofc-dz-list':'USO-MOFC对账',
 
   'menu.others.base-show-list': '综合报表（c端）',
   'menu.others.base-show-list-b': '综合报表（b端）',
