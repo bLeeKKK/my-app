@@ -142,30 +142,30 @@ const TableList: React.FC = () => {
       search={{ labelWidth: 120 }}
       toolBarRender={() => [
         <MyAccess aKey="list:base-time-list:export" key="export">
-          <Button
-            onClick={() => {
-              Modal.confirm({
-                title: '提示',
-                content: '确定要导出数据吗？',
-                onOk: () => {
-                  // const data = ref.current?.getFieldsValue();
-                  interfaceCallRecordExport(searchData)
-                    .then((res) => {
-                      const blob = new Blob([res], {
-                        type: 'application/vnd.ms-excel,charset=utf-8',
-                      });
-                      const fileName = `记录池数据${moment().format('YYYYMMDDHHmmss')}.xlsx`;
-                      download(blob, fileName);
-                    })
-                    .catch((err) => {
-                      message.error(err.message);
-                    });
-                },
-              });
-            }}
-          >
-            导出报表
-          </Button>
+          {/* <Button */}
+          {/*   onClick={() => { */}
+          {/*     Modal.confirm({ */}
+          {/*       title: '提示', */}
+          {/*       content: '确定要导出数据吗？', */}
+          {/*       onOk: () => { */}
+          {/*         // const data = ref.current?.getFieldsValue(); */}
+          {/*         interfaceCallRecordExport(searchData) */}
+          {/*           .then((res) => { */}
+          {/*             const blob = new Blob([res], { */}
+          {/*               type: 'application/vnd.ms-excel,charset=utf-8', */}
+          {/*             }); */}
+          {/*             const fileName = `记录池数据${moment().format('YYYYMMDDHHmmss')}.xlsx`; */}
+          {/*             download(blob, fileName); */}
+          {/*           }) */}
+          {/*           .catch((err) => { */}
+          {/*             message.error(err.message); */}
+          {/*           }); */}
+          {/*       }, */}
+          {/*     }); */}
+          {/*   }} */}
+          {/* > */}
+          {/*   导出报表 */}
+          {/* </Button> */}
         </MyAccess>,
       ]}
       sticky
