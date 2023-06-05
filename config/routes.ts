@@ -141,22 +141,6 @@
         access: 'list:base-node-time-list',
         wrappers: ['@/wrappers/withKeepLive'],
       },
-      // {
-      //   path: '/list/mofc-sure-list',
-      //   name: 'mofc-sure-list',
-      //   component: './list/mofc-sure-list',
-      //   access: 'list:mofc-sure-list',
-      //   wrappers: ['@/wrappers/withKeepLive'],
-      // },
-      {
-        path: '/list/uso-mofc-dz-list',
-        name: 'uso-mofc-dz-list',
-        component: './list/uso-mofc-dz-list',
-        access: 'list:uso-mofc-dz-list',
-        wrappers: ['@/wrappers/withKeepLive'],
-        hideInMenu: true,
-        layout: false,
-      },
       {
         layout: false,
         hideInMenu: true,
@@ -223,6 +207,28 @@
         wrappers: ['@/wrappers/withKeepLive'],
       },
     ],
+  },
+  {
+    path: '/report',
+    name: 'report',
+    icon: 'appstore',
+    access: 'report',
+    routes: [
+      {
+        path: '/report/mofc-sure-list',
+        name: 'mofc-sure-list',
+        component: './report/mofc-sure-list',
+        access: 'report:mofc-sure-list',
+        wrappers: ['@/wrappers/withKeepLive'],
+      },
+      {
+        path: '/report/uso-mofc-dz-list',
+        name: 'uso-mofc-dz-list',
+        component: './report/uso-mofc-dz-list',
+        access: 'report:uso-mofc-dz-list',
+        wrappers: ['@/wrappers/withKeepLive'],
+      }
+    ]
   },
   {
     path: 'others',
