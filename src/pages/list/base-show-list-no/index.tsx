@@ -11,7 +11,18 @@ import { download } from '@/utils';
 import ShowBox from './components/ShowBox';
 import MyAccess from '@/components/MyAccess';
 
-const columns: ProColumns<TableListItem>[] = [{ title: '数据源代码', dataIndex: 'sourceCode' }];
+const columns: ProColumns<TableListItem>[] = [
+  {
+    title: '数据源代码',
+    dataIndex: 'sourceCode',
+
+    // search: {
+    //   transform: () => ({
+    //     sourceCode: '115386',
+    //   }),
+    // },
+  },
+];
 
 let searchData = {};
 
