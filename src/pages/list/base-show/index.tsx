@@ -13,7 +13,7 @@ export default function BaseShow() {
     refreshDeps: [sourceCode, sourceSys],
   });
 
-  const showArr = data?.data || [];
+  const showObj = data?.data || {};
   return (
     <PageContainer
       // fixedHeader
@@ -33,15 +33,7 @@ export default function BaseShow() {
         {
           key: '2',
           tab: '全链条时效',
-          children: (
-            <div>
-              {showArr.length ? (
-                showArr.map((item, index) => <ShowBox data={item} key={index} />)
-              ) : (
-                <Empty />
-              )}
-            </div>
-          ),
+          children: <div>{showObj?.sourceCode ? <ShowBox data={showObj} /> : <Empty />}</div>,
         },
         {
           key: '1',
