@@ -317,6 +317,7 @@ function ShowBoxTable({ columns, dataSource }) {
         }}
       >
         <ProTable
+          options={false}
           dataSource={[dataSource]}
           bordered
           search={false}
