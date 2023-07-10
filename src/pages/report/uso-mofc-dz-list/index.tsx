@@ -30,11 +30,17 @@ const YCBS_OPTIONS = {
 };
 
 const UsoMofcDzList: React.FC = () => {
-  const {actionRef} = useSelector((state) => state.accountManagement);
 
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '异常标识', dataIndex: 'ycbs',
+      title: 'id',
+      dataIndex: 'id',
+      width: 100,
+      hideInTable: true,
+    },
+    {
+      title: '异常标识',
+      dataIndex: 'ycbs',
       width: 260,
       valueEnum: YCBS_OPTIONS,
       valueType: 'select',
@@ -58,18 +64,12 @@ const UsoMofcDzList: React.FC = () => {
   return (
     <ProTable<TableListItem, TableListPagination>
       headerTitle="查询表格"
-      actionRef={actionRef}
-      rowKey="usoSl"
+      rowKey="id"
       search={{labelWidth: 120}}
-      // toolBarRender={() => [<Edit key="eidt" />]}
       sticky
       scroll={{x: 1500}}
-      // pagination={{
-      //   pageSize: 30,
-      // }}
       request={async (params) => {
         const {current, pageSize, ...reset} = params;
-        // console.log('params', params);
         const {success, data} = await findByPage({
           current,
           size: pageSize,
