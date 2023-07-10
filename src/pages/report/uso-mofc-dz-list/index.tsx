@@ -37,7 +37,9 @@ const UsoMofcDzList: React.FC = () => {
       dataIndex: 'id',
       width: 100,
       hideInTable: true,
+      hideInSearch: true
     },
+    {title: 'uso订单号', dataIndex: 'usoDdH', width: 100},
     {
       title: '异常标识',
       dataIndex: 'ycbs',
@@ -45,7 +47,6 @@ const UsoMofcDzList: React.FC = () => {
       valueEnum: YCBS_OPTIONS,
       valueType: 'select',
     },
-    {title: 'uso订单号', dataIndex: 'usoDdH', width: 100},
     {title: 'uso明细行号', dataIndex: 'usoDdMxh', width: 100},
     {title: 'uso订单数量', dataIndex: 'usoSl', width: 100},
     {title: '下游L单号', dataIndex: 'lrpId', width: 100},
