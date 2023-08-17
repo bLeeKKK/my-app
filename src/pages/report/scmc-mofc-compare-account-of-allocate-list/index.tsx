@@ -8,10 +8,14 @@ const YES_NO_OPTIONS = {
   ['Y']: {text: '是', status: 'Y'},
   ['N']: {text: '否', status: 'N'},
 };
+const STATUS_OPTIONS = {
+  ['0']: {text: '初始', status: '0'},
+  ['-1']: {text: '无效', status: '-1'},
+};
 
 const ScmcMofcCompareAccountOfAllocateList: React.FC = () => {
   const columns: ProColumns<TableListItem>[] = [
-    {title: 'scmc调拨行项id', dataIndex: 'id', width: 100},
+    {title: 'scmc调拨行项id', dataIndex: 'id', width: 100, hideInTable: true, hideInSearch: true},
     {title: 'scmc调拨单号', dataIndex: 'planSignNo', width: 100},
     {title: 'scmc调拨行项号', dataIndex: 'lineNumber', width: 100},
     {title: '来源行号', dataIndex: 'sourceLineNo', width: 100},
@@ -21,8 +25,20 @@ const ScmcMofcCompareAccountOfAllocateList: React.FC = () => {
     {title: '终止数量', dataIndex: 'cancelAmount', width: 100, hideInSearch: true},
     {title: '发货数量', dataIndex: 'dispatchAmount', width: 100, hideInSearch: true},
     {title: '收货数量', dataIndex: 'receiveAmount', width: 100, hideInSearch: true},
-    {title: 'scmc状态', dataIndex: 'status', width: 100},
-    {title: 'scmc状态描述', dataIndex: 'statusDes', width: 100},
+    {
+      title: 'scmc状态',
+      dataIndex: 'status',
+      width: 100,
+      valueEnum: STATUS_OPTIONS,
+      valueType: 'select',
+    },
+    {
+      title: 'scmc状态描述',
+      dataIndex: 'statusDes',
+      width: 100,
+      hideInTable: true,
+      hideInSearch: true,
+    },
     {title: 'mofc来源单号', dataIndex: 'mofcExternOrderkey', width: 100},
     {title: 'mofc来源订单行项号', dataIndex: 'mofcExternLineno', width: 100},
     {title: 'mofc计划数量', dataIndex: 'mofcExternQty', width: 100, hideInSearch: true},
@@ -89,7 +105,7 @@ const ScmcMofcCompareAccountOfAllocateList: React.FC = () => {
     <ProTable<TableListItem, TableListPagination>
       headerTitle="查询表格"
       rowKey="id"
-      search={{labelWidth: 120}}
+      search={{labelWidth: 200}}
       sticky
       scroll={{x: 1500}}
       request={async (params) => {
