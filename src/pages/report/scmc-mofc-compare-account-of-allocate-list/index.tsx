@@ -5,12 +5,11 @@ import {findByPage} from './service';
 import type {TableListItem, TableListPagination} from './data';
 
 const YES_NO_OPTIONS = {
-  ['Y']: {text: '是', status: "Y"},
-  ['N']: {text: '否', status: "N"},
+  ['Y']: {text: '是', status: 'Y'},
+  ['N']: {text: '否', status: 'N'},
 };
 
 const ScmcMofcCompareAccountOfAllocateList: React.FC = () => {
-
   const columns: ProColumns<TableListItem>[] = [
     {title: 'scmc调拨行项id', dataIndex: 'id', width: 100},
     {title: 'scmc调拨单号', dataIndex: 'planSignNo', width: 100},
@@ -40,44 +39,50 @@ const ScmcMofcCompareAccountOfAllocateList: React.FC = () => {
       dataIndex: 'ifAbnormalOfTwoSysQty',
       width: 100,
       valueEnum: YES_NO_OPTIONS,
-      valueType: 'select'
+      valueType: 'select',
     },
     {
       title: 'mofc订单数量是否有异常',
       dataIndex: 'ifAbnormalOfOrderQty',
       width: 100,
       valueEnum: YES_NO_OPTIONS,
-      valueType: 'select'
+      valueType: 'select',
     },
     {
       title: 'mofc签收数量是否有异常',
       dataIndex: 'ifAbnormalOfSignQty',
       width: 100,
       valueEnum: YES_NO_OPTIONS,
-      valueType: 'select'
+      valueType: 'select',
     },
     {
       title: 'mofc出库数量是否有异常',
       dataIndex: 'ifAbnormalOfShipAccountQty',
       width: 100,
       valueEnum: YES_NO_OPTIONS,
-      valueType: 'select'
+      valueType: 'select',
     },
     {
       title: 'mofc入库数量是否有异常',
       dataIndex: 'ifAbnormalOfReceiveAccountQty',
       width: 100,
       valueEnum: YES_NO_OPTIONS,
-      valueType: 'select'
+      valueType: 'select',
     },
     {
       title: 'mofc损坏数量是否有异常',
       dataIndex: 'ifAbnormalOfDamageQty',
       width: 100,
       valueEnum: YES_NO_OPTIONS,
-      valueType: 'select'
+      valueType: 'select',
     },
-    {title: '对账是否结束', dataIndex: 'ifEnd', width: 100},
+    {
+      title: '对账是否结束',
+      dataIndex: 'ifEnd',
+      width: 100,
+      valueEnum: YES_NO_OPTIONS,
+      valueType: 'select',
+    },
   ];
 
   return (
