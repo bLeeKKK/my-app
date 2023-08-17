@@ -45,6 +45,7 @@ export default {
   'menu.report': '报表管理',
   'menu.report.mofc-sure-list': 'MOFC缺失单据',
   'menu.report.uso-mofc-dz-list':'USO-MOFC对账',
+  'menu.report.scmc-mofc-compare-account-of-allocate-list':'SCMC-MOFC调拨对账',
 
   'menu.others.base-show-list': '综合报表（c端）',
   'menu.others.base-show-list-b': '综合报表（b端）',

@@ -227,6 +227,13 @@
         component: './report/uso-mofc-dz-list',
         access: 'report:uso-mofc-dz-list',
         wrappers: ['@/wrappers/withKeepLive'],
+      },
+      {
+        path: '/report/scmc-mofc-compare-account-of-allocate-list',
+        name: 'scmc-mofc-compare-account-of-allocate-list',
+        component: './report/scmc-mofc-compare-account-of-allocate-list',
+        access: 'report:scmc-mofc-compare-account-of-allocate-list',
+        wrappers: ['@/wrappers/withKeepLive'],
       }
     ]
   },
