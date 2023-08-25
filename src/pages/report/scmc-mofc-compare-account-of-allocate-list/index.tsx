@@ -12,6 +12,16 @@ const STATUS_OPTIONS = {
   ['0']: { text: '初始', status: '0' },
   ['-1']: { text: '无效', status: '-1' },
 };
+const HEAD_STATUS = {
+  ['-1']: { text: '关闭', status: '-1' },
+  ['0']: { text: '初始', status: '0' },
+  ['1']: { text: '发布完成', status: '1' },
+  ['2']: { text: '发布失败', status: '2' },
+  ['3']: { text: '部分终止', status: '3' },
+  ['4']: { text: '全部终止', status: '4' },
+  ['5']: { text: '锁定完成', status: '5' },
+  ['6']: { text: '发运完成', status: '6' },
+};
 
 const ScmcMofcCompareAccountOfAllocateList: React.FC = () => {
   const columns: ProColumns<TableListItem>[] = [
@@ -100,6 +110,16 @@ const ScmcMofcCompareAccountOfAllocateList: React.FC = () => {
       valueEnum: YES_NO_OPTIONS,
       valueType: 'select',
     },
+    {
+      title: 'scmc调拨头状态',
+      dataIndex: 'headStatus',
+      width: 100,
+      valueEnum: HEAD_STATUS,
+      valueType: 'select',
+    },
+    { title: '服务类型', dataIndex: 'serviceTypeCode', width: 100, hideInSearch: true },
+    { title: '发货库位代码', dataIndex: 'stockLocationCode', width: 100, hideInSearch: true },
+    { title: '收货库位代码', dataIndex: 'dstStockCode', width: 100, hideInSearch: true },
   ];
 
   return (
