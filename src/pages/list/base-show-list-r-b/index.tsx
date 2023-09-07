@@ -1,12 +1,13 @@
 import React, { useRef, useState, Fragment } from 'react';
 import ProTable from '@ant-design/pro-table';
-import { zonghe } from './service';
+import {exportZongheReverse, zonghe} from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector, useLocation } from 'umi';
 import moment from 'moment';
-import { Tag, Popover, Badge, Descriptions } from 'antd';
-import { timeDiff } from '@/utils';
+import {Tag, Popover, Badge, Descriptions, Button, Modal, message} from 'antd';
+import {download, timeDiff} from '@/utils';
 import TableShowMessage from '@/components/TableShowMessage';
+import MyAccess from "@/components/MyAccess";
 // import styles from './style.less';
 
 let searchData = {};
@@ -326,6 +327,34 @@ const TableList: React.FC = () => {
       actionRef={actionRef}
       rowKey="sourceCode"
       search={query.search === 'false' ? false : { labelWidth: 120 }}
+      toolBarRender={() => [
+        <MyAccess aKey="list:base-report-forms:export" key="export">
+          <Button
+            onClick={() => {
+              Modal.confirm({
+                title: '提示',
+                content: '确定要导出数据吗？',
+                onOk: () => {
+                  // const data = ref.current?.getFieldsValue();
+                  exportZongheReverse(searchData)
+                    .then((res) => {
+                      const blob = new Blob([res], {
+                        type: 'application/vnd.ms-excel,charset=utf-8',
+                      });
+                      const fileName = `综合报表-逆向（b端）${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                      download(blob, fileName);
+                    })
+                    .catch((err) => {
+                      message.error(err.message);
+                    });
+                },
+              });
+            }}
+          >
+            导出报表
+          </Button>
+        </MyAccess>,
+      ]}
       defaultSize="small"
       sticky
       className="contolTable"

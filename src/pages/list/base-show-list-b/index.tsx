@@ -2,16 +2,14 @@ import React, { useRef, useState, Fragment } from 'react';
 // import { PageContainer } from '@ant-design/pro-layout';
 // import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { zonghe, interfaceCallRecordExport } from './service';
+import { zonghe, exportZonghe3 } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector, useLocation } from 'umi';
 import moment from 'moment';
-import { Tag, Popover, Badge, Descriptions } from 'antd';
-import { download } from '@/utils';
-import { useRafInterval } from 'ahooks';
-import { timeDiff } from '@/utils';
+import {Tag, Popover, Badge, Descriptions, Button, Modal, message} from 'antd';
+import { download,timeDiff } from '@/utils';
 import TableShowMessage from '@/components/TableShowMessage';
-import styles from './style.less';
+import MyAccess from "@/components/MyAccess";
 
 let searchData = {};
 const regTimec = /^\d{10,13}$/;
@@ -359,6 +357,34 @@ const TableList: React.FC = () => {
       actionRef={actionRef}
       rowKey="sourceCode"
       search={query.search === 'false' ? false : { labelWidth: 120 }}
+      toolBarRender={() => [
+        <MyAccess aKey="list:base-report-forms:export" key="export">
+          <Button
+              onClick={() => {
+                Modal.confirm({
+                  title: '提示',
+                  content: '确定要导出数据吗？',
+                  onOk: () => {
+                    // const data = ref.current?.getFieldsValue();
+                    exportZonghe3(searchData)
+                        .then((res) => {
+                          const blob = new Blob([res], {
+                            type: 'application/vnd.ms-excel,charset=utf-8',
+                          });
+                          const fileName = `综合报表（b端）${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                          download(blob, fileName);
+                        })
+                        .catch((err) => {
+                          message.error(err.message);
+                        });
+                  },
+                });
+              }}
+          >
+            导出报表
+          </Button>
+        </MyAccess>,
+      ]}
       defaultSize="small"
       sticky
       className="contolTable"

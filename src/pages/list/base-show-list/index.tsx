@@ -2,14 +2,15 @@ import React, { useRef, useState, Fragment } from 'react';
 // import { PageContainer } from '@ant-design/pro-layout';
 // import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { zonghe, interfaceCallRecordExport } from './service';
+import {zonghe, exportZonghe3eboc} from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
 import moment from 'moment';
-import { Tag, Popover, Row, Col } from 'antd';
+import {Tag, Popover, Row, Col, Button, Modal, message} from 'antd';
 import { download } from '@/utils';
 import { useRafInterval } from 'ahooks';
 import { timeDiff } from '@/utils';
+import MyAccess from "@/components/MyAccess";
 
 let searchData = {};
 const regTimec = /^\d{10,13}$/;
@@ -413,22 +414,48 @@ const TableList: React.FC = () => {
       // expandable={{
       //   expandedRowRender,
       // }}
-      // toolBarRender={() => [
-      //   <Button
-      //     key="export"
-      //     onClick={() => {
-      //       Modal.confirm({
-      //         title: '提示',
-      //         content: '确定要导出数据吗？',
-      //         onOk: () => {
-      //          exportFuc()
-      //         },
-      //       });
-      //     }}
-      //   >
-      //     导出报表
-      //   </Button>,
-      // ]}
+      toolBarRender={() => [
+        // <Button
+        //   key="export"
+        //   onClick={() => {
+        //     Modal.confirm({
+        //       title: '提示',
+        //       content: '确定要导出数据吗？',
+        //       onOk: () => {
+        //        exportFuc()
+        //       },
+        //     });
+        //   }}
+        // >
+        //   导出报表
+        // </Button>,
+        <MyAccess aKey="list:base-report-forms:export" key="export">
+          <Button
+              onClick={() => {
+                Modal.confirm({
+                  title: '提示',
+                  content: '确定要导出数据吗？',
+                  onOk: () => {
+                    // const data = ref.current?.getFieldsValue();
+                    exportZonghe3eboc(searchData)
+                        .then((res) => {
+                          const blob = new Blob([res], {
+                            type: 'application/vnd.ms-excel,charset=utf-8',
+                          });
+                          const fileName = `综合报表（c端）${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                          download(blob, fileName);
+                        })
+                        .catch((err) => {
+                          message.error(err.message);
+                        });
+                  },
+                });
+              }}
+          >
+            导出报表
+          </Button>
+        </MyAccess>,
+      ]}
       sticky
       // style={{backgroundColor:'red'}}
       className="contolTable"
