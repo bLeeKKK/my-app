@@ -62,8 +62,8 @@ export async function getAgingReport(data, sort) {
 }
 
 // 导出接口记录池数据
-export async function interfaceCallRecordExport(data: ParamsType): Promise<{ data: unknown[] }> {
-  return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/export`, {
+export async function exportAgingReport(data: ParamsType): Promise<{ data: unknown[] }> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/fullLinkRecord/exportAgingReport`, {
     method: 'POST',
     responseType: 'blob',
     data,

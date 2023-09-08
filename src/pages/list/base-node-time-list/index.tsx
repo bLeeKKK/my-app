@@ -2,14 +2,17 @@ import React, { useRef, useState, Fragment } from 'react';
 // import { PageContainer } from '@ant-design/pro-layout';
 // import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { getAgingReport } from './service';
+import {exportAgingReport, getAgingReport} from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector } from 'umi';
-import { Tag, Popover, Row, Col } from 'antd';
+import {Tag, Popover, Row, Col, Button, Modal, message} from 'antd';
 import styles from './styles.less';
 import Trend from '@/components/Trend';
 import moment from 'moment';
+import MyAccess from "@/components/MyAccess";
+import {download} from "@/utils";
 
+let searchData = {};
 // 不需要处理小节点的
 const arrExtar = ['sourceCode'];
 // 处理小节点渲染
@@ -160,6 +163,34 @@ const TableList: React.FC = () => {
     // <PageContainer>
     <ProTable<TableListItem, TableListPagination>
       // search={{ labelWidth: 120 }}
+        toolBarRender={() => [
+            <MyAccess aKey="list:base-report-forms:export" key="export">
+                <Button
+                    onClick={() => {
+                        Modal.confirm({
+                            title: '提示',
+                            content: '确定要导出数据吗？',
+                            onOk: () => {
+                                // const data = ref.current?.getFieldsValue();
+                                exportAgingReport(searchData)
+                                    .then((res) => {
+                                        const blob = new Blob([res], {
+                                            type: 'application/vnd.ms-excel,charset=utf-8',
+                                        });
+                                        const fileName = `时效报表${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                                        download(blob, fileName);
+                                    })
+                                    .catch((err) => {
+                                        message.error(err.message);
+                                    });
+                            },
+                        });
+                    }}
+                >
+                    导出报表
+                </Button>
+            </MyAccess>,
+        ]}
       tableClassName={styles['base-node-time-list']}
       headerTitle="查询表格"
       actionRef={actionRef}
@@ -169,6 +200,7 @@ const TableList: React.FC = () => {
       scroll={{ x: '100px' }}
       formRef={ref}
       request={async (params, sort) => {
+          searchData = params;
         if (params.createdDates && params.createdDates?.[0] && params.createdDates?.[1]) {
           params.createdDates = [
             moment(params.createdDates[0]).format('YYYY-MM-DDTHH:mm:ss'),
