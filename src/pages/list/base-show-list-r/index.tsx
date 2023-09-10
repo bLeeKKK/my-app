@@ -256,7 +256,11 @@ const TableList: React.FC = () => {
         };
         temp.push(element);
       } else if (element.title === '开始时间') {
-        element.dataIndex = 'startDates';
+        element.initialValue = [
+          moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+          moment().format('YYYY-MM-DDTHH:mm:ss'),
+        ];
+        element.dataIndex = 'createdDates';
         element.valueType = 'dateTimeRange';
         element.fieldProps = {
           onChange: () => {
@@ -389,8 +393,20 @@ const TableList: React.FC = () => {
         } else {
           delete params.startDates;
         }
+        if (params.createdDates && params.createdDates?.[0] && params.createdDates?.[1]) {
+          params.createdDates = [
+            moment(params.createdDates[0]).format('YYYY-MM-DDTHH:mm:ss'),
+            moment(params.createdDates[1]).format('YYYY-MM-DDTHH:mm:ss'),
+          ];
+        } else {
+          //默认为最近30天
+          params.createdDates = [
+            moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+            moment().format('YYYY-MM-DDTHH:mm:ss'),
+          ];
+        }
 
-        params.createdDates = ['2022-11-01T00:00:00', moment().format('YYYY-MM-DDTHH:mm:ss')];
+        // params.createdDates = ['2022-11-01T00:00:00', moment().format('YYYY-MM-DDTHH:mm:ss')];
         if (query.filiale) params.filialeList = query.filiale.split(',');
 
         const { success, data } = await zonghe(params, sort);

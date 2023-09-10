@@ -143,6 +143,11 @@ const TableList: React.FC = () => {
         element.valueEnum = t;
         temp.push(element);
       } else if (element.title === '开始时间') {
+        element.initialValue = [
+          moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+          moment().format('YYYY-MM-DDTHH:mm:ss'),
+        ];
+        element.dataIndex = 'createdDates';
         element.valueType = 'dateTimeRange';
         temp.push(element);
       } else {
@@ -207,7 +212,12 @@ const TableList: React.FC = () => {
             moment(params.createdDates[1]).format('YYYY-MM-DDTHH:mm:ss'),
           ];
         } else {
-          delete params.createdDates;
+            //默认为最近30天
+            params.createdDates = [
+                moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+                moment().format('YYYY-MM-DDTHH:mm:ss'),
+            ];
+          // delete params.createdDates;
         }
         const { data, success } = await getAgingReport(params, sort);
         data.headerData = formatData(data.headerData);
