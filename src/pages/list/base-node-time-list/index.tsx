@@ -143,10 +143,6 @@ const TableList: React.FC = () => {
         element.valueEnum = t;
         temp.push(element);
       } else if (element.title === '开始时间') {
-        element.initialValue = [
-          moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
-          moment().format('YYYY-MM-DDTHH:mm:ss'),
-        ];
         element.dataIndex = 'createdDates';
         element.valueType = 'dateTimeRange';
         temp.push(element);
@@ -172,11 +168,31 @@ const TableList: React.FC = () => {
             <MyAccess aKey="list:base-report-forms:export" key="export">
                 <Button
                     onClick={() => {
+                        let content = '确定要导出数据吗？';
+                        if (!searchData.createdDates || searchData.createdDates[0] == '2022-11-01T00:00:00') {
+                            content = '未选择开始时间范围，默认最近30天的数据，确定要导出数据吗？';
+                        }
                         Modal.confirm({
                             title: '提示',
-                            content: '确定要导出数据吗？',
+                            content: content,
                             onOk: () => {
                                 // const data = ref.current?.getFieldsValue();
+                                //searchData不为2022-11-01T00:00:00,则为自定义时间
+                                if (searchData.createdDates && searchData.createdDates?.[0] && searchData.createdDates?.[1]) {
+                                    if (searchData.createdDates[0] == '2022-11-01T00:00:00') {
+                                        searchData.createdDates[0] = moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss');
+                                    }
+                                    searchData.createdDates = [
+                                        moment(searchData.createdDates[0]).format('YYYY-MM-DDTHH:mm:ss'),
+                                        moment(searchData.createdDates[1]).format('YYYY-MM-DDTHH:mm:ss'),
+                                    ];
+                                } else {
+                                    //默认为最近30天
+                                    searchData.createdDates = [
+                                        moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+                                        moment().format('YYYY-MM-DDTHH:mm:ss'),
+                                    ];
+                                }
                                 exportAgingReport(searchData)
                                     .then((res) => {
                                         const blob = new Blob([res], {
@@ -212,12 +228,7 @@ const TableList: React.FC = () => {
             moment(params.createdDates[1]).format('YYYY-MM-DDTHH:mm:ss'),
           ];
         } else {
-            //默认为最近30天
-            params.createdDates = [
-                moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
-                moment().format('YYYY-MM-DDTHH:mm:ss'),
-            ];
-          // delete params.createdDates;
+          delete params.createdDates;
         }
         const { data, success } = await getAgingReport(params, sort);
         data.headerData = formatData(data.headerData);
