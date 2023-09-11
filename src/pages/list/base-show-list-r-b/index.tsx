@@ -1,12 +1,13 @@
-import React, { useRef, useState, Fragment } from 'react';
+import React, {Fragment, useRef, useState} from 'react';
 import ProTable from '@ant-design/pro-table';
-import { zonghe } from './service';
-import type { TableListItem, TableListPagination } from './data';
-import { useSelector, useLocation } from 'umi';
+import {exportZongheReverse, zonghe} from './service';
+import type {TableListItem, TableListPagination} from './data';
+import {useLocation, useSelector} from 'umi';
 import moment from 'moment';
-import { Tag, Popover, Badge, Descriptions } from 'antd';
-import { timeDiff } from '@/utils';
+import {Badge, Button, Descriptions, message, Modal, Popover, Tag} from 'antd';
+import {download, timeDiff} from '@/utils';
 import TableShowMessage from '@/components/TableShowMessage';
+import MyAccess from "@/components/MyAccess";
 // import styles from './style.less';
 
 let searchData = {};
@@ -22,11 +23,12 @@ const getDeepObj = (obj, path = '') => {
   });
   return res;
 };
+
 // 处理小节点渲染
 function intoChild(arr, render) {
   const newArr = arr.map((res) => {
     // 不处理字段
-    if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left', width: '100px' };
+    if (res.dataIndex === 'sourceCode') return {...res, fixed: 'left', width: '100px'};
     if (res.dataIndex?.includes('.currentCode1')) {
       return {
         ...res,
@@ -130,12 +132,12 @@ function intoChild(arr, render) {
 
 // const now = new Date();
 const TableList: React.FC = () => {
-  const { actionRef } = useSelector((state) => state.baseShowList);
+  const {actionRef} = useSelector((state) => state.baseShowList);
   const [nodeColumns, setNodeColumns] = useState([]);
   const [nodeRecords, setNodeRecords] = useState([]);
   const ref = useRef();
   const [now, setNow] = useState(new Date());
-  const { query } = useLocation();
+  const {query} = useLocation();
 
   // useRafInterval(() => {
   //   setNow(new Date());
@@ -166,9 +168,9 @@ const TableList: React.FC = () => {
                 smallNode.smallNodeList.map((res, index) => {
                   return (
                     <Fragment key={index}>
-                      <Descriptions style={{ width: '420px', fontSize: '12px' }} size="small">
+                      <Descriptions style={{width: '420px', fontSize: '12px'}} size="small">
                         <Descriptions.Item
-                          style={{ paddingBottom: res?.nodeMessage?.length ? '8px' : '0' }}
+                          style={{paddingBottom: res?.nodeMessage?.length ? '8px' : '0'}}
                           label={res.smallNodeName}
                           span={24}
                         >
@@ -177,7 +179,7 @@ const TableList: React.FC = () => {
                             moment(res.smallNodeEndDate || now).format('YYYY-MM-DD HH:mm:ss')
                           ) : (
                             <>
-                              <span style={{ color: res.smallNodeEndDate ? '' : 'red' }}>
+                              <span style={{color: res.smallNodeEndDate ? '' : 'red'}}>
                                 处理中
                               </span>
                             </>
@@ -185,7 +187,7 @@ const TableList: React.FC = () => {
                         </Descriptions.Item>
                       </Descriptions>
                       {res?.nodeMessageList?.length ? (
-                        <TableShowMessage dataSource={res.nodeMessageList} />
+                        <TableShowMessage dataSource={res.nodeMessageList}/>
                       ) : null}
                     </Fragment>
                   );
@@ -196,8 +198,8 @@ const TableList: React.FC = () => {
           <div
             style={
               row.lastNode && row.lastNode === smallNode?.nodeName
-                ? { border: '2px solid rgb(245, 61, 113)', textAlign: 'center' }
-                : { textAlign: 'center' }
+                ? {border: '2px solid rgb(245, 61, 113)', textAlign: 'center'}
+                : {textAlign: 'center'}
             }
           >
             <Badge
@@ -209,16 +211,16 @@ const TableList: React.FC = () => {
               }
               size="small"
             >
-              <div style={{ textAlign: 'center' }}>
+              <div style={{textAlign: 'center'}}>
                 {smallNode.startDate &&
-                  timeDiff(smallNode.startDate, smallNode.endDate || now, false) < '0时1分0秒'
+                timeDiff(smallNode.startDate, smallNode.endDate || now, false) < '0时1分0秒'
                   ? '0时1分'
                   : timeDiff(smallNode.startDate, smallNode.endDate || now, true) === '0时0分'
                     ? ''
                     : timeDiff(smallNode.startDate, smallNode.endDate || now, true)}
               </div>
               {smallNode.overTimeRemark && (
-                <Tag style={{ marginBottom: '2px' }} color={smallNode.signColor}>
+                <Tag style={{marginBottom: '2px'}} color={smallNode.signColor}>
                   {smallNode.overTimeRemark}
                 </Tag>
               )}
@@ -232,12 +234,12 @@ const TableList: React.FC = () => {
     const temp = [];
     data.forEach((element) => {
       if (element.title === '完成状态') {
-        element.valueEnum = { true: { text: '完成' }, false: { text: '未完成' } };
+        element.valueEnum = {true: {text: '完成'}, false: {text: '未完成'}};
         temp.push(element);
       } else if (element.title === '大节点代码') {
         const t = {};
         element.children.forEach((e) => {
-          t[typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]] = { text: e.title };
+          t[typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]] = {text: e.title};
         });
         element.valueEnum = t;
         element.fieldProps = {
@@ -247,7 +249,7 @@ const TableList: React.FC = () => {
       } else if (element.title === '预警等级') {
         const t = {};
         element.children.forEach((e) => {
-          t[e.dataIndex] = { text: e.title };
+          t[e.dataIndex] = {text: e.title};
         });
         element.valueEnum = t;
         element.fieldProps = {
@@ -255,7 +257,11 @@ const TableList: React.FC = () => {
         };
         temp.push(element);
       } else if (element.title === '开始时间') {
-        element.dataIndex = 'startDates';
+        element.initialValue = [
+          moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+          moment().format('YYYY-MM-DDTHH:mm:ss'),
+        ];
+        element.dataIndex = 'createdDates';
         element.valueType = 'dateTimeRange';
         element.fieldProps = {
           onChange: () => {
@@ -307,12 +313,12 @@ const TableList: React.FC = () => {
     let findKey = false;
     data.forEach((e) => {
       e.children &&
-        e.children.forEach((ee) => {
-          if (e.orderNo === ee.orderNo) ee.orderNo = '';
-          e.classKey = classKey;
-          ee.classKey = classKey;
-          findKey = true;
-        });
+      e.children.forEach((ee) => {
+        if (e.orderNo === ee.orderNo) ee.orderNo = '';
+        e.classKey = classKey;
+        ee.classKey = classKey;
+        findKey = true;
+      });
       if (findKey) {
         classKey === 2 ? (classKey = 1) : classKey++;
         findKey = false;
@@ -326,6 +332,54 @@ const TableList: React.FC = () => {
       actionRef={actionRef}
       rowKey="sourceCode"
       search={query.search === 'false' ? false : { labelWidth: 120 }}
+      toolBarRender={() => [
+        <MyAccess aKey="list:base-report-forms:export" key="export">
+          <Button
+            onClick={() => {
+              let content = '确定要导出数据吗？';
+              // if (!searchData.createdDates || searchData.createdDates[0] == '2022-11-01T00:00:00') {
+              //   content = '未选择开始时间范围，默认最近30天的数据，确定要导出数据吗？';
+              // }
+              Modal.confirm({
+                title: '提示',
+                content: content,
+                onOk: () => {
+                  // const data = ref.current?.getFieldsValue();
+                  //searchData不为2022-11-01T00:00:00,则为自定义时间
+                  // if (searchData.createdDates && searchData.createdDates?.[0] && searchData.createdDates?.[1]) {
+                  //   if (searchData.createdDates[0] == '2022-11-01T00:00:00') {
+                  //     searchData.createdDates[0] = moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss');
+                  //   }
+                  //   searchData.createdDates = [
+                  //     moment(searchData.createdDates[0]).format('YYYY-MM-DDTHH:mm:ss'),
+                  //     moment(searchData.createdDates[1]).format('YYYY-MM-DDTHH:mm:ss'),
+                  //   ];
+                  // } else {
+                  //   //默认为最近30天
+                  //   searchData.createdDates = [
+                  //     moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+                  //     moment().format('YYYY-MM-DDTHH:mm:ss'),
+                  //   ];
+                  // }
+                  exportZongheReverse(searchData)
+                    .then((res) => {
+                      const blob = new Blob([res], {
+                        type: 'application/vnd.ms-excel,charset=utf-8',
+                      });
+                      const fileName = `综合报表-逆向（b端）${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                      download(blob, fileName);
+                    })
+                    .catch((err) => {
+                      message.error(err.message);
+                    });
+                },
+              });
+            }}
+          >
+            导出报表
+          </Button>
+        </MyAccess>,
+      ]}
       defaultSize="small"
       sticky
       className="contolTable"
@@ -340,7 +394,7 @@ const TableList: React.FC = () => {
         }
       }}
       bordered
-      scroll={{ x: 100 }}
+      scroll={{x: 100}}
       formRef={ref}
       request={async (params, sort) => {
         searchData = params;
@@ -357,11 +411,23 @@ const TableList: React.FC = () => {
         } else {
           delete params.startDates;
         }
+        if (params.createdDates && params.createdDates?.[0] && params.createdDates?.[1]) {
+          params.createdDates = [
+            moment(params.createdDates[0]).format('YYYY-MM-DDTHH:mm:ss'),
+            moment(params.createdDates[1]).format('YYYY-MM-DDTHH:mm:ss'),
+          ];
+        } else {
+          //默认为最近30天
+          params.createdDates = [
+            moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+            moment().format('YYYY-MM-DDTHH:mm:ss'),
+          ];
+        }
 
-        params.createdDates = ['2022-11-01T00:00:00', moment().format('YYYY-MM-DDTHH:mm:ss')];
+        // params.createdDates = ['2022-11-01T00:00:00', moment().format('YYYY-MM-DDTHH:mm:ss')];
         if (query.filiale) params.filialeList = query.filiale.split(',');
 
-        const { success, data } = await zonghe(params, sort);
+        const {success, data} = await zonghe(params, sort);
         data.headerData = formatData(data.headerData);
         data.records = formatRecord(data.records);
         setNodeColumns(data?.headerData || []);

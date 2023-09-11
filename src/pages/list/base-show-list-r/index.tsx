@@ -1,12 +1,13 @@
 import React, { useRef, useState, Fragment } from 'react';
 import ProTable from '@ant-design/pro-table';
-import { zonghe } from './service';
+import {exportZongheReverseEboc, zonghe} from './service';
 import type { TableListItem, TableListPagination } from './data';
 import { useSelector, useLocation } from 'umi';
 import moment from 'moment';
-import { Tag, Popover, Badge, Descriptions } from 'antd';
-import { timeDiff } from '@/utils';
+import {Tag, Popover, Badge, Descriptions, Button, Modal, message} from 'antd';
+import {download, timeDiff} from '@/utils';
 import TableShowMessage from '@/components/TableShowMessage';
+import MyAccess from "@/components/MyAccess";
 // import styles from './style.less';
 
 let searchData = {};
@@ -255,7 +256,11 @@ const TableList: React.FC = () => {
         };
         temp.push(element);
       } else if (element.title === '开始时间') {
-        element.dataIndex = 'startDates';
+        element.initialValue = [
+          moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+          moment().format('YYYY-MM-DDTHH:mm:ss'),
+        ];
+        element.dataIndex = 'createdDates';
         element.valueType = 'dateTimeRange';
         element.fieldProps = {
           onChange: () => {
@@ -329,6 +334,54 @@ const TableList: React.FC = () => {
       actionRef={actionRef}
       rowKey="sourceCode"
       search={query.search === 'false' ? false : { labelWidth: 120 }}
+      toolBarRender={() => [
+        <MyAccess aKey="list:base-report-forms:export" key="export">
+          <Button
+              onClick={() => {
+                let content = '确定要导出数据吗？';
+                // if (!searchData.createdDates || searchData.createdDates[0] == '2022-11-01T00:00:00') {
+                //   content = '未选择开始时间范围，默认最近30天的数据，确定要导出数据吗？';
+                // }
+                Modal.confirm({
+                  title: '提示',
+                  content: content,
+                  onOk: () => {
+                    // const data = ref.current?.getFieldsValue();
+                    //searchData不为2022-11-01T00:00:00,则为自定义时间
+                    // if (searchData.createdDates && searchData.createdDates?.[0] && searchData.createdDates?.[1]) {
+                    //   if (searchData.createdDates[0] == '2022-11-01T00:00:00') {
+                    //     searchData.createdDates[0] = moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss');
+                    //   }
+                    //   searchData.createdDates = [
+                    //     moment(searchData.createdDates[0]).format('YYYY-MM-DDTHH:mm:ss'),
+                    //     moment(searchData.createdDates[1]).format('YYYY-MM-DDTHH:mm:ss'),
+                    //   ];
+                    // } else {
+                    //   //默认为最近30天
+                    //   searchData.createdDates = [
+                    //     moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+                    //     moment().format('YYYY-MM-DDTHH:mm:ss'),
+                    //   ];
+                    // }
+                    exportZongheReverseEboc(searchData)
+                        .then((res) => {
+                          const blob = new Blob([res], {
+                            type: 'application/vnd.ms-excel,charset=utf-8',
+                          });
+                          const fileName = `综合报表-逆向（c端）${moment().format('YYYYMMDDHHmmss')}.xlsx`;
+                          download(blob, fileName);
+                        })
+                        .catch((err) => {
+                          message.error(err.message);
+                        });
+                  },
+                });
+              }}
+          >
+            导出报表
+          </Button>
+        </MyAccess>,
+      ]}
       defaultSize="small"
       sticky
       className="contolTable"
@@ -360,8 +413,20 @@ const TableList: React.FC = () => {
         } else {
           delete params.startDates;
         }
+        if (params.createdDates && params.createdDates?.[0] && params.createdDates?.[1]) {
+          params.createdDates = [
+            moment(params.createdDates[0]).format('YYYY-MM-DDTHH:mm:ss'),
+            moment(params.createdDates[1]).format('YYYY-MM-DDTHH:mm:ss'),
+          ];
+        } else {
+          //默认为最近30天
+          params.createdDates = [
+            moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+            moment().format('YYYY-MM-DDTHH:mm:ss'),
+          ];
+        }
 
-        params.createdDates = ['2022-11-01T00:00:00', moment().format('YYYY-MM-DDTHH:mm:ss')];
+        // params.createdDates = ['2022-11-01T00:00:00', moment().format('YYYY-MM-DDTHH:mm:ss')];
         if (query.filiale) params.filialeList = query.filiale.split(',');
 
         const { success, data } = await zonghe(params, sort);
