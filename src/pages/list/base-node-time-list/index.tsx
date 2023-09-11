@@ -133,6 +133,9 @@ const TableList: React.FC = () => {
         element.children.forEach((e) => {
           t[typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]] = { text: e.title };
         });
+        element.fieldProps = {
+          mode: 'multiple',
+        };
         element.valueEnum = t;
         temp.push(element);
       } else if (element.title === '预警等级') {
@@ -140,6 +143,9 @@ const TableList: React.FC = () => {
         element.children.forEach((e) => {
           t[e.dataIndex] = { text: e.title };
         });
+        element.fieldProps = {
+          mode: 'multiple',
+        };
         element.valueEnum = t;
         temp.push(element);
       } else if (element.title === '开始时间') {
