@@ -261,7 +261,6 @@ const TableList: React.FC = () => {
           moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
           moment().format('YYYY-MM-DDTHH:mm:ss'),
         ];
-        element.required = true;
         element.dataIndex = 'createdDates';
         element.valueType = 'dateTimeRange';
         element.fieldProps = {

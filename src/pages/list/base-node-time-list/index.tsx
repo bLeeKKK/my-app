@@ -143,14 +143,18 @@ const TableList: React.FC = () => {
         element.valueEnum = t;
         temp.push(element);
       } else if (element.title === '开始时间') {
-        element.initialValue = [
-          moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
-          moment().format('YYYY-MM-DDTHH:mm:ss'),
-        ];
-        element.required = true;
-        element.dataIndex = 'createdDates';
-        element.valueType = 'dateTimeRange';
-        temp.push(element);
+          element.initialValue = [
+              moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+              moment().format('YYYY-MM-DDTHH:mm:ss'),
+          ];
+          element.dataIndex = 'createdDates';
+          element.valueType = 'dateTimeRange';
+          element.fieldProps = {
+              onChange: () => {
+                  console.log(111);
+              },
+          };
+          temp.push(element);
       } else {
         element.hideInSearch = true;
         temp.push(element);
@@ -226,19 +230,19 @@ const TableList: React.FC = () => {
       scroll={{ x: '100px' }}
       formRef={ref}
       request={async (params, sort) => {
-          searchData = params;
+        searchData = params;
         if (params.createdDates && params.createdDates?.[0] && params.createdDates?.[1]) {
           params.createdDates = [
             moment(params.createdDates[0]).format('YYYY-MM-DDTHH:mm:ss'),
             moment(params.createdDates[1]).format('YYYY-MM-DDTHH:mm:ss'),
           ];
         } else {
-          delete params.createdDates;
+          // delete params.createdDates;
             //默认为最近30天
-            // params.createdDates = [
-            //     moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
-            //     moment().format('YYYY-MM-DDTHH:mm:ss'),
-            // ];
+            params.createdDates = [
+                moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
+                moment().format('YYYY-MM-DDTHH:mm:ss'),
+            ];
         }
         const { data, success } = await getAgingReport(params, sort);
         data.headerData = formatData(data.headerData);
