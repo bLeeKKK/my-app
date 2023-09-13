@@ -14,12 +14,13 @@ import {download} from "@/utils";
 
 let searchData = {};
 // 不需要处理小节点的
-const arrExtar = ['sourceCode'];
+const arrExtar = ['sourceCode','finish'];
 // 处理小节点渲染
 function intoChild(arr, render) {
   const newArr = arr.map((res) => {
     // 不处理字段
-    if (arrExtar.includes(res.dataIndex)) return { ...res, fixed: 'left', width: '100px' };
+    if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left', width: '100px' };
+    if (res.dataIndex === 'finish' || res.dataIndex === 'transType') return { ...res, width: '100px' };
 
     res.dataIndex = Array.isArray(res?.dataIndex)
       ? res.dataIndex
