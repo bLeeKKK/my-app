@@ -1,12 +1,11 @@
 import {
-  AlipayCircleOutlined,
   LockOutlined,
   MobileOutlined,
-  TaobaoCircleOutlined,
   UserOutlined,
-  WeiboCircleOutlined,
+
 } from '@ant-design/icons';
 import { Alert, message, Tabs } from 'antd';
+import { hashMD5 } from 'crypto-js';
 import React, { useState } from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
@@ -49,6 +48,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
+      values.password =hashMD5(values.password)
       const msg = await login({ ...values, type });
       if (msg.success) {
         localStorage.setItem('token', msg?.data || '');
