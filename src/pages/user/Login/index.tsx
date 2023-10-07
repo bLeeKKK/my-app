@@ -48,7 +48,8 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
-      values.password =hashMD5(values.password)
+      debugger
+      values.password =hashMD5(values.password);
       const msg = await login({ ...values, type });
       if (msg.success) {
         localStorage.setItem('token', msg?.data || '');
