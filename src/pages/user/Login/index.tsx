@@ -50,7 +50,7 @@ const Login: React.FC = () => {
       // 登录
       debugger
       values.password =hashMD5(values.password).toString();
-      console.log(values)
+      console.log(values.password)
       const msg = await login({ ...values, type });
       if (msg.success) {
         localStorage.setItem('token', msg?.data || '');
