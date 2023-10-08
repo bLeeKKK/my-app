@@ -1,11 +1,6 @@
-import {
-  LockOutlined,
-  MobileOutlined,
-  UserOutlined,
-
-} from '@ant-design/icons';
+import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
 import { Alert, message, Tabs } from 'antd';
-// import { hashMD5 } from 'crypto-js';
+import md5 from 'js-md5';
 import React, { useState } from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
@@ -48,8 +43,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
-      debugger
-      // values.password = hashMD5(values.password).toString();
+      values.password = md5(values.password);
       // console.log(values.password)
       const msg = await login({ ...values, type });
       if (msg.success) {
