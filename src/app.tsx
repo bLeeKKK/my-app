@@ -1,6 +1,7 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from 'umi';
 import type { RequestConfig } from 'umi';
+import { useState } from 'react';
 import Footer from '@/components/Footer';
 import PageContainerBox from '@/components/PageContainerBox';
 import RightContent from '@/components/RightContent';
@@ -98,15 +99,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     links: isDev
       ? [
-        <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-          <LinkOutlined />
-          <span>OpenAPI 文档</span>
-        </Link>,
-        <Link to="/~docs" key="docs">
-          <BookOutlined />
-          <span>业务组件文档</span>
-        </Link>,
-      ]
+          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
+            <LinkOutlined />
+            <span>OpenAPI 文档</span>
+          </Link>,
+          <Link to="/~docs" key="docs">
+            <BookOutlined />
+            <span>业务组件文档</span>
+          </Link>,
+        ]
       : [],
     // headerContentRender: () => <ProBreadcrumb />,
     menuHeaderRender: undefined,
@@ -166,7 +167,14 @@ export const request: RequestConfig = {
       };
     },
   ],
-  responseInterceptors: [],
+  responseInterceptors: [
+    async (response) => {
+      if (response.status === 401) {
+        history.push(loginPath);
+      }
+      return response;
+    },
+  ],
   errorConfig: {
     adaptor: (resData) => {
       return {
@@ -179,3 +187,12 @@ export const request: RequestConfig = {
     },
   },
 };
+
+export function useQiankunStateForSlave() {
+  const [masterState, setMasterState] = useState({});
+
+  return {
+    masterState,
+    setMasterState,
+  };
+}

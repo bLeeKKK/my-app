@@ -1,4 +1,4 @@
-﻿export default [
+export default [
   {
     path: '/user',
     layout: false,
@@ -234,8 +234,8 @@
         component: './report/scmc-mofc-compare-account-of-allocate-list',
         access: 'report:scmc-mofc-compare-account-of-allocate-list',
         wrappers: ['@/wrappers/withKeepLive'],
-      }
-    ]
+      },
+    ],
   },
   {
     path: 'others',
@@ -257,6 +257,20 @@
       },
     ],
   },
+  // 子应用-dfc对账
+  // {
+  //   icon: 'appstore',
+  //   name: 'dfc-reconciliation',
+  //   path: '/dfc-reconciliation',
+  //   routes: [
+  //     {
+  //       path: '/dfc-reconciliation/link',
+  //       name: 'link',
+  //       component: './dfc-reconciliation/link',
+  //       wrappers: ['@/wrappers/withKeepLive'],
+  //     },
+  //   ],
+  // },
   {
     path: '/',
     redirect: '/welcome',
