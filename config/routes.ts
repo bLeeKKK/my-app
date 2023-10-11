@@ -258,19 +258,19 @@ export default [
     ],
   },
   // 子应用-dfc对账
-  // {
-  //   icon: 'appstore',
-  //   name: 'dfc-reconciliation',
-  //   path: '/dfc-reconciliation',
-  //   routes: [
-  //     {
-  //       path: '/dfc-reconciliation/link',
-  //       name: 'link',
-  //       component: './dfc-reconciliation/link',
-  //       wrappers: ['@/wrappers/withKeepLive'],
-  //     },
-  //   ],
-  // },
+  {
+    icon: 'appstore',
+    name: 'dfc-reconciliation',
+    path: '/dfc-reconciliation',
+    routes: [
+      {
+        path: '/dfc-reconciliation/link',
+        name: 'link',
+        component: './dfc-reconciliation/link',
+        wrappers: ['@/wrappers/withKeepLive'],
+      },
+    ],
+  },
   {
     path: '/',
     redirect: '/welcome',
