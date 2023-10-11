@@ -14,12 +14,13 @@ import {download} from "@/utils";
 
 let searchData = {};
 // 不需要处理小节点的
-const arrExtar = ['sourceCode'];
+const arrExtar = ['sourceCode','finish'];
 // 处理小节点渲染
 function intoChild(arr, render) {
   const newArr = arr.map((res) => {
     // 不处理字段
-    if (arrExtar.includes(res.dataIndex)) return { ...res, fixed: 'left', width: '100px' };
+    if (res.dataIndex === 'sourceCode') return { ...res, fixed: 'left', width: '100px' };
+    if (res.dataIndex === 'finish' || res.dataIndex === 'transType') return { ...res, width: '100px' };
 
     res.dataIndex = Array.isArray(res?.dataIndex)
       ? res.dataIndex
@@ -133,6 +134,9 @@ const TableList: React.FC = () => {
         element.children.forEach((e) => {
           t[typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]] = { text: e.title };
         });
+        element.fieldProps = {
+          mode: 'multiple',
+        };
         element.valueEnum = t;
         temp.push(element);
       } else if (element.title === '预警等级') {
@@ -140,6 +144,9 @@ const TableList: React.FC = () => {
         element.children.forEach((e) => {
           t[e.dataIndex] = { text: e.title };
         });
+        element.fieldProps = {
+          mode: 'multiple',
+        };
         element.valueEnum = t;
         temp.push(element);
       } else if (element.title === '开始时间') {

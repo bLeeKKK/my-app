@@ -99,6 +99,13 @@ export default defineConfig({
               ? 'http://localhost:8001'
               : 'https://ecmp.changhong.com/bizlog-web/index.html',
         },
+        // {
+        //   name: 'dfc-reconciliation',
+        //   entry:
+        //     process.env.NODE_ENV === 'development'
+        //       ? 'http://localhost:8002'
+        //       : 'https://decmp.changhong.com/dfc-reconciliation/index.html',
+        // },
       ],
     },
   },
