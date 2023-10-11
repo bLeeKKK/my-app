@@ -1,30 +1,45 @@
 import { message, Form, Button } from 'antd';
 import {
-  ModalForm,
   ProFormTextArea,
-  ProFormText,
-  ProFormDigit,
-  ProForm,
+  ModalForm,
   ProFormRadio,
+  ProFormText,
+  ProForm,
+  ProFormSelect,
 } from '@ant-design/pro-form';
-import { insert, update } from '../service';
+import { save, edit } from '../service';
 import type { ParamsType } from '../service';
 import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
 import { useUpdateEffect } from 'ahooks';
 import { getModel } from '@/utils';
-import MyAccess from '@/components/MyAccess';
+// import MyAccess from '@/components/MyAccess';
 
-const { useWatch } = Form;
-export const BASETYPE_OPTIONS = [
-  { value: false, label: '人工确认' },
-  { value: true, label: '自动基数' },
+// const { useWatch } = Form;
+export const YESORNO_OPTIONS = [
+  { value: true, label: '是' },
+  { value: false, label: '否' },
+];
+
+export const SYS_OPTIONS = [
+  { value: 'SCMC', label: 'SCMC' },
+  { value: 'USO', label: 'USO' },
+  { value: 'EBOC', label: 'EBOC' },
+  { value: 'LRP', label: 'LRP' },
+  { value: 'MOFC', label: 'MOFC' },
+  { value: 'R3', label: 'R3' },
+  { value: 'TIMC', label: 'TIMC' },
+];
+
+export const DB_OPTIONS = [
+  { value: 'Mysql', label: 'Mysql' },
+  { value: 'SqlServer', label: 'SqlServer' },
 ];
 
 const handleAdd = async (data: ParamsType) => {
   const hide = message.loading('正在添加');
   try {
-    await insert(data);
+    await save(data);
     hide();
     message.success('添加成功');
     return true;
@@ -38,7 +53,7 @@ const handleAdd = async (data: ParamsType) => {
 const handleUpdate = async (data: ParamsType) => {
   const hide = message.loading('正在修改');
   try {
-    await update(data);
+    await edit(data);
     hide();
     message.success('添加成功');
     return true;
@@ -50,14 +65,19 @@ const handleUpdate = async (data: ParamsType) => {
 };
 
 export default function AddModalForm() {
-  const { actionRef, visible, editType, edit } = useSelector((state) => state.interfaceList);
+  const {
+    actionRef,
+    visible,
+    editType,
+    // edit
+  } = useSelector((state: any) => state.dfcReconciliationLink);
   const [form] = Form.useForm();
-  const baseType = useWatch('baseType', form);
-  const eidtFlag = editType === 2 && edit;
+  // const baseType = useWatch('baseType', form);
+  // const eidtFlag = editType === 2 && edit;
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch({
-      type: 'interfaceList/setEdit',
+      type: 'dfcReconciliationLink/setEdit',
       payload: {
         edit: undefined,
         editType: undefined,
@@ -76,24 +96,24 @@ export default function AddModalForm() {
 
   return (
     <>
-      <MyAccess aKey="monitor:interface-list:add">
-        <Button
-          type="primary"
-          key="primary"
-          onClick={() => {
-            dispatch({
-              type: 'interfaceList/setEdit',
-              payload: {
-                edit: undefined,
-                visible: true,
-                editType: 1,
-              },
-            });
-          }}
-        >
-          <PlusOutlined /> 新建
-        </Button>
-      </MyAccess>
+      {/* <MyAccess aKey="monitor:interface-list:add"> */}
+      <Button
+        size="small"
+        type="primary"
+        onClick={() => {
+          dispatch({
+            type: 'dfcReconciliationLink/setEdit',
+            payload: {
+              edit: undefined,
+              visible: true,
+              editType: 1,
+            },
+          });
+        }}
+      >
+        <PlusOutlined /> 新建
+      </Button>
+      {/* </MyAccess> */}
       <ModalForm
         title={`${getModel(editType)}接口配置`}
         width="800px"
@@ -118,89 +138,82 @@ export default function AddModalForm() {
           }
         }}
       >
-        <ProFormRadio.Group
-          rules={[{ required: true, message: '请选择平均时效基数确认类型' }]}
-          initialValue={false}
-          label="平均时效基数确认类型"
-          width="md"
-          name="baseType"
-          options={BASETYPE_OPTIONS}
-        />
-        {baseType ? (
-          <ProForm.Group>
-            <ProFormDigit
-              label="上月事件结束平均基数值（秒）"
-              width="md"
-              min={0}
-              rules={[{ required: true, message: '' }]}
-              disabled={eidtFlag}
-              name="lastMonthEventFinishAverageBaseValue"
-            />
-            <ProFormDigit
-              label="上月纯接口时效平均基数值(毫秒)"
-              width="md"
-              min={0}
-              rules={[{ required: true, message: '' }]}
-              disabled={eidtFlag}
-              name="lastMonthIntfAgingAverageBaseValue"
-            />
-            <ProFormDigit
-              label="上月整体成功率平均基数值"
-              width="md"
-              min={0}
-              rules={[{ required: true, message: '' }]}
-              disabled={eidtFlag}
-              name="lastMonthOverallSuccessAverageBaseValue"
-            />
-          </ProForm.Group>
-        ) : (
-          <ProForm.Group>
-            <ProFormDigit
-              label="事件结束平均基数值（秒）"
-              width="md"
-              min={0}
-              rules={[{ required: true, message: '请输入事件结束平均基数值（秒）' }]}
-              name="eventFinishAverageBaseValue"
-            />
-            <ProFormDigit
-              label="纯接口时效平均基数值(毫秒)"
-              width="md"
-              min={0}
-              rules={[{ required: true, message: '请输入纯接口时效平均基数值（毫秒）' }]}
-              name="intfAgingAverageBaseValue"
-            />
-            <ProFormDigit
-              label="整体成功率平均基数值"
-              width="md"
-              min={0}
-              rules={[{ required: true, message: '整体成功率平均基数值' }]}
-              name="overallSuccessAverageBaseValue"
-            />
-          </ProForm.Group>
-        )}
         <ProForm.Group>
           <ProFormText
-            label="接口标识"
-            rules={[{ required: true, message: '请输入接口标识' }]}
-            width="md"
-            name="intfTag"
-            disabled={eidtFlag}
+            label="数据源名称"
+            rules={[{ required: true, message: '请输入数据源名称' }]}
+            width="sm"
+            name="sourceName"
           />
-          <ProFormDigit
-            label="排序"
-            rules={[{ required: true, message: '请输入接口标识' }]}
-            width="md"
-            min={0}
-            name="sort"
+          <ProFormText
+            label="数据源IP"
+            rules={[{ required: true, message: '请输入数据源IP' }]}
+            width="sm"
+            name="sourceIp"
           />
+          <ProFormText
+            label="数据源端口"
+            rules={[{ required: true, message: '请输入数据源端口' }]}
+            width="sm"
+            name="sourcePort"
+          />
+          <ProFormText
+            label="数据库名称"
+            rules={[{ required: true, message: '请输入数据库名称' }]}
+            width="sm"
+            name="sourceDbName"
+          />
+          <ProFormText
+            label="数据源用户名"
+            rules={[{ required: true, message: '请输入数据源用户名' }]}
+            width="sm"
+            name="sourceUserName"
+          />
+          <ProFormText
+            label="数据源密码"
+            rules={[{ required: true, message: '请输入数据源密码' }]}
+            width="sm"
+            name="sourcePwd"
+          />
+          <ProFormSelect
+            rules={[{ required: true, message: '请选择数据源类型' }]}
+            label="数据源类型"
+            width="sm"
+            name="sourceType"
+            options={DB_OPTIONS}
+          />
+          <ProFormSelect
+            rules={[{ required: true, message: '请选择数据源系统' }]}
+            label="数据源系统"
+            width="sm"
+            name="sourceSystem"
+            options={SYS_OPTIONS}
+          />
+          <ProFormRadio.Group
+            rules={[{ required: true, message: '请选择是否原始系统' }]}
+            initialValue={false}
+            label="是否原始系统"
+            width="sm"
+            name="sourceFlag"
+            options={YESORNO_OPTIONS}
+          />
+          <ProFormText
+            label="视图名"
+            rules={[{ required: true, message: '请输入视图名' }]}
+            width="sm"
+            name="viewName"
+          />
+          <ProFormRadio.Group
+            name="freeze"
+            label="状态"
+            initialValue={0}
+            options={[
+              { label: '正常', value: 0 },
+              { label: '冻结', value: 1 },
+            ]}
+          />
+          <ProFormTextArea width="xl" name="remark" label="备注" placeholder="请输入备注" />
         </ProForm.Group>
-        <ProFormTextArea
-          label="接口描述"
-          rules={[{ required: true, message: '请输入接口描述' }]}
-          width="xl"
-          name="intfDescription"
-          disabled={eidtFlag}
-        />
       </ModalForm>
     </>
   );
