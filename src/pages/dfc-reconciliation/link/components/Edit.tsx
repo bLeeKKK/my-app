@@ -7,8 +7,8 @@ import {
   ProForm,
   ProFormSelect,
 } from '@ant-design/pro-form';
-import { save, edit } from '../service';
-import type { ParamsType } from '../service';
+import { save, edit as update } from '../service';
+import type { ParamsType } from '../data.d';
 import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
 import { useUpdateEffect } from 'ahooks';
@@ -16,6 +16,12 @@ import { getModel } from '@/utils';
 // import MyAccess from '@/components/MyAccess';
 
 // const { useWatch } = Form;
+
+export const FREEZE_OPTIONS = [
+  { value: true, label: '是' },
+  { value: false, label: '否' },
+];
+
 export const YESORNO_OPTIONS = [
   { value: true, label: '是' },
   { value: false, label: '否' },
@@ -53,7 +59,7 @@ const handleAdd = async (data: ParamsType) => {
 const handleUpdate = async (data: ParamsType) => {
   const hide = message.loading('正在修改');
   try {
-    await edit(data);
+    await update(data);
     hide();
     message.success('添加成功');
     return true;
@@ -65,12 +71,9 @@ const handleUpdate = async (data: ParamsType) => {
 };
 
 export default function AddModalForm() {
-  const {
-    actionRef,
-    visible,
-    editType,
-    // edit
-  } = useSelector((state: any) => state.dfcReconciliationLink);
+  const { actionRef, visible, editType, edit } = useSelector(
+    (state: any) => state.dfcReconciliationLink,
+  );
   const [form] = Form.useForm();
   // const baseType = useWatch('baseType', form);
   // const eidtFlag = editType === 2 && edit;
@@ -129,7 +132,9 @@ export default function AddModalForm() {
           let flag = false;
           if (edit?.id) {
             flag = await handleUpdate({ ...edit, ...value });
-          } else flag = await handleAdd(value as ParamsType);
+          } else {
+            flag = await handleAdd(value);
+          }
           if (flag) {
             closeModal();
             if (actionRef?.current) {
@@ -207,10 +212,7 @@ export default function AddModalForm() {
             name="freeze"
             label="状态"
             initialValue={0}
-            options={[
-              { label: '正常', value: 0 },
-              { label: '冻结', value: 1 },
-            ]}
+            options={FREEZE_OPTIONS}
           />
           <ProFormTextArea width="xl" name="remark" label="备注" placeholder="请输入备注" />
         </ProForm.Group>
