@@ -52,5 +52,6 @@ export default {
 
   'menu.dfc-reconciliation': 'DFC对账',
   'menu.dfc-reconciliation.link': '创建链接',
-  'menu.dfc-reconciliation.config': '数据配置',
+  'menu.dfc-reconciliation.connection': '联系配置',
+  'menu.dfc-reconciliation.link-connection': '联系关联',
 };

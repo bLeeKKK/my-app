@@ -269,6 +269,18 @@ export default [
         component: './dfc-reconciliation/link',
         wrappers: ['@/wrappers/withKeepLive'],
       },
+      {
+        path: '/dfc-reconciliation/connection',
+        name: 'connection',
+        component: './dfc-reconciliation/connection',
+        wrappers: ['@/wrappers/withKeepLive'],
+      },
+      {
+        path: '/dfc-reconciliation/link-connection',
+        name: 'link-connection',
+        component: './dfc-reconciliation/link-connection',
+        wrappers: ['@/wrappers/withKeepLive'],
+      },
     ],
   },
   {

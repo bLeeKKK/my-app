@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { Empty } from 'antd';
 import style from './style.less';
 import { ProCard } from '@ant-design/pro-components';
-import type { ShowDataType } from './data.d';
 import ListBox from './components/List';
-import ShowContent from './components/ShowContent';
+import AddModalForm from './components/Edit';
 
-export default function Link() {
-  const [select, setSelect] = useState<ShowDataType | undefined>();
+const Connection = () => {
+  const [select, setSelect] = useState<any>();
+  console.log(select);
 
   return (
     <ProCard direction="column" bodyStyle={{ padding: 0 }} ghost gutter={[0, 16]}>
@@ -16,20 +15,16 @@ export default function Link() {
           colSpan="300px"
           bodyStyle={{ padding: 0 }}
           style={{ height: 800, overflowY: 'scroll' }}
-          className={style['link-list']}
+          className={style['connection-list']}
         >
-          <ListBox select={select} setSelect={setSelect} />
+          <ListBox setSelect={setSelect} select={select} />
         </ProCard>
         <ProCard style={{ height: 800, overflowY: 'scroll' }}>
-          {select ? (
-            <ShowContent data={select} />
-          ) : (
-            <div className={style.empty}>
-              <Empty />
-            </div>
-          )}
+          <AddModalForm select={select} />
         </ProCard>
       </ProCard>
     </ProCard>
   );
-}
+};
+
+export default Connection;

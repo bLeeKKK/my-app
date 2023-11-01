@@ -4,9 +4,8 @@ import { useRequest } from 'umi';
 import style from '../style.less';
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Space, List } from 'antd';
-import AddModalForm from './Edit';
 import type { ShowDataType } from '../data.d';
-import { list } from '../service';
+import { findByPage } from '../service';
 
 const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
   <Space className={style['item-btn']} onClick={(e) => e.stopPropagation()}>
@@ -22,23 +21,23 @@ const ListBox = ({
   select: ShowDataType | undefined;
   setSelect: Dispatch<SetStateAction<ShowDataType | undefined>>;
 }) => {
-  const { data, loading, run } = useRequest<{ data: ShowDataType[] }>(() => list({}), {});
+  const { data, loading, run } = useRequest<{ data: any }>(() => findByPage({ size: 100000 }), {});
+  const arr = data?.records;
 
   return (
-    <List<ShowDataType>
+    <List<any>
       loading={loading}
       header={
         <div className={style.header}>
           <span>链接列表</span>
           <span>
             <ReloadOutlined onClick={run} className={style.reload} />
-            <AddModalForm />
           </span>
         </div>
       }
       itemLayout="vertical"
       size="small"
-      dataSource={data}
+      dataSource={arr}
       renderItem={(item) => (
         <List.Item
           onClick={() =>
@@ -59,8 +58,8 @@ const ListBox = ({
           <List.Item.Meta
             // avatar={<Avatar src={item.avatar} />}
             // title={<a href={item.sourceIp}>{item.sourceName}</a>}
-            title={item.sourceName}
-            description={item.remark}
+            title={item.modelName}
+            description={`${item.primaryEntityName}-${item.subEntityName}`}
           />
         </List.Item>
       )}
