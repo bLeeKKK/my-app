@@ -5,7 +5,7 @@ import { SaveOutlined, PlusCircleOutlined, DeleteOutlined } from '@ant-design/ic
 import { message, Modal } from 'antd';
 import type { NsGraphCmd, NsNodeCmd } from '@antv/xflow';
 import { ProFormSelect } from '@ant-design/pro-components';
-import { findByPage } from '../service.ts';
+import { list } from '../service.ts';
 
 const portAttrs = {
   circle: {
@@ -45,9 +45,9 @@ namespace NsConfig {
               <ProFormSelect
                 label="选择配置"
                 request={async () => {
-                  const { data } = await findByPage({ size: 10000 });
-                  return data?.records?.map((item) => ({
-                    label: item.modelName,
+                  const { data } = await list({});
+                  return data?.map((item) => ({
+                    label: item.sourceName,
                     value: item.id,
                   }));
                 }}
@@ -63,10 +63,9 @@ namespace NsConfig {
               message.warning('没有选择配置');
               return;
             }
-            const nodeName = `Node-${id}`;
             commandService.executeCommand<NsNodeCmd.AddNode.IArgs>(XFlowNodeCommands.ADD_NODE.id, {
               nodeConfig: {
-                id: nodeName,
+                id: value,
                 label: label,
                 x: 100 + id * 5,
                 y: 50 + id * 5,

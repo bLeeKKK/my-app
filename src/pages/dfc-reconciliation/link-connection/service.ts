@@ -8,3 +8,10 @@ export async function findByPage(data: any): Promise<{ data: any[] }> {
     params: data,
   });
 }
+
+export async function list(data: any): Promise<{ data: any }> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/dfcdzDataSourceConfig/list`, {
+    method: 'POST',
+    data,
+  });
+}
