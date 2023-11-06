@@ -6,7 +6,6 @@ import { ProFormDependency } from '@ant-design/pro-components';
 import { save, edit as update } from '../service';
 import { list as linkList } from '../../link/service';
 import type { ShowDataType } from '../../link/data.d';
-import type { ParamsType } from '../data.d';
 import { useRequest } from 'umi';
 
 export const FREEZE_OPTIONS = [
@@ -34,18 +33,19 @@ export const DB_OPTIONS = [
   { value: 'SqlServer', label: 'SqlServer' },
 ];
 
-const handleEdit = async (data: any) => {
+const handleEdit = async (params: any) => {
   const hide = message.loading('正在保存');
   try {
-    if (data.id) {
-      await update(data);
+    let res = null;
+    if (params.id) {
+      res = await update(params);
     } else {
-      await save(data);
+      res = await save(params);
     }
 
     hide();
     message.success('保存成功');
-    return true;
+    return res;
   } catch (error) {
     hide();
     message.warn('添加失败请重试！');
@@ -302,7 +302,7 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
   );
 };
 
-export default function AddModalForm({ select }: { select: any }) {
+export default function AddModalForm({ select, setSelect, listRef }: any) {
   const { data } = useRequest<{ data: ShowDataType[] }>(() => linkList({}), {});
   const arr = (data || []).map((item: ShowDataType) => ({
     ...item,
@@ -388,7 +388,7 @@ export default function AddModalForm({ select }: { select: any }) {
                     height: '60px',
                     width: '100%',
                     display: 'flex',
-                    justifyContent: 'end',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
                     top: 0,
                     left: 0,
@@ -396,11 +396,19 @@ export default function AddModalForm({ select }: { select: any }) {
                     borderBottom: '1px solid #D9D9D9',
                   }}
                 >
-                  {dom.map((btn) => (
-                    <div key={btn.key} style={{ marginRight: '8px' }}>
-                      {btn}
-                    </div>
-                  ))}
+                  <div style={{ fontSize: '16px' }}>
+                    {select?.modelName}
+                    <span style={{ paddingLeft: '8px', color: '#666', fontSize: '14px' }}>
+                      {select ? '编辑' : '新增'}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex' }}>
+                    {dom.map((btn) => (
+                      <div key={btn.key} style={{ marginRight: '8px' }}>
+                        {btn}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </>
             );
@@ -457,7 +465,7 @@ export default function AddModalForm({ select }: { select: any }) {
             );
           });
           const params: any = {
-            id: select.id,
+            id: select?.id,
             modelName: values.modelName,
             primaryEntityId: values.primaryEntityObj?.id,
             primaryEntityName: values.primaryEntityObj?.label,
@@ -470,7 +478,9 @@ export default function AddModalForm({ select }: { select: any }) {
           };
 
           try {
-            await handleEdit(params);
+            const { data: resData } = await handleEdit(params);
+            setSelect(resData);
+            listRef.current?.run();
           } catch (error: any) {
             message.error(error.message);
           }
