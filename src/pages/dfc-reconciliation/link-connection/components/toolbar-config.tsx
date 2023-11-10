@@ -1,11 +1,17 @@
 import type { IToolbarItemOptions } from '@antv/xflow';
 import { createToolbarConfig } from '@antv/xflow';
-import { XFlowGraphCommands, XFlowNodeCommands, IconStore } from '@antv/xflow';
-import { SaveOutlined, PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { MODELS, XFlowGraphCommands, XFlowNodeCommands, IconStore} from '@antv/xflow';
+import {
+  ArrowLeftOutlined,
+  SaveOutlined,
+  PlusCircleOutlined,
+  DeleteOutlined,
+} from '@ant-design/icons';
+import { useHistory } from 'umi';
 import { message, Modal } from 'antd';
 import type { NsGraphCmd, NsNodeCmd } from '@antv/xflow';
 import { ProFormSelect } from '@ant-design/pro-components';
-import { list } from '../service.ts';
+import { listSource } from '../service';
 
 const portAttrs = {
   circle: {
@@ -23,10 +29,11 @@ namespace NsConfig {
   IconStore.set('PlusCircleOutlined', PlusCircleOutlined);
   IconStore.set('DeleteOutlined', DeleteOutlined);
   IconStore.set('SaveOutlined', SaveOutlined);
+  IconStore.set('ArrowLeftOutlined', ArrowLeftOutlined);
   /** nodeId */
   let id = 1;
   /** 获取toobar配置项 */
-  export const getToolbarItems = async () => {
+  export const getToolbarItems = async ({ history, ...rest }: any) => {
     const toolbarGroup1: IToolbarItemOptions[] = [];
     const toolbarGroup2: IToolbarItemOptions[] = [];
     /** 保存数据 */
@@ -45,7 +52,7 @@ namespace NsConfig {
               <ProFormSelect
                 label="选择配置"
                 request={async () => {
-                  const { data } = await list({});
+                  const { data } = await listSource({});
                   return data?.map((item) => ({
                     label: item.sourceName,
                     value: item.id,
@@ -107,43 +114,57 @@ namespace NsConfig {
         });
       },
     });
-    // toolbarGroup1.push({
-    //   id: XFlowNodeCommands.MOVE_NODE.id,
-    //   iconName: 'DeleteOutlined',
-    //   tooltip: '删除节点',
-    //   isEnabled: false,
-    // });
 
     /** 保存数据 */
-    toolbarGroup2.push({
-      id: XFlowGraphCommands.SAVE_GRAPH_DATA.id,
-      iconName: 'SaveOutlined',
-      tooltip: '保存数据',
-      onClick: async ({ commandService }) => {
-        commandService.executeCommand<NsGraphCmd.SaveGraphData.IArgs>(
-          XFlowGraphCommands.SAVE_GRAPH_DATA.id,
-          {
-            saveGraphDataService: async (meta, data) => {
-              console.log(data);
-              message.success('nodes count:' + data.nodes.length);
+    toolbarGroup2.push(
+      {
+        id: XFlowGraphCommands.SAVE_GRAPH_DATA.id,
+        iconName: 'SaveOutlined',
+        tooltip: '保存数据',
+        onClick: async ({ commandService }, ...d) => {
+          commandService.executeCommand<NsGraphCmd.SaveGraphData.IArgs>(
+            XFlowGraphCommands.SAVE_GRAPH_DATA.id,
+            {
+              saveGraphDataService: async (meta, data) => {
+                console.log(data, meta, rest);
+                // message.success('nodes count:' + data.nodes.length);
+                // history.goBack();
+              },
             },
-          },
-        );
+          );
+        },
       },
-    });
+      {
+        id: XFlowGraphCommands.SAVE_GRAPH_DATA.id,
+        iconName: 'ArrowLeftOutlined',
+        tooltip: '返回',
+        onClick: async () => {
+          history.goBack();
+        },
+      },
+    );
 
     return [
       { name: 'nodeGroup', items: toolbarGroup1 },
-      { name: 'graphGroup', items: toolbarGroup2 },
+      // { name: 'graphGroup', items: toolbarGroup2 },
     ];
+  };
+
+  /** 获取toolbar依赖的状态 */
+  export const getToolbarState = async (modelService: any) => {
+    const nodes = await MODELS.SELECTED_NODES.useValue(modelService);
+    return {
+      isNodeSelected: nodes.length > 0,
+    };
   };
 }
 
 /** wrap出一个hook */
 export const useToolbarConfig = createToolbarConfig((toolbarConfig) => {
+  const history = useHistory();
   /** 生产 toolbar item */
   toolbarConfig.setToolbarModelService(async (toolbarModel) => {
-    const toolbarItems = await NsConfig.getToolbarItems();
+    const toolbarItems = await NsConfig.getToolbarItems({ history });
     toolbarModel.setValue((toolbar) => {
       toolbar.mainGroups = toolbarItems;
     });

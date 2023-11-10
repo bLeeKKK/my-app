@@ -55,9 +55,9 @@ export namespace NsCustomMenuItems {
   };
 }
 
-export const useMenuConfig = createCtxMenuConfig((config) => {
-  config.setMenuModelService(async (data, model, modelService, toDispose) => {
-    const { type, cell } = data;
+export const useMenuConfig = createCtxMenuConfig((config, edit) => {
+  config.setMenuModelService(async (data, model) => {
+    const { type } = data;
     console.log(type);
     switch (type) {
       case 'node':

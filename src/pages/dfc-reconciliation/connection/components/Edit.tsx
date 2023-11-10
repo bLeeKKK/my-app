@@ -292,6 +292,20 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                       }))}
                     />
                   </>
+                  <ProFormSelect
+                    name={['sub', 'linkSymbol']}
+                    placeholder="或与"
+                    options={[
+                      {
+                        label: 'and',
+                        value: 'and',
+                      },
+                      {
+                        label: 'or',
+                        value: 'or',
+                      },
+                    ]}
+                  />
                 </Input.Group>
               </>
             );

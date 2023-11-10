@@ -22,15 +22,15 @@ export default [
   // {
   //   path: 'base-config-list',
   //   name: 'base-config-list',
-  //   icon: 'book',
+  //   icon: 'form',
   //   access: 'base-config-list',
   //   routes: [
   //     {
   //       path: '/base-config-list/dictionary-list',
   //       name: 'dictionary-list',
-  //       access: 'base-config-list:dictionary-list',
+  //       // access: 'base-config-list:dictionary-list',
   //       component: './base-config-list/dictionary-list',
-  //       lazyLoad: true,
+  //       // lazyLoad: true,
   //       wrappers: ['@/wrappers/withKeepLive'],
   //     },
   //   ],
@@ -278,8 +278,21 @@ export default [
       {
         path: '/dfc-reconciliation/link-connection',
         name: 'link-connection',
-        component: './dfc-reconciliation/link-connection',
-        wrappers: ['@/wrappers/withKeepLive'],
+        hideChildrenInMenu: true,
+        routes: [
+          {
+            path: '/dfc-reconciliation/link-connection',
+            name: 'link-connection',
+            component: './dfc-reconciliation/link-connection',
+            exact: true,
+            wrappers: ['@/wrappers/withKeepLive'],
+          },
+          {
+            path: '/dfc-reconciliation/link-connection/link-canvas',
+            name: 'link-canvas',
+            component: './dfc-reconciliation/link-connection/components/LinkCanvas',
+          },
+        ],
       },
     ],
   },
