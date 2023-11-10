@@ -293,6 +293,16 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                     />
                   </>
                   <ProFormSelect
+                    name={['sub', 'aggCondition']}
+                    placeholder="比较"
+                    options={[
+                      {
+                        label: '求和',
+                        value: 'sum',
+                      },
+                    ]}
+                  />
+                  <ProFormSelect
                     name={['sub', 'linkSymbol']}
                     placeholder="或与"
                     options={[
