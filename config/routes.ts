@@ -294,6 +294,12 @@ export default [
           },
         ],
       },
+      {
+        path: '/dfc-reconciliation/show-list',
+        name: 'show-list',
+        component: './dfc-reconciliation/show-list',
+        wrappers: ['@/wrappers/withKeepLive'],
+      },
     ],
   },
   {
