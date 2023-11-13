@@ -62,6 +62,9 @@ const FilterLinkForm = ({
   formRef: any;
   linkListArr: any;
 }) => {
+  // const list = Form.useWatch(`${name}List`, formRef.current);
+  // console.log(list);
+
   return (
     <>
       <ProFormSelect
@@ -69,6 +72,7 @@ const FilterLinkForm = ({
         label="数据系统"
         name={`${name}Obj`}
         options={linkListArr}
+        rules={[{ required: true, message: '请选择字段' }]}
         onChange={() => {
           formRef?.current?.setFieldsValue({
             [name]: [{}],
@@ -77,64 +81,78 @@ const FilterLinkForm = ({
         }}
       />
       <ProFormList initialValue={[{}]} name={`${name}List`} label="数据筛选" min={1}>
-        <ProFormDependency name={[`${name}Obj`]} ignoreFormListField>
-          {(formData) => {
-            const diffId = formData[`${name}Obj`]?.id;
-            const fieldArr =
-              linkListArr.find((item: any) => item.value === diffId)?.businessEntityList || [];
-            return (
-              <>
-                <Input.Group compact>
+        {(_, index) => {
+          return (
+            <ProFormDependency name={[`${name}Obj`, `${name}List`]} ignoreFormListField>
+              {(formData) => {
+                const list = formData[`${name}List`];
+                const diffId = formData[`${name}Obj`]?.id;
+                const fieldArr =
+                  linkListArr.find((item: any) => item.value === diffId)?.businessEntityList || [];
+                return (
                   <>
-                    <ProFormSelect
-                      fieldProps={{ labelInValue: true }}
-                      name={`field`}
-                      placeholder="字段"
-                      options={fieldArr.map((item: any) => ({
-                        ...item,
-                        value: item.fieldDesc,
-                        lable: item.fieldDesc,
-                      }))}
-                    />
-                    <ProFormSelect
-                      name={['field', `symbol`]}
-                      placeholder="<,>,="
-                      options={[
-                        {
-                          value: '=',
-                          label: '=',
-                        },
-                        {
-                          value: '<',
-                          label: '<',
-                        },
-                        {
-                          value: '>',
-                          label: '>',
-                        },
-                      ]}
-                    />
-                    <ProFormText name={['field', `fieldValue`]} placeholder="值" />
-                    <ProFormSelect
-                      name={['field', `linkSymbol`]}
-                      placeholder="或与"
-                      options={[
-                        {
-                          label: 'and',
-                          value: 'and',
-                        },
-                        {
-                          label: 'or',
-                          value: 'or',
-                        },
-                      ]}
-                    />
+                    <Input.Group compact>
+                      <>
+                        <ProFormSelect
+                          fieldProps={{ labelInValue: true }}
+                          name={`field`}
+                          placeholder="字段"
+                          rules={[{ required: true, message: '请选择字段' }]}
+                          options={fieldArr.map((item: any) => ({
+                            ...item,
+                            value: item.fieldDesc,
+                            lable: item.fieldDesc,
+                          }))}
+                        />
+                        <ProFormSelect
+                          name={['field', `symbol`]}
+                          placeholder="<,>,="
+                          rules={[{ required: true, message: '请选择字段' }]}
+                          options={[
+                            {
+                              value: '=',
+                              label: '=',
+                            },
+                            {
+                              value: '<',
+                              label: '<',
+                            },
+                            {
+                              value: '>',
+                              label: '>',
+                            },
+                          ]}
+                        />
+                        <ProFormText
+                          rules={[{ required: true, message: '请输入字段' }]}
+                          name={['field', `fieldValue`]}
+                          placeholder="值"
+                        />
+                        {index < list.length - 1 && (
+                          <ProFormSelect
+                            rules={[{ required: true, message: '请输入字段' }]}
+                            name={['field', `linkSymbol`]}
+                            placeholder="或与"
+                            options={[
+                              {
+                                label: 'and',
+                                value: 'and',
+                              },
+                              {
+                                label: 'or',
+                                value: 'or',
+                              },
+                            ]}
+                          />
+                        )}
+                      </>
+                    </Input.Group>
                   </>
-                </Input.Group>
-              </>
-            );
-          }}
-        </ProFormDependency>
+                );
+              }}
+            </ProFormDependency>
+          );
+        }}
       </ProFormList>
     </>
   );
@@ -151,78 +169,89 @@ const ConentForm = ({ linkListArr }: { linkListArr: any }) => {
         initialValue={[{}]}
         min={1}
       >
-        <ProFormDependency name={['primaryEntityObj', 'subEntityObj']} ignoreFormListField>
-          {({ primaryEntityObj, subEntityObj }) => {
-            const fieldsPrimaryEntity =
-              linkListArr.find((item: any) => item.value === primaryEntityObj?.id)
-                ?.businessEntityList || [];
+        {(_, index) => (
+          <ProFormDependency
+            name={['conent', 'primaryEntityObj', 'subEntityObj']}
+            ignoreFormListField
+          >
+            {({ primaryEntityObj, subEntityObj, conent }) => {
+              const fieldsPrimaryEntity =
+                linkListArr.find((item: any) => item.value === primaryEntityObj?.id)
+                  ?.businessEntityList || [];
 
-            const fieldssubEntity =
-              linkListArr.find((item: any) => item.value === subEntityObj?.id)
-                ?.businessEntityList || [];
+              const fieldssubEntity =
+                linkListArr.find((item: any) => item.value === subEntityObj?.id)
+                  ?.businessEntityList || [];
 
-            return (
-              <>
-                <Input.Group compact>
-                  <>
-                    <ProFormSelect
-                      fieldProps={{ labelInValue: true }}
-                      name={`primary`}
-                      placeholder="主字段"
-                      options={fieldsPrimaryEntity.map((item: any) => ({
-                        ...item,
-                        value: item.fieldDesc,
-                        lable: item.fieldDesc,
-                      }))}
-                    />
-                    <ProFormSelect
-                      name={[`primary`, 'symbol']}
-                      placeholder="<,>,="
-                      options={[
-                        {
-                          value: '=',
-                          label: '=',
-                        },
-                        {
-                          value: '<',
-                          label: '<',
-                        },
-                        {
-                          value: '>',
-                          label: '>',
-                        },
-                      ]}
-                    />
-                    <ProFormSelect
-                      name={`sub`}
-                      fieldProps={{ labelInValue: true }}
-                      placeholder="对比字段"
-                      options={fieldssubEntity.map((item: any) => ({
-                        ...item,
-                        value: item.fieldDesc,
-                        lable: item.fieldName,
-                      }))}
-                    />
-                    <ProFormSelect
-                      name={['sub', 'linkSymbol']}
-                      placeholder="或与"
-                      options={[
-                        {
-                          label: 'and',
-                          value: 'and',
-                        },
-                        {
-                          label: 'or',
-                          value: 'or',
-                        },
-                      ]}
-                    />
-                  </>
-                </Input.Group>
-              </>
-            );
-          }}
-        </ProFormDependency>
+              return (
+                <>
+                  <Input.Group compact>
+                    <>
+                      <ProFormSelect
+                        fieldProps={{ labelInValue: true }}
+                        name={`primary`}
+                        placeholder="主字段"
+                        rules={[{ required: true, message: '请选择字段' }]}
+                        options={fieldsPrimaryEntity.map((item: any) => ({
+                          ...item,
+                          value: item.fieldDesc,
+                          lable: item.fieldDesc,
+                        }))}
+                      />
+                      <ProFormSelect
+                        rules={[{ required: true, message: '请选择字段' }]}
+                        name={[`primary`, 'symbol']}
+                        placeholder="<,>,="
+                        options={[
+                          {
+                            value: '=',
+                            label: '=',
+                          },
+                          {
+                            value: '<',
+                            label: '<',
+                          },
+                          {
+                            value: '>',
+                            label: '>',
+                          },
+                        ]}
+                      />
+                      <ProFormSelect
+                        rules={[{ required: true, message: '请选择字段' }]}
+                        name={`sub`}
+                        fieldProps={{ labelInValue: true }}
+                        placeholder="对比字段"
+                        options={fieldssubEntity.map((item: any) => ({
+                          ...item,
+                          value: item.fieldDesc,
+                          lable: item.fieldName,
+                        }))}
+                      />
+                      {index < conent.length - 1 && (
+                        <ProFormSelect
+                          rules={[{ required: true, message: '请选择字段' }]}
+                          name={['sub', 'linkSymbol']}
+                          placeholder="或与"
+                          options={[
+                            {
+                              label: 'and',
+                              value: 'and',
+                            },
+                            {
+                              label: 'or',
+                              value: 'or',
+                            },
+                          ]}
+                        />
+                      )}
+                    </>
+                  </Input.Group>
+                </>
+              );
+            }}
+          </ProFormDependency>
+        )}
       </ProFormList>
     </>
   );
@@ -239,21 +268,25 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
         initialValue={[{}]}
         min={1}
       >
-        <ProFormDependency name={['primaryEntityObj', 'subEntityObj']} ignoreFormListField>
-          {({ primaryEntityObj, subEntityObj }) => {
-            const fieldsPrimaryEntity =
-              linkListArr.find((item: any) => item.value === primaryEntityObj?.id)
-                ?.businessEntityList || [];
+        {(_, index) => (
+          <ProFormDependency
+            name={['contra', 'primaryEntityObj', 'subEntityObj']}
+            ignoreFormListField
+          >
+            {({ primaryEntityObj, subEntityObj, contra }) => {
+              const fieldsPrimaryEntity =
+                linkListArr.find((item: any) => item.value === primaryEntityObj?.id)
+                  ?.businessEntityList || [];
 
-            const fieldssubEntity =
-              linkListArr.find((item: any) => item.value === subEntityObj?.id)
-                ?.businessEntityList || [];
+              const fieldssubEntity =
+                linkListArr.find((item: any) => item.value === subEntityObj?.id)
+                  ?.businessEntityList || [];
 
-            return (
-              <>
-                <Input.Group compact>
-                  <>
+              return (
+                <>
+                  <Input.Group compact>
                     <ProFormSelect
+                      rules={[{ required: true, message: '请选择字段' }]}
                       fieldProps={{ labelInValue: true }}
                       name={`primary`}
                       placeholder="主字段"
@@ -264,6 +297,7 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                       }))}
                     />
                     <ProFormSelect
+                      rules={[{ required: true, message: '请选择字段' }]}
                       name={[`primary`, 'symbol']}
                       placeholder="<,>,="
                       options={[
@@ -282,6 +316,7 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                       ]}
                     />
                     <ProFormSelect
+                      rules={[{ required: true, message: '请选择字段' }]}
                       name={`sub`}
                       fieldProps={{ labelInValue: true }}
                       placeholder="对比字段"
@@ -291,36 +326,40 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                         lable: item.fieldName,
                       }))}
                     />
-                  </>
-                  <ProFormSelect
-                    name={['sub', 'aggCondition']}
-                    placeholder="比较"
-                    options={[
-                      {
-                        label: '求和',
-                        value: 'sum',
-                      },
-                    ]}
-                  />
-                  <ProFormSelect
-                    name={['sub', 'linkSymbol']}
-                    placeholder="或与"
-                    options={[
-                      {
-                        label: 'and',
-                        value: 'and',
-                      },
-                      {
-                        label: 'or',
-                        value: 'or',
-                      },
-                    ]}
-                  />
-                </Input.Group>
-              </>
-            );
-          }}
-        </ProFormDependency>
+                    <ProFormSelect
+                      rules={[{ required: true, message: '请选择字段' }]}
+                      name={['sub', 'aggCondition']}
+                      placeholder="比较"
+                      options={[
+                        {
+                          label: '求和',
+                          value: 'sum',
+                        },
+                      ]}
+                    />
+                    {index < contra.length - 1 && (
+                      <ProFormSelect
+                        rules={[{ required: true, message: '请选择字段' }]}
+                        name={['sub', 'linkSymbol']}
+                        placeholder="或与"
+                        options={[
+                          {
+                            label: 'and',
+                            value: 'and',
+                          },
+                          {
+                            label: 'or',
+                            value: 'or',
+                          },
+                        ]}
+                      />
+                    )}
+                  </Input.Group>
+                </>
+              );
+            }}
+          </ProFormDependency>
+        )}
       </ProFormList>
     </>
   );
@@ -393,7 +432,6 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
         sub: contraObj[item][1],
       })),
     };
-    console.log(formData);
 
     formRef.current?.setFieldsValue(formData);
   }, [select]);
@@ -502,8 +540,8 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
           };
 
           try {
-            const { data: resData } = await handleEdit(params);
-            setSelect(resData);
+            const { data: resData, success }: any = await handleEdit(params);
+            if (success) setSelect(resData);
             listRef.current?.run();
           } catch (error: any) {
             message.error(error.message);
