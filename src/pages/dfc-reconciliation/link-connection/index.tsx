@@ -11,6 +11,7 @@ import {
   GroupOutlined,
   CheckSquareOutlined,
   CloseSquareOutlined,
+  SendOutlined,
 } from '@ant-design/icons';
 import IconBox from '@/components/IconBox';
 // import MyAccess from '@/components/MyAccess';
@@ -113,10 +114,27 @@ const TableList: React.FC = () => {
           icon={GroupOutlined}
           text="配置流程"
         />,
+        <IconBox
+          key="config"
+          timeOutClose={2000}
+          onClick={() =>
+            dispatch({
+              type: 'linkConnection/execute',
+              payload: {
+                flowId: record?.id,
+              },
+              callback: () => {
+                actionRef.current?.reload();
+              },
+            })
+          }
+          icon={SendOutlined}
+          text="执行"
+        />,
       ],
     },
+    { title: '状态', dataIndex: 'status', valueEnum: columnsEnum, fixed: true, width: 100 },
     { title: '对账流程名称', dataIndex: 'name', width: 200 },
-    { title: '是否成功', dataIndex: 'status', valueEnum: columnsEnum, fixed: true, width: 100 },
     {
       title: '对账类型',
       dataIndex: 'dzType',

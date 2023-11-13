@@ -1,6 +1,6 @@
 import React from 'react';
 import { message } from 'antd';
-import { updateStatus } from './service';
+import { updateStatus, execute } from './service';
 
 const linkConnection = {
   namespace: 'linkConnection',
@@ -24,6 +24,19 @@ const linkConnection = {
     },
   },
   effects: {
+    *execute({ payload, callback }: any, { call }: any) {
+      try {
+        const { success, message: msg } = yield call(execute, payload);
+        if (success) {
+          message.success(msg);
+          if (callback) callback();
+        } else {
+          message.error(msg);
+        }
+      } catch (e: any) {
+        message.error(e.message);
+      }
+    },
     *updateStatus({ payload, callback }: any, { call }: any) {
       try {
         const { success, message: msg } = yield call(updateStatus, payload);
