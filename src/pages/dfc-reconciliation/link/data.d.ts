@@ -11,6 +11,7 @@ type ParamsType = {
   sourceUserName: string;
   viewName: string;
   id?: string;
+  createdDate?: string;
 };
 
 type ShowDataType = ParamsType & {

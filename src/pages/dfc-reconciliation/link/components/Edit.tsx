@@ -118,7 +118,7 @@ export default function AddModalForm() {
       </Button>
       {/* </MyAccess> */}
       <ModalForm
-        title={`${getModel(editType)}接口配置`}
+        title={`${getModel(editType)}数据源配置`}
         width="800px"
         visible={visible}
         // formRef={formRef}
@@ -174,7 +174,7 @@ export default function AddModalForm() {
             width="sm"
             name="sourceUserName"
           />
-          <ProFormText
+          <ProFormText.Password
             label="数据源密码"
             rules={[{ required: true, message: '请输入数据源密码' }]}
             width="sm"
@@ -208,12 +208,12 @@ export default function AddModalForm() {
             width="sm"
             name="viewName"
           />
-          <ProFormRadio.Group
-            name="freeze"
-            label="状态"
-            initialValue={0}
-            options={FREEZE_OPTIONS}
-          />
+          {/* <ProFormRadio.Group */}
+          {/*   name="freeze" */}
+          {/*   label="状态" */}
+          {/*   initialValue={0} */}
+          {/*   options={FREEZE_OPTIONS} */}
+          {/* /> */}
           <ProFormTextArea width="xl" name="remark" label="备注" placeholder="请输入备注" />
         </ProForm.Group>
       </ModalForm>

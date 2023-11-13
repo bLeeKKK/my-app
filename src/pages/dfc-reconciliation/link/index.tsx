@@ -22,7 +22,7 @@ export default function Link() {
         </ProCard>
         <ProCard style={{ height: 800, overflowY: 'scroll' }}>
           {select ? (
-            <ShowContent data={select} />
+            <ShowContent data={select} setData={setSelect} />
           ) : (
             <div className={style.empty}>
               <Empty />

@@ -1,19 +1,25 @@
-import React from 'react';
+// import React from 'react';
 import type { SetStateAction, Dispatch } from 'react';
 import { useRequest } from 'umi';
 import style from '../style.less';
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Space, List } from 'antd';
+import {
+  // EditOutlined, DeleteOutlined,
+  ReloadOutlined,
+} from '@ant-design/icons';
+import {
+  // Space,
+  List,
+} from 'antd';
 import AddModalForm from './Edit';
 import type { ShowDataType } from '../data.d';
 import { list } from '../service';
 
-const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-  <Space className={style['item-btn']} onClick={(e) => e.stopPropagation()}>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
+// const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
+//   <Space className={style['item-btn']} onClick={(e) => e.stopPropagation()}>
+//     {React.createElement(icon)}
+//     {text}
+//   </Space>
+// );
 
 const ListBox = ({
   setSelect,
@@ -48,13 +54,13 @@ const ListBox = ({
           }
           className={`${style.item} ${select?.id === item.id ? style['item-selected'] : ''}`}
           key={item.sourceName}
-          actions={[
-            <IconText icon={EditOutlined} text="编辑" key="list-vertical-edit-o" />,
-            <IconText icon={DeleteOutlined} text="删除" key="list-vertical-delete-o" />,
-            // select?.id === item.id ? (
-            //   <IconText icon={ReloadOutlined} text="刷新" key="list-vertical-reload-o" />
-            // ) : null,
-          ]}
+          // actions={[
+          //   <IconText icon={EditOutlined} text="编辑" key="list-vertical-edit-o" />,
+          //   <IconText icon={DeleteOutlined} text="删除" key="list-vertical-delete-o" />,
+          //   // select?.id === item.id ? (
+          //   //   <IconText icon={ReloadOutlined} text="刷新" key="list-vertical-reload-o" />
+          //   // ) : null,
+          // ]}
         >
           <List.Item.Meta
             // avatar={<Avatar src={item.avatar} />}

@@ -22,3 +22,11 @@ export async function list(data: any): Promise<{ data: ShowDataType[] }> {
     data,
   });
 }
+
+// 编辑业务实体
+export async function editBusinessEntity(data: any): Promise<any> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/dfcdzDataSourceConfig/editBusinessEntity`, {
+    method: 'POST',
+    data,
+  });
+}
