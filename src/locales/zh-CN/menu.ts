@@ -51,8 +51,8 @@ export default {
   'menu.others.base-show-list-b': '综合报表（b端）',
 
   'menu.dfc-reconciliation': 'DFC对账',
-  'menu.dfc-reconciliation.link': '创建对账链接',
-  'menu.dfc-reconciliation.connection': '两对账配置',
-  'menu.dfc-reconciliation.link-connection': '关联对账配置',
+  'menu.dfc-reconciliation.link': '对账数据源配置',
+  'menu.dfc-reconciliation.connection': '对账模型配置',
+  'menu.dfc-reconciliation.link-connection': '对账流程配置',
   'menu.dfc-reconciliation.show-list': '对账结果',
 };
