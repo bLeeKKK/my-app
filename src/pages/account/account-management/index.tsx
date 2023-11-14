@@ -5,7 +5,7 @@ import ProTable from '@ant-design/pro-table';
 import { deleteUser, findByPage } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import Edit, { STATUS_OPTIONS } from './components/Edit';
-import { useDispatch, useSelector, useHistory } from 'umi';
+import { useDispatch, useSelector } from 'umi';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import IconBox from '@/components/IconBox';
 
@@ -24,9 +24,9 @@ const handleDelete = async (id: string) => {
 // console.log(state)  // {id:1,name:"zora"}
 
 const AccountManagement: React.FC = () => {
-  const { actionRef } = useSelector((state) => state.accountManagement);
+  const { actionRef } = useSelector((state: any) => state.accountManagement);
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
 
   console.log(STATUS_OPTIONS);
   const columns: ProColumns<TableListItem>[] = [

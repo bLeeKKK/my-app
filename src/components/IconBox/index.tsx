@@ -1,8 +1,15 @@
 import { useState, useRef } from 'react';
-import { Tooltip } from 'antd';
+import { Tooltip, Space } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
-const IconBox = ({ icon, text, timeOutClose, onClick, ...props }: any) => {
+const IconText = ({ icon, text, click }: { icon: React.FC; text: string; click: any }) => (
+  <Space onClick={click} style={{ cursor: 'pointer' }}>
+    {icon}
+    {text}
+  </Space>
+);
+
+const IconBox = ({ useSpace = false, icon, text, timeOutClose, onClick, ...props }: any) => {
   const [inLoading, setInLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const timer = useRef();
@@ -24,11 +31,14 @@ const IconBox = ({ icon, text, timeOutClose, onClick, ...props }: any) => {
     if (timer.current || !flag) clearTimeout(timer.current);
     if (timeOutClose) timer.current = setTimeout(() => setOpen(false), timeOutClose);
   };
-  return inLoading ? (
-    <LoadingOutlined />
+
+  const iconRender = inLoading ? <LoadingOutlined /> : <Icon {...props} />;
+
+  return useSpace ? (
+    <IconText icon={iconRender} text={text} click={click} />
   ) : (
-    <Tooltip open={open} onOpenChange={onOpenChange} placement="top" title={text}>
-      <Icon {...props} onClick={click} />
+    <Tooltip open={open} onClick={click} onOpenChange={onOpenChange} placement="top" title={text}>
+      {iconRender}
     </Tooltip>
   );
 };
