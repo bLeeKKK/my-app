@@ -93,11 +93,28 @@ const FilterLinkForm = ({
                   <>
                     <Input.Group compact>
                       <>
+                        {index !== 0 && (
+                          <ProFormSelect
+                            rules={[{ required: true, message: '请输入字段' }]}
+                            name={[`linkSymbol`]}
+                            placeholder="或与"
+                            options={[
+                              {
+                                label: 'and',
+                                value: 'and',
+                              },
+                              {
+                                label: 'or',
+                                value: 'or',
+                              },
+                            ]}
+                          />
+                        )}
                         <ProFormSelect
                           fieldProps={{ labelInValue: true }}
                           name={`field`}
                           placeholder="字段"
-                          rules={[{ required: true, message: '请选择字段' }]}
+                          // rules={[{ required: true, message: '请选择字段' }]}
                           options={fieldArr.map((item: any) => ({
                             ...item,
                             value: item.fieldDesc,
@@ -107,7 +124,7 @@ const FilterLinkForm = ({
                         <ProFormSelect
                           name={['field', `symbol`]}
                           placeholder="<,>,="
-                          rules={[{ required: true, message: '请选择字段' }]}
+                          // rules={[{ required: true, message: '请选择字段' }]}
                           options={[
                             {
                               value: '=',
@@ -124,27 +141,10 @@ const FilterLinkForm = ({
                           ]}
                         />
                         <ProFormText
-                          rules={[{ required: true, message: '请输入字段' }]}
+                          // rules={[{ required: true, message: '请输入字段' }]}
                           name={['field', `fieldValue`]}
                           placeholder="值"
                         />
-                        {index < list.length - 1 && (
-                          <ProFormSelect
-                            rules={[{ required: true, message: '请输入字段' }]}
-                            name={['field', `linkSymbol`]}
-                            placeholder="或与"
-                            options={[
-                              {
-                                label: 'and',
-                                value: 'and',
-                              },
-                              {
-                                label: 'or',
-                                value: 'or',
-                              },
-                            ]}
-                          />
-                        )}
                       </>
                     </Input.Group>
                   </>
@@ -174,7 +174,7 @@ const ConentForm = ({ linkListArr }: { linkListArr: any }) => {
             name={['conent', 'primaryEntityObj', 'subEntityObj']}
             ignoreFormListField
           >
-            {({ primaryEntityObj, subEntityObj, conent }) => {
+            {({ primaryEntityObj, subEntityObj }) => {
               const fieldsPrimaryEntity =
                 linkListArr.find((item: any) => item.value === primaryEntityObj?.id)
                   ?.businessEntityList || [];
@@ -187,6 +187,23 @@ const ConentForm = ({ linkListArr }: { linkListArr: any }) => {
                 <>
                   <Input.Group compact>
                     <>
+                      {index !== 0 && (
+                        <ProFormSelect
+                          rules={[{ required: true, message: '请选择字段' }]}
+                          name={['linkSymbol']}
+                          placeholder="或与"
+                          options={[
+                            {
+                              label: 'and',
+                              value: 'and',
+                            },
+                            {
+                              label: 'or',
+                              value: 'or',
+                            },
+                          ]}
+                        />
+                      )}
                       <ProFormSelect
                         fieldProps={{ labelInValue: true }}
                         name={`primary`}
@@ -228,23 +245,6 @@ const ConentForm = ({ linkListArr }: { linkListArr: any }) => {
                           lable: item.fieldName,
                         }))}
                       />
-                      {index < conent.length - 1 && (
-                        <ProFormSelect
-                          rules={[{ required: true, message: '请选择字段' }]}
-                          name={['sub', 'linkSymbol']}
-                          placeholder="或与"
-                          options={[
-                            {
-                              label: 'and',
-                              value: 'and',
-                            },
-                            {
-                              label: 'or',
-                              value: 'or',
-                            },
-                          ]}
-                        />
-                      )}
                     </>
                   </Input.Group>
                 </>
@@ -285,6 +285,23 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
               return (
                 <>
                   <Input.Group compact>
+                    {index !== 0 && (
+                      <ProFormSelect
+                        rules={[{ required: true, message: '请选择字段' }]}
+                        name={['linkSymbol']}
+                        placeholder="或与"
+                        options={[
+                          {
+                            label: 'and',
+                            value: 'and',
+                          },
+                          {
+                            label: 'or',
+                            value: 'or',
+                          },
+                        ]}
+                      />
+                    )}
                     <ProFormSelect
                       rules={[{ required: true, message: '请选择字段' }]}
                       fieldProps={{ labelInValue: true }}
@@ -337,23 +354,6 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                         },
                       ]}
                     />
-                    {index < contra.length - 1 && (
-                      <ProFormSelect
-                        rules={[{ required: true, message: '请选择字段' }]}
-                        name={['sub', 'linkSymbol']}
-                        placeholder="或与"
-                        options={[
-                          {
-                            label: 'and',
-                            value: 'and',
-                          },
-                          {
-                            label: 'or',
-                            value: 'or',
-                          },
-                        ]}
-                      />
-                    )}
                   </Input.Group>
                 </>
               );
@@ -492,6 +492,7 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
           values.primaryEntityList.forEach((item: any) => {
             expressionList.push({
               ...item.field,
+              linkSymbol: item.linkSymbol,
               mainFlag: true,
               expressionType: 1,
             });
@@ -501,12 +502,16 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
             expressionList.push(
               {
                 ...item.primary,
+                linkSymbol: item.linkSymbol,
                 linkCode,
+                mainFlag: true,
                 expressionType: 2,
               },
               {
                 ...item.sub,
+                linkSymbol: item.linkSymbol,
                 linkCode,
+                mainFlag: false,
                 expressionType: 2,
               },
             );
@@ -517,11 +522,15 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
               {
                 ...item.primary,
                 linkCode,
+                linkSymbol: item.linkSymbol,
+                mainFlag: true,
                 expressionType: 3,
               },
               {
                 ...item.sub,
                 linkCode,
+                linkSymbol: item.linkSymbol,
+                mainFlag: false,
                 expressionType: 3,
               },
             );
