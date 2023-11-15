@@ -2,6 +2,13 @@ import { request } from 'umi';
 import { BIZLOG_CORE, SERVER_PATH } from '@/services/constants';
 import type { ParamsType, ShowDataType } from './data';
 
+export async function deleteFun(params: any): Promise<any> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/dfcdzDataSourceConfig/delete`, {
+    method: 'get',
+    params,
+  });
+}
+
 export async function edit(data: ParamsType): Promise<{ data: unknown[] }> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/dfcdzDataSourceConfig/edit`, {
     method: 'POST',

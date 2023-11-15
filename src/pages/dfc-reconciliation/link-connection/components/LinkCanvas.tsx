@@ -259,10 +259,11 @@ const Main: React.FC<any> = (props) => {
 
     // 获取后面多层
     const stepArr = getArrSort(dataArr, arrSort);
-    editData.dfcdzFlowNodeList = stepArr.reduce((pre: any, cur: any) => {
+    editData.dfcdzFlowNodeList = stepArr.reduce((pre: any, cur: any, index: number) => {
       return [
         ...pre,
-        ...cur.map((item: any, index: number) => ({
+        ...cur.map((item: any) => ({
+          name: item.label,
           modelId: item.id,
           prevNode: item.prevNode,
           sort: index + 1,

@@ -48,7 +48,7 @@ const ListBox = ({
               useSpace
               icon={EditOutlined}
               text="编辑"
-              key="list-vertical-edit-o"
+              key="dfc-link-edit"
               onClick={() => {
                 dispatch({
                   type: 'dfcReconciliationLink/setEdit',
@@ -58,12 +58,26 @@ const ListBox = ({
                     editType: 2,
                   },
                 });
+                return false;
               }}
             />,
-            // <IconText icon={DeleteOutlined} text="删除" key="list-vertical-delete-o" />,
-            // select?.id === item.id ? (
-            //   <IconText icon={ReloadOutlined} text="刷新" key="list-vertical-reload-o" />
-            // ) : null,
+            <IconBox
+              useSpace
+              icon={DeleteOutlined}
+              text="删除"
+              key="dfc-link-del"
+              onClick={() => {
+                dispatch({
+                  type: 'dfcReconciliationLink/delete',
+                  payload: {
+                    edit: item,
+                    visible: true,
+                    editType: 2,
+                  },
+                });
+                return false;
+              }}
+            />,
           ]}
         >
           <List.Item.Meta
