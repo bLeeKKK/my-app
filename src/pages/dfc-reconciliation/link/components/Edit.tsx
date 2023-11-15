@@ -70,7 +70,7 @@ const handleUpdate = async (data: ParamsType) => {
   }
 };
 
-export default function AddModalForm() {
+export default function AddModalForm({ run }) {
   const { actionRef, visible, editType, edit } = useSelector(
     (state: any) => state.dfcReconciliationLink,
   );
@@ -136,6 +136,7 @@ export default function AddModalForm() {
             flag = await handleAdd(value);
           }
           if (flag) {
+            run();
             closeModal();
             if (actionRef?.current) {
               actionRef.current.reload();

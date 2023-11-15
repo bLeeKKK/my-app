@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Empty } from 'antd';
 import style from './style.less';
 import { ProCard } from '@ant-design/pro-components';
@@ -8,6 +8,7 @@ import ShowContent from './components/ShowContent';
 
 export default function Link() {
   const [select, setSelect] = useState<ShowDataType | undefined>();
+  const listRef = useRef<any>();
 
   return (
     <ProCard direction="column" bodyStyle={{ padding: 0 }} ghost gutter={[0, 16]}>

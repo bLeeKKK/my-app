@@ -392,10 +392,12 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
       if (item.expressionType === 1) {
         if (item.mainFlag) {
           primaryEntityList.push({
+            linkSymbol: item.linkSymbol,
             field: { ...item, value: item.fieldDesc, lable: item.fieldDesc },
           });
         } else {
           subEntityList.push({
+            linkSymbol: item.linkSymbol,
             field: { ...item, value: item.fieldDesc, lable: item.fieldDesc },
           });
         }
@@ -430,10 +432,12 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
       conent: Object.keys(conentObj).map((item) => ({
         primary: conentObj[item][0],
         sub: conentObj[item][1],
+        linkSymbol: conentObj[item][0].linkSymbol,
       })),
       contra: Object.keys(contraObj).map((item) => ({
         primary: contraObj[item][0],
         sub: contraObj[item][1],
+        linkSymbol: contraObj[item][0].linkSymbol,
       })),
     };
 
