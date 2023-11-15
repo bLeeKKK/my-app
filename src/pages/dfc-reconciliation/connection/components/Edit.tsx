@@ -54,10 +54,12 @@ const handleEdit = async (params: any) => {
 };
 
 const FilterLinkForm = ({
+  select,
   name,
   formRef,
   linkListArr,
 }: {
+  select: any;
   name: string;
   formRef: any;
   linkListArr: any;
@@ -68,6 +70,7 @@ const FilterLinkForm = ({
   return (
     <>
       <ProFormSelect
+        disabled={!!select}
         fieldProps={{ labelInValue: true }}
         label="数据系统"
         name={`${name}Obj`}
@@ -581,10 +584,15 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
             />
           </Col>
           <Col span={12} style={{ minHeight: 200 }}>
-            <FilterLinkForm name="primaryEntity" formRef={formRef} linkListArr={arr} />
+            <FilterLinkForm
+              name="primaryEntity"
+              select={select}
+              formRef={formRef}
+              linkListArr={arr}
+            />
           </Col>
           <Col span={12} style={{ minHeight: 200, borderLeft: '1px solid #D9D9D9' }}>
-            <FilterLinkForm name="subEntity" formRef={formRef} linkListArr={arr} />
+            <FilterLinkForm name="subEntity" select={select} formRef={formRef} linkListArr={arr} />
           </Col>
           <Col span={24}>
             <h3>链接主键</h3>
