@@ -70,7 +70,7 @@ const FilterLinkForm = ({
   return (
     <>
       <ProFormSelect
-        disabled={!!select}
+        readonly={!!select}
         fieldProps={{ labelInValue: true }}
         label="数据系统"
         name={`${name}Obj`}
