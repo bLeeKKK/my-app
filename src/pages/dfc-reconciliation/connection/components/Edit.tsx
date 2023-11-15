@@ -75,8 +75,9 @@ const FilterLinkForm = ({
         rules={[{ required: true, message: '请选择字段' }]}
         onChange={() => {
           formRef?.current?.setFieldsValue({
-            [name]: [{}],
+            [`${name}List`]: [{}],
             conent: [{}],
+            contra: [{}],
           });
         }}
       />
@@ -117,8 +118,8 @@ const FilterLinkForm = ({
                           // rules={[{ required: true, message: '请选择字段' }]}
                           options={fieldArr.map((item: any) => ({
                             ...item,
-                            value: item.fieldDesc,
-                            lable: item.fieldDesc,
+                            value: item.fieldRemark,
+                            lable: item.fieldRemark,
                           }))}
                         />
                         <ProFormSelect
@@ -211,8 +212,8 @@ const ConentForm = ({ linkListArr }: { linkListArr: any }) => {
                         rules={[{ required: true, message: '请选择字段' }]}
                         options={fieldsPrimaryEntity.map((item: any) => ({
                           ...item,
-                          value: item.fieldDesc,
-                          lable: item.fieldDesc,
+                          value: item.fieldRemark,
+                          lable: item.fieldRemark,
                         }))}
                       />
                       <ProFormSelect
@@ -241,8 +242,8 @@ const ConentForm = ({ linkListArr }: { linkListArr: any }) => {
                         placeholder="对比字段"
                         options={fieldssubEntity.map((item: any) => ({
                           ...item,
-                          value: item.fieldDesc,
-                          lable: item.fieldName,
+                          value: item.fieldRemark,
+                          lable: item.fieldRemark,
                         }))}
                       />
                     </>
@@ -310,7 +311,7 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                       options={fieldsPrimaryEntity.map((item: any) => ({
                         ...item,
                         value: item.fieldRemark,
-                        lable: item.fieldName,
+                        lable: item.fieldRemark,
                       }))}
                     />
                     <ProFormSelect
@@ -340,11 +341,11 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                       options={fieldssubEntity.map((item: any) => ({
                         ...item,
                         value: item.fieldRemark,
-                        lable: item.fieldName,
+                        lable: item.fieldRemark,
                       }))}
                     />
                     <ProFormSelect
-                      rules={[{ required: true, message: '请选择字段' }]}
+                      // rules={[{ required: true, message: '请选择字段' }]}
                       name={['sub', 'aggCondition']}
                       placeholder="比较"
                       options={[
