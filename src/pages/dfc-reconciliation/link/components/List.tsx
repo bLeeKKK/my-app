@@ -3,7 +3,7 @@ import type { SetStateAction, Dispatch } from 'react';
 import { useRequest, useDispatch } from 'umi';
 import style from '../style.less';
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons';
-import { List } from 'antd';
+import { List, Modal } from 'antd';
 import AddModalForm from './Edit';
 import IconBox from '@/components/IconBox';
 import type { ShowDataType } from '../data.d';
@@ -74,11 +74,19 @@ const ListBox = forwardRef(
                 key="dfc-link-del"
                 onClick={(e: any) => {
                   e.stopPropagation();
-                  return dispatch({
-                    type: 'dfcReconciliationLink/deleteFun',
-                    payload: {
-                      id: item.id,
-                    },
+                  return Modal.confirm({
+                    title: '删除链接',
+                    content: '确定删除该链接吗？',
+                    okText: '确定',
+                    cancelText: '取消',
+                    onOk: async () =>
+                      dispatch({
+                        type: 'dfcReconciliationLink/deleteFun',
+                        payload: {
+                          id: item.id,
+                        },
+                        callback: run,
+                      }),
                   });
                 }}
               />,
