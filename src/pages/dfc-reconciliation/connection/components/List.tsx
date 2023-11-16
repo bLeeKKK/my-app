@@ -1,24 +1,17 @@
 import { forwardRef, useImperativeHandle } from 'react';
 import type { SetStateAction, Dispatch } from 'react';
-import { useRequest } from 'umi';
+import { useRequest, useDispatch } from 'umi';
 import style from '../style.less';
 import {
-  // EditOutlined, DeleteOutlined,
+  // EditOutlined,
+  DeleteOutlined,
   ReloadOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
-import {
-  // Space,
-  List,
-} from 'antd';
+import { Button, List, Modal } from 'antd';
 import type { ShowDataType } from '../data.d';
 import { findByPage } from '../service';
-
-// const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-//   <Space className={style['item-btn']} onClick={(e) => e.stopPropagation()}>
-//     {React.createElement(icon)}
-//     {text}
-//   </Space>
-// );
+import IconBox from '@/components/IconBox';
 
 const ListBox = forwardRef(
   (
@@ -35,6 +28,7 @@ const ListBox = forwardRef(
       () => findByPage({ size: 100000 }),
       {},
     );
+    const dispatch = useDispatch();
     useImperativeHandle(ref, () => ({ run, data, loading }));
     const arr = data?.records;
 
@@ -46,6 +40,15 @@ const ListBox = forwardRef(
             <span>链接列表</span>
             <span>
               <ReloadOutlined onClick={run} className={style.reload} />
+              <Button
+                size="small"
+                type="primary"
+                onClick={() => {
+                  setSelect(undefined);
+                }}
+              >
+                <PlusOutlined /> 新建
+              </Button>
             </span>
           </div>
         }
@@ -61,10 +64,34 @@ const ListBox = forwardRef(
             }
             className={`${style.item} ${select?.id === item.id ? style['item-selected'] : ''}`}
             key={item.sourceName}
-            // actions={[
-            //   <IconText icon={EditOutlined} text="编辑" key="list-vertical-edit-o" />,
-            //   <IconText icon={DeleteOutlined} text="删除" key="list-vertical-delete-o" />,
-            // ]}
+            actions={[
+              <IconBox
+                useSpace
+                icon={DeleteOutlined}
+                text="删除"
+                key="dfc-link-del"
+                onClick={(e: any) => {
+                  e.stopPropagation();
+                  return Modal.confirm({
+                    title: '对账模型',
+                    content: '确定删除该对账模型吗？',
+                    okText: '确定',
+                    cancelText: '取消',
+                    onOk: async () =>
+                      dispatch({
+                        type: 'dfcReconciliationConnection/deleteFun',
+                        payload: {
+                          id: item.id,
+                        },
+                        callback: () => {
+                          run();
+                          setSelect((s: any) => (s.id === item.id ? undefined : s));
+                        },
+                      }),
+                  });
+                }}
+              />,
+            ]}
           >
             <List.Item.Meta
               // avatar={<Avatar src={item.avatar} />}

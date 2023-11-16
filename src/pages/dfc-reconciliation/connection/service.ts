@@ -23,3 +23,11 @@ export async function findByPage(data: any): Promise<{ data: ShowDataType[] }> {
     params: data,
   });
 }
+
+export async function deleteFun(data: any): Promise<any> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/dfcdzModel/delete`, {
+    method: 'get',
+    data,
+    params: data,
+  });
+}

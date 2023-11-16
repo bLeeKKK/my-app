@@ -29,3 +29,16 @@
 .empty {
   margin-top: 80px;
 }
+
+@keyframes shadow-pulse {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+  }
+}
+
+.pulse {
+  animation: shadow-pulse 1s infinite;
+}

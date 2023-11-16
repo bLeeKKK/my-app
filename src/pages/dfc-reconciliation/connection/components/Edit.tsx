@@ -89,7 +89,6 @@ const FilterLinkForm = ({
           return (
             <ProFormDependency name={[`${name}Obj`, `${name}List`]} ignoreFormListField>
               {(formData) => {
-                const list = formData[`${name}List`];
                 const diffId = formData[`${name}Obj`]?.id;
                 const fieldArr =
                   linkListArr.find((item: any) => item.value === diffId)?.businessEntityList || [];
@@ -381,6 +380,7 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
   useEffect(() => {
     if (!select) {
       formRef.current?.resetFields();
+
       return;
     }
     const subEntityList: any[] = [];
