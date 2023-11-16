@@ -1,6 +1,13 @@
 import { request } from 'umi';
 import { BIZLOG_CORE, SERVER_PATH } from '@/services/constants';
 
+export async function deleteFun(data: any): Promise<any> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/dfcdzFlowConfig/delete`, {
+    method: 'get',
+    params: data,
+  });
+}
+
 export async function execute(data: any): Promise<{ data: any }> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/dfcdzFlowConfig/execute`, {
     method: 'get',

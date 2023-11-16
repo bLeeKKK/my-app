@@ -1,6 +1,7 @@
 import React from 'react';
 import { message } from 'antd';
 import { updateStatus, execute } from './service';
+import { deleteFun } from './service';
 
 const linkConnection = {
   namespace: 'linkConnection',
@@ -24,6 +25,19 @@ const linkConnection = {
     },
   },
   effects: {
+    *deleteFun({ payload, callback }: any, { call }: any) {
+      try {
+        const { success, message: msg } = yield call(deleteFun, payload);
+        if (success) {
+          message.success(msg);
+          if (callback) callback();
+        } else {
+          message.error(msg);
+        }
+      } catch (e: any) {
+        message.error(e.message);
+      }
+    },
     *execute({ payload, callback }: any, { call }: any) {
       try {
         const { success, message: msg } = yield call(execute, payload);

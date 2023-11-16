@@ -4,10 +4,11 @@ import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { findByPage } from './service';
 import Edit from './components/Edit';
+import { Modal } from 'antd';
 import { useDispatch, useSelector, useHistory } from 'umi';
 import {
   EditOutlined,
-  // DeleteOutlined,
+  DeleteOutlined,
   GroupOutlined,
   CheckSquareOutlined,
   CloseSquareOutlined,
@@ -46,7 +47,7 @@ const TableList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       fixed: true,
-      width: 120,
+      width: 160,
       render: (_, record) => [
         <IconBox
           key="edit"
@@ -115,7 +116,7 @@ const TableList: React.FC = () => {
           text="配置流程"
         />,
         <IconBox
-          key="config"
+          key="ex"
           timeOutClose={2000}
           onClick={() =>
             dispatch({
@@ -130,6 +131,28 @@ const TableList: React.FC = () => {
           }
           icon={SendOutlined}
           text="执行"
+        />,
+        <IconBox
+          icon={DeleteOutlined}
+          text="删除"
+          key="del"
+          onClick={(e: any) => {
+            e.stopPropagation();
+            return Modal.confirm({
+              title: '删除对账配置',
+              content: '确定删除对账配置吗？',
+              okText: '确定',
+              cancelText: '取消',
+              onOk: async () =>
+                dispatch({
+                  type: 'linkConnection/deleteFun',
+                  payload: {
+                    id: record.id,
+                  },
+                  callback: actionRef.current?.reload,
+                }),
+            });
+          }}
         />,
       ],
     },
