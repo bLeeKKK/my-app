@@ -493,6 +493,7 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
           values.subEntityList.forEach((item: any) => {
             expressionList.push({
               ...item.field,
+              linkSymbol: item.linkSymbol,
               mainFlag: false,
               expressionType: 1,
             });

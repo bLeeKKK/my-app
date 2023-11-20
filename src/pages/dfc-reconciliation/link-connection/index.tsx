@@ -122,6 +122,7 @@ const TableList: React.FC = () => {
             dispatch({
               type: 'linkConnection/execute',
               payload: {
+                executeType: 'common',
                 flowId: record?.id,
               },
               callback: () => {
