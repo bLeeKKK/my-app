@@ -31,6 +31,20 @@ export default function BaseShow() {
       }}
       tabList={[
         {
+          key: '3',
+          tab: '全链条数据表',
+          children: (
+            <div>
+              {/* <MicroApp name="bizlog-web-2" sourceCode={sourceCode} sourceSys={sourceSys} history="hash" /> */}
+              <MicroAppWithMemoHistory
+                autoSetLoading
+                name="bizlog-web"
+                url={`/LineShowCopy?sourceOrderkey=${sourceCode}&sourceSys=${sourceSys}`}
+              />
+            </div>
+          ),
+        },
+        {
           key: '2',
           tab: '全链条时效',
           children: <div>{showObj?.sourceCode ? <ShowBox data={showObj} /> : <Empty />}</div>,
@@ -45,20 +59,6 @@ export default function BaseShow() {
                 name="bizlog-web"
                 sourceCode={sourceCode}
                 sourceSys={sourceSys}
-              />
-            </div>
-          ),
-        },
-        {
-          key: '3',
-          tab: '全链条数据表',
-          children: (
-            <div>
-              {/* <MicroApp name="bizlog-web-2" sourceCode={sourceCode} sourceSys={sourceSys} history="hash" /> */}
-              <MicroAppWithMemoHistory
-                autoSetLoading
-                name="bizlog-web"
-                url={`/LineShowCopy?sourceOrderkey=${sourceCode}&sourceSys=${sourceSys}`}
               />
             </div>
           ),
