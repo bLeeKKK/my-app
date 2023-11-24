@@ -71,18 +71,21 @@ const FilterLinkForm = ({
     <>
       <ProFormSelect
         readonly={!!select}
-        fieldProps={{ labelInValue: true }}
+        fieldProps={{
+          labelInValue: true,
+          onChange: () => {
+            formRef?.current?.setFieldsValue({
+              [`${name}List`]: [{}],
+              conent: [{}],
+              contra: [{}],
+            });
+          },
+        }}
         label="数据系统"
         name={`${name}Obj`}
         options={linkListArr}
         rules={[{ required: true, message: '请选择字段' }]}
-        onChange={() => {
-          formRef?.current?.setFieldsValue({
-            [`${name}List`]: [{}],
-            conent: [{}],
-            contra: [{}],
-          });
-        }}
+        showSearch
       />
       <ProFormList initialValue={[{}]} name={`${name}List`} label="数据筛选" min={1}>
         {(_, index) => {
@@ -114,15 +117,18 @@ const FilterLinkForm = ({
                           />
                         )}
                         <ProFormSelect
-                          fieldProps={{ labelInValue: true }}
+                          fieldProps={{ labelInValue: true, optionFilterProp: 'fieldRemark' }}
                           name={`field`}
                           placeholder="字段"
                           // rules={[{ required: true, message: '请选择字段' }]}
-                          options={fieldArr.map((item: any) => ({
-                            ...item,
-                            value: item.fieldRemark,
-                            lable: item.fieldRemark,
-                          }))}
+                          showSearch
+                          options={fieldArr.map((item: any) => {
+                            return {
+                              ...item,
+                              value: item.fieldRemark,
+                              lable: item.fieldRemark,
+                            };
+                          })}
                         />
                         <ProFormSelect
                           name={['field', `symbol`]}
