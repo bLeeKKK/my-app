@@ -38,9 +38,10 @@ export async function getInitialState(): Promise<{
       const token = localStorage.getItem('token');
       if (!token) throw new Error('请先登录');
       const msg = await queryCurrentUser();
-      if (!msg.data.user) throw new Error('登录已过期');
+      if (!msg.data.user) throw new Error('登录已过期，获取用户信息失败');
       return msg.data;
     } catch (error) {
+      console.log(error.message);
       history.push(loginPath);
     }
     return undefined;

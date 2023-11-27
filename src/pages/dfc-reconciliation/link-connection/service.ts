@@ -1,6 +1,20 @@
 import { request } from 'umi';
 import { BIZLOG_CORE, SERVER_PATH } from '@/services/constants';
 
+export async function getTempOptionList(data: any): Promise<any> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/dfcdzFlowConfig/getTempOptionList`, {
+    method: 'get',
+    params: data,
+  });
+}
+
+export async function saveTempExpression(data: any): Promise<{ data: any }> {
+  return request(`${SERVER_PATH}/${BIZLOG_CORE}/dfcdzFlowConfig/saveTempExpression`, {
+    method: 'POST',
+    data,
+  });
+}
+
 export async function deleteFun(data: any): Promise<any> {
   return request(`${SERVER_PATH}/${BIZLOG_CORE}/dfcdzFlowConfig/delete`, {
     method: 'get',

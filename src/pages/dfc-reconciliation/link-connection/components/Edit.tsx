@@ -1,12 +1,21 @@
 import { message, Form, Button } from 'antd';
-import { ModalForm, ProFormText, ProFormTimePicker, ProFormSelect } from '@ant-design/pro-form';
-import { save, edit as update } from '../service';
+import {
+  ModalForm,
+  ProFormText,
+  ProFormTimePicker,
+  ProFormSelect,
+  ProForm,
+} from '@ant-design/pro-form';
+import ProCard from '@ant-design/pro-card';
+import { save, edit as update, getTempOptionList, saveTempExpression } from '../service';
 // import type { ParamsType } from '../service';
 import { PlusOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'umi';
+import { useDispatch, useSelector, useRequest } from 'umi';
 import { useUpdateEffect } from 'ahooks';
 import { getModel } from '@/utils';
 import { findAllByDictCode } from '@/services/dictionary';
+import { list as linkList } from '../../link/service';
+import { FilterLinkForm } from '../../connection/components/Edit';
 // import moment from 'moment';
 // import MyAccess from '@/components/MyAccess';
 
@@ -102,17 +111,43 @@ const handleUpdate = async (data: any) => {
   try {
     await update(data);
     hide();
-    message.success('添加成功');
+
+    const dfcdzFlowTempExpressionResVoList: any = [];
+    data.dfcdzFlowTempExpressionResVoList.forEach((item: any, index: number) => {
+      dfcdzFlowTempExpressionResVoList.push({
+        ...item.field,
+        sort: index,
+        flowId: data.id,
+        linkSymbol: item.linkSymbol,
+      });
+    });
+    await saveTempExpression(dfcdzFlowTempExpressionResVoList);
+
+    message.success('修改成功');
     return true;
   } catch (error) {
     hide();
-    message.warn('添加失败请重试！');
+    message.warn('修改失败请重试！');
     return false;
   }
 };
 
 export default function AddModalForm() {
+  const { data } = useRequest<{ data: any[] }>(() => linkList({}), {});
+  const arr = (data || []).map((item: any) => ({
+    ...item,
+    label: item.sourceName,
+    value: item.id,
+  }));
+
   const { actionRef, visible, editType, edit } = useSelector((state: any) => state.linkConnection);
+  const { data: linkId } = useRequest<{ data: any[] }>(
+    () => (edit?.id ? getTempOptionList({ flowId: edit?.id }) : {}),
+    {
+      refreshDeps: [edit?.id],
+    },
+  );
+
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const closeModal = () => {
@@ -128,11 +163,68 @@ export default function AddModalForm() {
 
   useUpdateEffect(() => {
     if (visible && editType === 2 && edit) {
-      form.setFieldsValue(edit);
+      console.log(edit.dfcdzFlowTempExpressionResVoList);
+      form.setFieldsValue({
+        ...edit,
+        dfcdzFlowTempExpressionResVoList: edit.dfcdzFlowTempExpressionResVoList.map(
+          (item: any) => ({
+            linkSymbol: item.linkSymbol,
+            field: { ...item, value: item.fieldDesc, lable: item.fieldDesc },
+          }),
+        ),
+      });
     } else {
       form.resetFields();
     }
   }, [visible, editType, edit]);
+
+  const basicForm = (
+    <>
+      <ProForm.Group>
+        <ProFormText
+          label="对账流程名称"
+          width="sm"
+          rules={[{ required: true, message: '请输入对账流程名称' }]}
+          name="name"
+        />
+        <ProFormSelect
+          name="dzType"
+          width="sm"
+          label="对账类型"
+          rules={[{ required: true, message: '请选择对账类型' }]}
+          request={async () => {
+            const { success, data: ar } = await findAllByDictCode('dz_type');
+            if (success) return ar.map(({ name: label, value }) => ({ label, value }));
+            else return [];
+          }}
+        />
+        <ProFormSelect
+          name="warnMethod"
+          width="sm"
+          label="预警方式"
+          rules={[{ required: true, message: '请选择预警方式' }]}
+          request={async () => {
+            const { success, data: ar } = await findAllByDictCode('dz_warn_method');
+            if (success) return ar.map(({ name: label, value }) => ({ label, value }));
+            else return [];
+          }}
+        />
+        <ProFormTimePicker
+          width="sm"
+          name="executeTime"
+          label="执行时间"
+          // 选择当前时间后
+        />
+        <ProFormText
+          label="发送队列"
+          width="sm"
+          rules={[{ required: true, message: '请输入流程描述' }]}
+          name="sendQueue"
+          placeholder="多个以逗号隔开"
+        />
+      </ProForm.Group>
+    </>
+  );
 
   return (
     <>
@@ -156,7 +248,7 @@ export default function AddModalForm() {
       {/* </MyAccess> */}
       <ModalForm
         title={`${getModel(editType)}对账流程配置`}
-        width="400px"
+        width="640px"
         visible={visible}
         form={form}
         onVisibleChange={(flag) => {
@@ -175,47 +267,30 @@ export default function AddModalForm() {
           }
         }}
       >
-        <ProFormText
-          label="对账流程名称"
-          width="md"
-          rules={[{ required: true, message: '请输入对账流程名称' }]}
-          name="name"
-        />
-        <ProFormSelect
-          name="dzType"
-          width="md"
-          label="对账类型"
-          rules={[{ required: true, message: '请选择对账类型' }]}
-          request={async () => {
-            const { success, data } = await findAllByDictCode('dz_type');
-            if (success) return data.map(({ name: label, value }) => ({ label, value }));
-            else return [];
-          }}
-        />
-        <ProFormSelect
-          name="warnMethod"
-          width="md"
-          label="预警方式"
-          rules={[{ required: true, message: '请选择预警方式' }]}
-          request={async () => {
-            const { success, data } = await findAllByDictCode('dz_warn_method');
-            if (success) return data.map(({ name: label, value }) => ({ label, value }));
-            else return [];
-          }}
-        />
-        <ProFormTimePicker
-          width="md"
-          name="executeTime"
-          label="执行时间"
-          // 选择当前时间后
-        />
-        <ProFormText
-          label="发送队列"
-          width="md"
-          rules={[{ required: true, message: '请输入流程描述' }]}
-          name="sendQueue"
-          placeholder="多个以逗号隔开"
-        />
+        {editType === 2 && linkId ? (
+          <>
+            <ProCard tabs={{ type: 'card' }} ghost>
+              <ProCard.TabPane key="basic" tab="基础">
+                {basicForm}
+              </ProCard.TabPane>
+              <ProCard.TabPane key="filter" tab="筛选">
+                <FilterLinkForm
+                  name="dfcdzFlowTempExpressionResVo"
+                  editType={2}
+                  form={form}
+                  linkListArr={arr}
+                  initialValue={{
+                    label: arr.find((item: any) => item.value === linkId)?.sourceName,
+                    value: linkId,
+                    id: linkId,
+                  }}
+                />
+              </ProCard.TabPane>
+            </ProCard>
+          </>
+        ) : (
+          basicForm
+        )}
       </ModalForm>
     </>
   );

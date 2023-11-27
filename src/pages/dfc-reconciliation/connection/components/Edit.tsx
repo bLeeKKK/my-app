@@ -53,16 +53,18 @@ const handleEdit = async (params: any) => {
   }
 };
 
-const FilterLinkForm = ({
-  select,
+export const FilterLinkForm = ({
+  editType,
   name,
-  formRef,
+  form,
   linkListArr,
+  initialValue,
 }: {
-  select: any;
+  editType: 1 | 2;
   name: string;
-  formRef: any;
+  form: any;
   linkListArr: any;
+  initialValue?: any;
 }) => {
   // const list = Form.useWatch(`${name}List`, formRef.current);
   // console.log(list);
@@ -70,11 +72,12 @@ const FilterLinkForm = ({
   return (
     <>
       <ProFormSelect
-        readonly={!!select}
+        initialValue={initialValue}
+        readonly={editType === 2}
         fieldProps={{
           labelInValue: true,
           onChange: () => {
-            formRef?.current?.setFieldsValue({
+            form?.setFieldsValue({
               [`${name}List`]: [{}],
               conent: [{}],
               contra: [{}],
@@ -597,13 +600,18 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
           <Col span={12} style={{ minHeight: 200 }}>
             <FilterLinkForm
               name="primaryEntity"
-              select={select}
-              formRef={formRef}
+              editType={select ? 2 : 1}
+              form={formRef.current}
               linkListArr={arr}
             />
           </Col>
           <Col span={12} style={{ minHeight: 200, borderLeft: '1px solid #D9D9D9' }}>
-            <FilterLinkForm name="subEntity" select={select} formRef={formRef} linkListArr={arr} />
+            <FilterLinkForm
+              name="subEntity"
+              editType={select ? 2 : 1}
+              form={formRef.current}
+              linkListArr={arr}
+            />
           </Col>
           <Col span={24}>
             <h3>链接主键</h3>
