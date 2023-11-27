@@ -1,5 +1,5 @@
 import React from 'react';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import { updateStatus, execute } from './service';
 import { deleteFun } from './service';
 
@@ -40,9 +40,12 @@ const linkConnection = {
     },
     *execute({ payload, callback }: any, { call }: any) {
       try {
-        const { success, message: msg } = yield call(execute, payload);
+        const { success, message: msg, data } = yield call(execute, payload);
         if (success) {
-          message.success(msg);
+          Modal.success({
+            title: msg,
+            content: data,
+          });
           if (callback) callback();
         } else {
           message.error(msg);

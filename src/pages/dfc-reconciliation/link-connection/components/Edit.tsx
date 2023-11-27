@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { message, Form, Button } from 'antd';
 import {
   ModalForm,
@@ -133,6 +134,7 @@ const handleUpdate = async (data: any) => {
 };
 
 export default function AddModalForm() {
+  const [activeKey, setActiveKey] = useState('basic');
   const { data } = useRequest<{ data: any[] }>(() => linkList({}), {});
   const arr = (data || []).map((item: any) => ({
     ...item,
@@ -151,6 +153,7 @@ export default function AddModalForm() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const closeModal = () => {
+    setActiveKey('basic');
     dispatch({
       type: 'linkConnection/setEdit',
       payload: {
@@ -225,6 +228,20 @@ export default function AddModalForm() {
     </>
   );
 
+  const submitFun = async (value: any) => {
+    let flag = false;
+    if (edit?.id) {
+      flag = await handleUpdate({ ...edit, ...value });
+    } else flag = await handleAdd(value);
+    if (flag) {
+      closeModal();
+      if (actionRef?.current) {
+        actionRef.current.reload();
+      }
+    }
+    return flag;
+  };
+
   return (
     <>
       {/* <MyAccess aKey="config-list:operation-flow:add"> */}
@@ -250,25 +267,48 @@ export default function AddModalForm() {
         width="640px"
         visible={visible}
         form={form}
+        submitter={{
+          render: (props, dom) => {
+            const [reset, submit] = dom;
+            return (
+              <>
+                {reset}
+                {activeKey === 'filter' && (
+                  <Button
+                    type="primary"
+                    onClick={async () => {
+                      const value = await form.validateFields();
+                      const flag: any = await submitFun(value);
+                      if (flag) {
+                        const hide = message.loading('正在执行');
+                        await dispatch({
+                          type: 'linkConnection/execute',
+                          payload: {
+                            executeType: 'temp',
+                            flowId: edit?.id,
+                          },
+                          callback: hide,
+                        });
+                      }
+                    }}
+                    loading={props.submitButtonProps?.loading}
+                  >
+                    确认并执行
+                  </Button>
+                )}
+                {submit}
+              </>
+            );
+          },
+        }}
         onVisibleChange={(flag) => {
           if (!flag) closeModal();
         }}
-        onFinish={async (value) => {
-          let flag = false;
-          if (edit?.id) {
-            flag = await handleUpdate({ ...edit, ...value });
-          } else flag = await handleAdd(value);
-          if (flag) {
-            closeModal();
-            if (actionRef?.current) {
-              actionRef.current.reload();
-            }
-          }
-        }}
+        onFinish={(value) => submitFun(value)}
       >
         {editType === 2 && linkId ? (
           <>
-            <ProCard tabs={{ type: 'card' }} ghost>
+            <ProCard tabs={{ type: 'card', activeKey, onChange: setActiveKey }} ghost>
               <ProCard.TabPane key="basic" tab="基础">
                 {basicForm}
               </ProCard.TabPane>

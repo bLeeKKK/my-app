@@ -33,6 +33,17 @@ export const DB_OPTIONS = [
   { value: 'SqlServer', label: 'SqlServer' },
 ];
 
+export const SYMBOL_OPTIONS = [
+  { value: '=', label: '=' },
+  { value: '!=', label: '!=' },
+  { value: '<', label: '<' },
+  { value: '<=', label: '<=' },
+  { value: '>', label: '>' },
+  { value: '>=', label: '>=' },
+  { value: 'in', label: 'in' },
+  { value: 'not in', label: 'not in' },
+];
+
 const handleEdit = async (params: any) => {
   const hide = message.loading('正在保存');
   try {
@@ -135,22 +146,9 @@ export const FilterLinkForm = ({
                         />
                         <ProFormSelect
                           name={['field', `symbol`]}
-                          placeholder="<,>,="
+                          placeholder="<,>,=..."
                           // rules={[{ required: true, message: '请选择字段' }]}
-                          options={[
-                            {
-                              value: '=',
-                              label: '=',
-                            },
-                            {
-                              value: '<',
-                              label: '<',
-                            },
-                            {
-                              value: '>',
-                              label: '>',
-                            },
-                          ]}
+                          options={SYMBOL_OPTIONS}
                         />
                         <ProFormText
                           // rules={[{ required: true, message: '请输入字段' }]}
@@ -230,21 +228,8 @@ const ConentForm = ({ linkListArr }: { linkListArr: any }) => {
                       <ProFormSelect
                         rules={[{ required: true, message: '请选择字段' }]}
                         name={[`primary`, 'symbol']}
-                        placeholder="<,>,="
-                        options={[
-                          {
-                            value: '=',
-                            label: '=',
-                          },
-                          {
-                            value: '<',
-                            label: '<',
-                          },
-                          {
-                            value: '>',
-                            label: '>',
-                          },
-                        ]}
+                        placeholder="<,>,=..."
+                        options={SYMBOL_OPTIONS}
                       />
                       <ProFormSelect
                         rules={[{ required: true, message: '请选择字段' }]}
@@ -328,21 +313,8 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                     <ProFormSelect
                       rules={[{ required: true, message: '请选择字段' }]}
                       name={[`primary`, 'symbol']}
-                      placeholder="<,>,="
-                      options={[
-                        {
-                          value: '=',
-                          label: '=',
-                        },
-                        {
-                          value: '<',
-                          label: '<',
-                        },
-                        {
-                          value: '>',
-                          label: '>',
-                        },
-                      ]}
+                      placeholder="<,>,=..."
+                      options={SYMBOL_OPTIONS}
                     />
                     <ProFormSelect
                       rules={[{ required: true, message: '请选择字段' }]}
