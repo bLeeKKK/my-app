@@ -169,7 +169,7 @@ export default function AddModalForm() {
         dfcdzFlowTempExpressionResVoList: edit.dfcdzFlowTempExpressionResVoList.map(
           (item: any) => ({
             linkSymbol: item.linkSymbol,
-            field: { ...item, value: item.fieldDesc, lable: item.fieldDesc },
+            field: { ...item, value: item.fieldRemark, lable: item.fieldRemark },
           }),
         ),
       });

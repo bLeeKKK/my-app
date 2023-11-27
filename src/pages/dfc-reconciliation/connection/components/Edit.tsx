@@ -402,25 +402,25 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
         if (item.mainFlag) {
           primaryEntityList.push({
             linkSymbol: item.linkSymbol,
-            field: { ...item, value: item.fieldDesc, lable: item.fieldDesc },
+            field: { ...item, value: item.fieldRemark, lable: item.fieldRemark },
           });
         } else {
           subEntityList.push({
             linkSymbol: item.linkSymbol,
-            field: { ...item, value: item.fieldDesc, lable: item.fieldDesc },
+            field: { ...item, value: item.fieldRemark, lable: item.fieldRemark },
           });
         }
       } else if (item.expressionType === 2) {
         const a = conentObj[item.linkCode] || [];
         conentObj[item.linkCode] = [
           ...a,
-          { ...item, value: item.fieldDesc, item: item.fieldDesc },
+          { ...item, value: item.fieldRemark, item: item.fieldRemark },
         ].sort((i, k) => i.sort - k.sort);
       } else if (item.expressionType === 3) {
         const a = contraObj[item.linkCode] || [];
         contraObj[item.linkCode] = [
           ...a,
-          { ...item, value: item.fieldDesc, item: item.fieldDesc },
+          { ...item, value: item.fieldRemark, item: item.fieldRemark },
         ].sort((i, k) => i.sort - k.sort);
       }
     });
