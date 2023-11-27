@@ -163,7 +163,6 @@ export default function AddModalForm() {
 
   useUpdateEffect(() => {
     if (visible && editType === 2 && edit) {
-      console.log(edit.dfcdzFlowTempExpressionResVoList);
       form.setFieldsValue({
         ...edit,
         dfcdzFlowTempExpressionResVoList: edit.dfcdzFlowTempExpressionResVoList.map(
