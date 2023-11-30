@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { message, Input, Col, Row } from 'antd';
+import { message, Button, Input, Col, Row } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { ProFormText, ProForm, ProFormSelect, ProFormList } from '@ant-design/pro-form';
 import { ProFormDependency } from '@ant-design/pro-components';
 import { save, edit as update } from '../service';
@@ -255,9 +256,13 @@ const ConentForm = ({ linkListArr }: { linkListArr: any }) => {
 };
 
 const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
+  const actionRef = useRef<any>();
+
   return (
     <>
       <ProFormList
+        creatorButtonProps={{ style: { display: 'none' } }}
+        actionRef={actionRef}
         labelCol={{ span: 3 }}
         wrapperCol={{ span: 21 }}
         name="contra"
@@ -271,6 +276,19 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
             ignoreFormListField
           >
             {({ primaryEntityObj, subEntityObj, contra }) => {
+              /**
+               * 标是对比字段，还是对比值
+               * compareType: 1 ｜ undefined => 主字段 对比 次字段
+               * compareType: 2 => 字段(主字段或次字段) 对比 值
+               * */
+              const compareType = contra?.[index]?.compareType;
+              /**
+               * 标识使用主字段还是次字段
+               * mainFlag: true 主字段 对比 值
+               * mainFlag: false 次字段 对比 值
+               * mainFlag: undefined 主字段 对比 次字段
+               * */
+              const mainFlag = contra?.[index]?.mainFlag;
               const fieldsPrimaryEntity =
                 linkListArr.find((item: any) => item.value === primaryEntityObj?.id)
                   ?.businessEntityList || [];
@@ -281,6 +299,20 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
 
               return (
                 <>
+                  <div
+                    style={{
+                      marginTop: index === 0 ? 0 : '-24px',
+                      lineHeight: '32px',
+                      fontSize: '12px',
+                      color: '#999',
+                    }}
+                  >
+                    {mainFlag === true
+                      ? '主字段值对比：'
+                      : mainFlag === false
+                      ? '次字段值对比：'
+                      : '字段对比：'}
+                  </div>
                   <Input.Group compact>
                     {index !== 0 && (
                       <ProFormSelect
@@ -299,45 +331,72 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                         ]}
                       />
                     )}
-                    <ProFormSelect
-                      rules={[{ required: true, message: '请选择字段' }]}
-                      fieldProps={{ labelInValue: true }}
-                      name={`primary`}
-                      placeholder="主字段"
-                      options={fieldsPrimaryEntity.map((item: any) => ({
-                        ...item,
-                        value: item.fieldRemark,
-                        lable: item.fieldRemark,
-                      }))}
-                    />
-                    <ProFormSelect
-                      rules={[{ required: true, message: '请选择字段' }]}
-                      name={[`primary`, 'symbol']}
-                      placeholder="<,>,=..."
-                      options={SYMBOL_OPTIONS}
-                    />
-                    <ProFormSelect
-                      rules={[{ required: true, message: '请选择字段' }]}
-                      name={`sub`}
-                      fieldProps={{ labelInValue: true }}
-                      placeholder="对比字段"
-                      options={fieldssubEntity.map((item: any) => ({
-                        ...item,
-                        value: item.fieldRemark,
-                        lable: item.fieldRemark,
-                      }))}
-                    />
-                    <ProFormSelect
-                      // rules={[{ required: true, message: '请选择字段' }]}
-                      name={['sub', 'aggCondition']}
-                      placeholder="比较"
-                      options={[
-                        {
-                          label: '求和',
-                          value: 'sum',
-                        },
-                      ]}
-                    />
+                    {(mainFlag === undefined || mainFlag === true) && (
+                      <>
+                        <ProFormSelect
+                          rules={[{ required: true, message: '请选择字段' }]}
+                          fieldProps={{ labelInValue: true }}
+                          name={`primary`}
+                          placeholder="主字段"
+                          options={fieldsPrimaryEntity.map((item: any) => ({
+                            ...item,
+                            value: item.fieldRemark,
+                            lable: item.fieldRemark,
+                          }))}
+                        />
+                        <ProFormSelect
+                          rules={[{ required: true, message: '请选择字段' }]}
+                          name={[`primary`, 'symbol']}
+                          placeholder="<,>,=..."
+                          options={SYMBOL_OPTIONS}
+                        />
+                        {compareType === 2 && (
+                          <ProFormText name={['primary', `fieldValue`]} placeholder="值" />
+                        )}
+                      </>
+                    )}
+
+                    {(mainFlag === undefined || mainFlag === false) && (
+                      <>
+                        <ProFormSelect
+                          rules={[{ required: true, message: '请选择字段' }]}
+                          name={`sub`}
+                          fieldProps={{ labelInValue: true }}
+                          placeholder="次字段"
+                          options={fieldssubEntity.map((item: any) => ({
+                            ...item,
+                            value: item.fieldRemark,
+                            lable: item.fieldRemark,
+                          }))}
+                        />
+                        {compareType === 2 && (
+                          <>
+                            <ProFormSelect
+                              rules={[{ required: true, message: '请选择字段' }]}
+                              name={[`sub`, 'symbol']}
+                              placeholder="<,>,=..."
+                              options={SYMBOL_OPTIONS}
+                            />
+                            <ProFormText name={['sub', `fieldValue`]} placeholder="值" />
+                          </>
+                        )}
+                      </>
+                    )}
+
+                    {(compareType === 1 || compareType === undefined) && (
+                      <>
+                        <ProFormSelect
+                          name={['sub', 'aggCondition']}
+                          placeholder="比较"
+                          options={[
+                            {
+                              label: '求和',
+                              value: 'sum',
+                            },
+                          ]}
+                        />
+                      </>
+                    )}
                   </Input.Group>
                 </>
               );
@@ -345,6 +404,45 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
           </ProFormDependency>
         )}
       </ProFormList>
+      <div style={{ width: '100%', display: 'flex', marginTop: '-24px', paddingLeft: '63px' }}>
+        <Button
+          onClick={() => {
+            actionRef.current?.add({
+              compareType: 1,
+            });
+          }}
+          type="dashed"
+          style={{ margin: '4px', flex: 1 }}
+        >
+          <PlusOutlined /> 添加字段对比
+        </Button>
+
+        <Button
+          onClick={() => {
+            actionRef.current?.add({
+              mainFlag: true,
+              compareType: 2,
+            });
+          }}
+          type="dashed"
+          style={{ margin: '4px', flex: 1 }}
+        >
+          <PlusOutlined /> 主字段对比值
+        </Button>
+
+        <Button
+          onClick={() => {
+            actionRef.current?.add({
+              mainFlag: false,
+              compareType: 2,
+            });
+          }}
+          type="dashed"
+          style={{ margin: '4px', flex: 1 }}
+        >
+          <PlusOutlined /> 次字段对比值
+        </Button>
+      </div>
     </>
   );
 };
@@ -415,11 +513,37 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
         sub: conentObj[item][1],
         linkSymbol: conentObj[item][0].linkSymbol,
       })),
-      contra: Object.keys(contraObj).map((item) => ({
-        primary: contraObj[item][0],
-        sub: contraObj[item][1],
-        linkSymbol: contraObj[item][0].linkSymbol,
-      })),
+      contra: Object.keys(contraObj).map((item) => {
+        const [first, second] = contraObj[item];
+        if (first?.compareType === 2) {
+          if (first?.mainFlag) {
+            // 主字段对比值
+            return {
+              primary: first,
+              sub: undefined,
+              linkSymbol: first.linkSymbol,
+              compareType: 2,
+              mainFlag: true,
+            };
+          } else {
+            // 次字段对比值
+            return {
+              primary: undefined,
+              sub: first,
+              linkSymbol: first.linkSymbol,
+              compareType: 2,
+              mainFlag: false,
+            };
+          }
+        }
+
+        // 字段对比
+        return {
+          primary: first,
+          sub: second,
+          linkSymbol: first.linkSymbol,
+        };
+      }),
     };
 
     formRef.current?.setFieldsValue(formData);
@@ -508,22 +632,49 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
           });
           values.contra.forEach((item: any) => {
             const linkCode = uuidv4();
-            expressionList.push(
-              {
-                ...item.primary,
-                linkCode,
-                linkSymbol: item.linkSymbol,
-                mainFlag: true,
-                expressionType: 3,
-              },
-              {
-                ...item.sub,
-                linkCode,
-                linkSymbol: item.linkSymbol,
-                mainFlag: false,
-                expressionType: 3,
-              },
-            );
+            if (item.compareType === 2) {
+              if (item.mainFlag) {
+                // 主字段对比值
+                expressionList.push({
+                  ...item.primary,
+                  linkCode,
+                  linkSymbol: item.linkSymbol,
+                  mainFlag: true,
+                  expressionType: 3,
+                  compareType: 2,
+                });
+              } else {
+                // 次字段对比值
+                expressionList.push({
+                  ...item.sub,
+                  linkCode,
+                  linkSymbol: item.linkSymbol,
+                  mainFlag: false,
+                  expressionType: 3,
+                  compareType: 2,
+                });
+              }
+            } else {
+              // 字段对比
+              expressionList.push(
+                {
+                  ...item.primary,
+                  linkCode,
+                  linkSymbol: item.linkSymbol,
+                  mainFlag: true,
+                  expressionType: 3,
+                  compareType: 1,
+                },
+                {
+                  ...item.sub,
+                  linkCode,
+                  linkSymbol: item.linkSymbol,
+                  mainFlag: false,
+                  expressionType: 3,
+                  compareType: 1,
+                },
+              );
+            }
           });
           const params: any = {
             id: select?.id,
@@ -600,7 +751,7 @@ export default function AddModalForm({ select, setSelect, listRef }: any) {
               style={{ width: '100%', borderBottom: '1px solid #D9D9D9', marginBottom: '12px' }}
             />
           </Col>
-          <Col span={24}>
+          <Col span={24} style={{ marginBottom: '24px' }}>
             <ContraRatioForm linkListArr={arr} />
           </Col>
         </Row>
