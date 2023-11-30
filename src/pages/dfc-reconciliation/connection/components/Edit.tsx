@@ -102,7 +102,7 @@ export const FilterLinkForm = ({
         rules={[{ required: true, message: '请选择字段' }]}
         showSearch
       />
-      <ProFormList initialValue={[{}]} name={`${name}List`} label="数据筛选" min={1}>
+      <ProFormList initialValue={[]} name={`${name}List`} label="数据筛选" min={0}>
         {(_, index) => {
           return (
             <ProFormDependency name={[`${name}Obj`, `${name}List`]} ignoreFormListField>
@@ -132,7 +132,12 @@ export const FilterLinkForm = ({
                           />
                         )}
                         <ProFormSelect
-                          fieldProps={{ labelInValue: true, optionFilterProp: 'fieldRemark' }}
+                          rules={[{ required: true, message: '请选择字段' }]}
+                          fieldProps={{
+                            labelInValue: true,
+                            optionFilterProp: 'fieldRemark',
+                            dropdownMatchSelectWidth: 200,
+                          }}
                           name={`field`}
                           placeholder="字段"
                           // rules={[{ required: true, message: '请选择字段' }]}
@@ -146,13 +151,13 @@ export const FilterLinkForm = ({
                           })}
                         />
                         <ProFormSelect
+                          rules={[{ required: true, message: '请选择字段' }]}
                           name={['field', `symbol`]}
                           placeholder="<,>,=..."
-                          // rules={[{ required: true, message: '请选择字段' }]}
                           options={SYMBOL_OPTIONS}
                         />
                         <ProFormText
-                          // rules={[{ required: true, message: '请输入字段' }]}
+                          rules={[{ required: true, message: '请输入字段' }]}
                           name={['field', `fieldValue`]}
                           placeholder="值"
                         />
@@ -216,7 +221,12 @@ const ConentForm = ({ linkListArr }: { linkListArr: any }) => {
                         />
                       )}
                       <ProFormSelect
-                        fieldProps={{ labelInValue: true }}
+                        fieldProps={{
+                          labelInValue: true,
+                          optionFilterProp: 'fieldRemark',
+                          dropdownMatchSelectWidth: 200,
+                        }}
+                        showSearch
                         name={`primary`}
                         placeholder="主字段"
                         rules={[{ required: true, message: '请选择字段' }]}
@@ -235,7 +245,12 @@ const ConentForm = ({ linkListArr }: { linkListArr: any }) => {
                       <ProFormSelect
                         rules={[{ required: true, message: '请选择字段' }]}
                         name={`sub`}
-                        fieldProps={{ labelInValue: true }}
+                        fieldProps={{
+                          labelInValue: true,
+                          optionFilterProp: 'fieldRemark',
+                          dropdownMatchSelectWidth: 200,
+                        }}
+                        showSearch
                         placeholder="对比字段"
                         options={fieldssubEntity.map((item: any) => ({
                           ...item,
@@ -335,7 +350,12 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                       <>
                         <ProFormSelect
                           rules={[{ required: true, message: '请选择字段' }]}
-                          fieldProps={{ labelInValue: true }}
+                          fieldProps={{
+                            labelInValue: true,
+                            optionFilterProp: 'fieldRemark',
+                            dropdownMatchSelectWidth: 200,
+                          }}
+                          showSearch
                           name={`primary`}
                           placeholder="主字段"
                           options={fieldsPrimaryEntity.map((item: any) => ({
@@ -361,7 +381,12 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                         <ProFormSelect
                           rules={[{ required: true, message: '请选择字段' }]}
                           name={`sub`}
-                          fieldProps={{ labelInValue: true }}
+                          fieldProps={{
+                            labelInValue: true,
+                            optionFilterProp: 'fieldRemark',
+                            dropdownMatchSelectWidth: 200,
+                          }}
+                          showSearch
                           placeholder="次字段"
                           options={fieldssubEntity.map((item: any) => ({
                             ...item,
