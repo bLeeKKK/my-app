@@ -9,6 +9,10 @@ import { list as linkList } from '../../link/service';
 import type { ShowDataType } from '../../link/data.d';
 import { useRequest } from 'umi';
 
+export const BRACKET_OPTIONS_LEFT = [{ value: '(', label: '(' }];
+
+export const BRACKET_OPTIONS_RIGHT = [{ value: ')', label: ')' }];
+
 export const FREEZE_OPTIONS = [
   { value: true, label: '是' },
   { value: false, label: '否' },
@@ -291,6 +295,16 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
             ignoreFormListField
           >
             {({ primaryEntityObj, subEntityObj, contra }) => {
+              let bracketFlag = 0;
+              contra?.forEach((item: any) => {
+                if (item?.sub?.bracket === '(') bracketFlag++;
+                if (item?.primary?.bracket === '(') bracketFlag++;
+                if (item?.sub?.bracket === ')') bracketFlag--;
+                if (item?.primary?.bracket === ')') bracketFlag--;
+              });
+              // const bracketLeft = contra?.[index]?.primary?.bracket;
+              const thisBracketRight = contra?.[index]?.sub?.bracket;
+
               /**
                * 标是对比字段，还是对比值
                * compareType: 1 ｜ undefined => 主字段 对比 次字段
@@ -346,6 +360,11 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                         ]}
                       />
                     )}
+                    <ProFormSelect
+                      name={['primary', 'bracket']}
+                      placeholder="左边括号"
+                      options={BRACKET_OPTIONS_LEFT}
+                    />
                     {(mainFlag === undefined || mainFlag === true) && (
                       <>
                         <ProFormSelect
@@ -421,6 +440,15 @@ const ContraRatioForm = ({ linkListArr }: { linkListArr: any }) => {
                           ]}
                         />
                       </>
+                    )}
+
+                    {(bracketFlag > 0 || thisBracketRight === ')') && (
+                      <ProFormSelect
+                        rules={[{ required: true, message: '右边括号' }]}
+                        name={['sub', 'bracket']}
+                        placeholder="请设置右边括号"
+                        options={BRACKET_OPTIONS_RIGHT}
+                      />
                     )}
                   </Input.Group>
                 </>
