@@ -82,6 +82,7 @@ const TableList: React.FC = () => {
       valueEnum: columnsEnum,
       width: 100,
     },
+    { title: '失败信息', dataIndex: 'failMsg' },
     { title: '执行时间', dataIndex: 'executeBeginTime' },
     { title: '执行人', dataIndex: 'executeAccount' },
   ];
