@@ -34,7 +34,13 @@ const expandedRowRender = (record: any) => {
         { title: '错账数量', dataIndex: 'wrongCount' },
         { title: '对账模型名称', dataIndex: 'modelName' },
         { title: '执行耗时(秒)', dataIndex: 'executeTime' },
-        { title: '对平数量', dataIndex: 'alignmentCount' },
+        {
+          title: '对平结果',
+          children: [
+            { title: '联表数量', dataIndex: 'joinCount' },
+            { title: '对平数量', dataIndex: 'alignmentCount' },
+          ],
+        },
       ]}
       headerTitle={false}
       search={false}
