@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
         {
           key: 'Chang Hong Ecmp',
           title: 'ChangHong Ecmp',
-          href: 'https://ecmp.changhong.com/',
+          href: 'https://decmp.changhong.com/',
           blankTarget: true,
         },
         {
