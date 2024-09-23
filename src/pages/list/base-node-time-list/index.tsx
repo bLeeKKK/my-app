@@ -129,7 +129,11 @@ const TableList: React.FC = () => {
       if (element.title === '完成状态') {
         element.valueEnum = { true: { text: '完成' }, false: { text: '未完成' } };
         temp.push(element);
-      } else if (element.title === '大节点代码') {
+      }
+      else if (element.title === '原始单号') {
+        temp.push(element);
+      }
+      else if (element.title === '大节点代码') {
         const t = {};
         element.children.forEach((e) => {
           t[typeof e.dataIndex === 'string' ? e.dataIndex : e.dataIndex[0]] = { text: e.title };
