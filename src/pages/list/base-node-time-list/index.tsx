@@ -130,7 +130,7 @@ const TableList: React.FC = () => {
         element.valueEnum = { true: { text: '完成' }, false: { text: '未完成' } };
         temp.push(element);
       }
-      else if (element.title === '原始单号') {
+      else if (element.title === '来源单号') {
         temp.push(element);
       }
       else if (element.title === '大节点代码') {
