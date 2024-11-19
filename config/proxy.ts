@@ -10,8 +10,7 @@ export default {
   dev: {
     '/bizlog-core': {
       // 本地 测试环境
-      // target: 'https://decmp.changhong.com/',
-      target: 'http://localhost:8012/',
+      target: 'https://decmp.changhong.com/',
       changeOrigin: true,
       // pathRewrite: { '': '' },
     },
