@@ -97,7 +97,7 @@ export default defineConfig({
           entry:
             process.env.NODE_ENV === 'development'
               ? 'http://localhost:8001'
-              : 'https://decmp.changhong.com/bizlog-web/index.html',
+              : 'https://ecmp.changhong.com/bizlog-web/index.html',
         },
         // {
         //   name: 'dfc-reconciliation',
