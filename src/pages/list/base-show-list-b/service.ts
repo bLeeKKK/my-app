@@ -14,7 +14,7 @@ type ParamsType = {
 };
 
 export type { ParamsType };
-
+// @ts-ignore
 export const getSearchData = (data, sort) => {
   const asc = [];
   const desc = [];
@@ -43,6 +43,7 @@ export const getSearchData = (data, sort) => {
   };
 };
 // 分页查询
+// @ts-ignore
 export async function findByPage(data, sort) {
   const search = getSearchData(data, sort);
 
@@ -53,6 +54,7 @@ export async function findByPage(data, sort) {
 }
 
 // 分页查询
+// @ts-ignore
 export async function zonghe(data, sort) {
   const search = getSearchData(data, sort);
 
