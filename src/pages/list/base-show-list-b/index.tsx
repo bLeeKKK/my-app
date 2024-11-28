@@ -15,7 +15,6 @@ let searchData = {};
 const regTimec = /^\d{10,13}$/;
 
 // 不需要处理小节点的
-const arrExtar = ['sourceCode', 'currentCode'];
 const getDeepObj = (obj, path = '') => {
   const pathArr = path.split('.');
   let res = obj;
@@ -256,7 +255,57 @@ const TableList: React.FC = () => {
           mode: 'multiple',
         };
         temp.push(element);
-      } else if (element.title === '开始时间') {
+      } else if (element.title === '运输产品') {
+        const t = {};
+        element.children.forEach((e) => {
+          t[e.dataIndex] = { text: e.title };
+        });
+        element.valueEnum = t;
+        element.fieldProps = {
+          mode: 'multiple',
+        };
+        temp.push(element);
+      }else if (element.title === '发货服务点') {
+        const t = {};
+        element.children.forEach((e) => {
+          t[e.dataIndex] = { text: e.title };
+        });
+        element.valueEnum = t;
+        element.fieldProps = {
+          mode: 'multiple',
+        };
+        temp.push(element);
+      } else if (element.title === '收货服务点') {
+        const t = {};
+        element.children.forEach((e) => {
+          t[e.dataIndex] = { text: e.title };
+        });
+        element.valueEnum = t;
+        element.fieldProps = {
+          mode: 'multiple',
+        };
+        temp.push(element);
+      }else if (element.title === '发货省') {
+        const t = {};
+        element.children.forEach((e) => {
+          t[e.dataIndex] = { text: e.title };
+        });
+        element.valueEnum = t;
+        element.fieldProps = {
+          mode: 'multiple',
+        };
+        temp.push(element);
+      }else if (element.title === '收货省') {
+        const t = {};
+        element.children.forEach((e) => {
+          t[e.dataIndex] = { text: e.title };
+        });
+        element.valueEnum = t;
+        element.fieldProps = {
+          mode: 'multiple',
+        };
+        temp.push(element);
+      }else if (element.title === '开始时间') {
         element.initialValue = [
           moment().subtract(30, 'days').format('YYYY-MM-DDTHH:mm:ss'),
           moment().format('YYYY-MM-DDTHH:mm:ss'),
