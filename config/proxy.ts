@@ -11,12 +11,14 @@ export default {
     '/bizlog-core': {
       // 本地 测试环境
       target: 'https://decmp.changhong.com/',
+      // target: 'https://ecmp.changhong.com/',
       changeOrigin: true,
       // pathRewrite: { '': '' },
     },
     '/bizlog-report-inf': {
       // 本地 测试环境
       target: 'https://decmp.changhong.com/',
+      // target: 'https://ecmp.changhong.com/',
       changeOrigin: true,
       // pathRewrite: { '': '' },
     },

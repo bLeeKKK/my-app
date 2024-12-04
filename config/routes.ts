@@ -142,6 +142,13 @@ export default [
         wrappers: ['@/wrappers/withKeepLive'],
       },
       {
+        path: '/list/base-show-list-report',
+        name: 'base-show-list-report',
+        component: './list/base-show-list-report',
+        // access: 'list:base-show-list-report',
+        wrappers: ['@/wrappers/withKeepLive'],
+      },
+      {
         layout: false,
         hideInMenu: true,
         path: '/list/base-show',

@@ -28,6 +28,7 @@ export default {
   'menu.list.base-show-list-b': '综合报表（b端）',
   'menu.list.base-show-list-r-b': '综合报表-逆向（b端）',
   'menu.list.base-show-list-no': '全链条数据列表（单号）',
+  'menu.list.base-show-list-report': '报表导出列表',
   'menu.list.base-report-forms': '业务管理报表',
   'menu.list.base-node-time-list': '节点时效报表',
   'menu.list.base-show': '流程详情',
